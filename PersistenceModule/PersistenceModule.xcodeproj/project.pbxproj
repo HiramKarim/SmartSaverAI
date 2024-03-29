@@ -10,6 +10,8 @@
 		1F8D1C392BB66163001286DF /* PersistenceModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8D1C302BB66162001286DF /* PersistenceModule.framework */; };
 		1F8D1C3E2BB66163001286DF /* PersistenceModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C3D2BB66163001286DF /* PersistenceModuleTests.swift */; };
 		1F8D1C3F2BB66163001286DF /* PersistenceModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F8D1C332BB66162001286DF /* PersistenceModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1F8D1C4C2BB66379001286DF /* PaymentActivityModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C4A2BB66379001286DF /* PaymentActivityModel.xcdatamodeld */; };
+		1F8D1C4F2BB663CB001286DF /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C4E2BB663CB001286DF /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +29,8 @@
 		1F8D1C332BB66162001286DF /* PersistenceModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersistenceModule.h; sourceTree = "<group>"; };
 		1F8D1C382BB66163001286DF /* PersistenceModuleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PersistenceModuleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8D1C3D2BB66163001286DF /* PersistenceModuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceModuleTests.swift; sourceTree = "<group>"; };
+		1F8D1C4B2BB66379001286DF /* PaymentActivityModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PaymentActivityModel.xcdatamodel; sourceTree = "<group>"; };
+		1F8D1C4E2BB663CB001286DF /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,8 +90,26 @@
 		1F8D1C482BB662B2001286DF /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				1F8D1C4D2BB66393001286DF /* CoreDataManager */,
+				1F8D1C492BB6632B001286DF /* Persistence */,
 			);
 			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		1F8D1C492BB6632B001286DF /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				1F8D1C4A2BB66379001286DF /* PaymentActivityModel.xcdatamodeld */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		1F8D1C4D2BB66393001286DF /* CoreDataManager */ = {
+			isa = PBXGroup;
+			children = (
+				1F8D1C4E2BB663CB001286DF /* CoreDataManager.swift */,
+			);
+			path = CoreDataManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,6 +174,7 @@
 				TargetAttributes = {
 					1F8D1C2F2BB66162001286DF = {
 						CreatedOnToolsVersion = 15.3;
+						LastSwiftMigration = 1530;
 					};
 					1F8D1C372BB66163001286DF = {
 						CreatedOnToolsVersion = 15.3;
@@ -199,6 +222,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F8D1C4F2BB663CB001286DF /* CoreDataManager.swift in Sources */,
+				1F8D1C4C2BB66379001286DF /* PaymentActivityModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +375,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -374,6 +400,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -383,6 +410,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -415,6 +443,7 @@
 		1F8D1C462BB66163001286DF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SNTB2L8C6Q;
@@ -431,6 +460,7 @@
 		1F8D1C472BB66163001286DF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SNTB2L8C6Q;
@@ -475,6 +505,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1F8D1C4A2BB66379001286DF /* PaymentActivityModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1F8D1C4B2BB66379001286DF /* PaymentActivityModel.xcdatamodel */,
+			);
+			currentVersion = 1F8D1C4B2BB66379001286DF /* PaymentActivityModel.xcdatamodel */;
+			name = PaymentActivityModel.xcdatamodeld;
+			path = "/Users/hiramcastro/iOS Development/SmartSaverApp/SmartSaverAI/PersistenceModule/PersistenceModule/Infrastructure/Persistence/PaymentActivityModel.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1F8D1C272BB66162001286DF /* Project object */;
 }
