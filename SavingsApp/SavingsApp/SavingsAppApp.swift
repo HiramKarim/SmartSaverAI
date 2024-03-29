@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import PersistenceModule
 
 @main
 struct SavingsAppApp: App {
+    
+   @StateObject var coreDataManager = CoreDataManager.shared
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SmartSavingsMainView()
+                .environmentObject(coreDataManager)
         }
     }
 }
