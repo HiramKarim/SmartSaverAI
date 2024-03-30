@@ -10,12 +10,13 @@ import PersistenceModule
 
 struct SmartSavingsMainView: View {
     @EnvironmentObject var coredataManager: CoreDataManager
+    var mockDataArray: [String] = ["Salary", "Gasoline", "Groceries", "Medicine"]
     
     var body: some View {
         NavigationStack {
             VStack {
                 Divider()
-                ScrollView {
+                ScrollView() {
                     BalanceView()
                     TransactionsView()
                 }

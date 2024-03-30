@@ -46,10 +46,21 @@ struct TransactionsView: View {
             }
             .padding()
             
-            List(mockDataArray, id: \.self) { row in
-                Text(row)
+            LazyVStack {
+                ForEach(mockDataArray, id: \.self) { data in
+                    HStack() {
+                        Image(systemName: "arrowtriangle.up.circle")
+                        VStack {
+                            Text(data)
+                        }
+                        Spacer()
+                        Text("+ $20,000")
+                    }
+                    .frame(width: 200, height: 50)
+                    .padding(.horizontal)
+                    .background(Color.red)
+                }
             }
-            .listStyle(.plain)
         }
         .padding(.leading, 15)
     }
