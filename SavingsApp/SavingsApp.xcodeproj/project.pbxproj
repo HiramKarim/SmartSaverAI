@@ -16,6 +16,8 @@
 		1FDFC52F2BB76322006CE24C /* PersistenceModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FDFC52E2BB76322006CE24C /* PersistenceModule.framework */; };
 		1FDFC5302BB76322006CE24C /* PersistenceModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1FDFC52E2BB76322006CE24C /* PersistenceModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1FDFC5352BB76947006CE24C /* SmartSavingsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC5342BB76947006CE24C /* SmartSavingsMainView.swift */; };
+		1FDFC5392BB7DDE9006CE24C /* BalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC5382BB7DDE9006CE24C /* BalanceView.swift */; };
+		1FDFC53C2BB7DFAC006CE24C /* TransactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC53B2BB7DFAC006CE24C /* TransactionsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,8 @@
 		1F8D1C192BB65DB5001286DF /* SavingsAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1FDFC52E2BB76322006CE24C /* PersistenceModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PersistenceModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FDFC5342BB76947006CE24C /* SmartSavingsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSavingsMainView.swift; sourceTree = "<group>"; };
+		1FDFC5382BB7DDE9006CE24C /* BalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceView.swift; sourceTree = "<group>"; };
+		1FDFC53B2BB7DFAC006CE24C /* TransactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +170,8 @@
 		1FDFC5332BB76926006CE24C /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				1FDFC53A2BB7DF8D006CE24C /* TransactionsView */,
+				1FDFC5372BB7DDC0006CE24C /* BalanceView */,
 				1FDFC5342BB76947006CE24C /* SmartSavingsMainView.swift */,
 			);
 			path = Main;
@@ -176,6 +182,30 @@
 			children = (
 			);
 			path = Payment;
+			sourceTree = "<group>";
+		};
+		1FDFC5372BB7DDC0006CE24C /* BalanceView */ = {
+			isa = PBXGroup;
+			children = (
+				1FDFC5382BB7DDE9006CE24C /* BalanceView.swift */,
+			);
+			path = BalanceView;
+			sourceTree = "<group>";
+		};
+		1FDFC53A2BB7DF8D006CE24C /* TransactionsView */ = {
+			isa = PBXGroup;
+			children = (
+				1FDFC53D2BB7E37D006CE24C /* TransactionRow */,
+				1FDFC53B2BB7DFAC006CE24C /* TransactionsView.swift */,
+			);
+			path = TransactionsView;
+			sourceTree = "<group>";
+		};
+		1FDFC53D2BB7E37D006CE24C /* TransactionRow */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TransactionRow;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -309,6 +339,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FDFC5392BB7DDE9006CE24C /* BalanceView.swift in Sources */,
+				1FDFC53C2BB7DFAC006CE24C /* TransactionsView.swift in Sources */,
 				1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */,
 				1FDFC5352BB76947006CE24C /* SmartSavingsMainView.swift in Sources */,
 			);
