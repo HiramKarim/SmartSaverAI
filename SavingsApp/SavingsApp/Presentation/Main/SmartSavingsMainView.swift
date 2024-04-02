@@ -16,7 +16,7 @@ struct SmartSavingsMainView: View {
         NavigationStack {
             VStack {
                 Divider()
-                ScrollView() {
+                ScrollView(showsIndicators: false) {
                     BalanceView()
                     TransactionsView()
                 }
