@@ -10,6 +10,8 @@ import PersistenceModule
 
 struct SmartSavingsMainView: View {
     @EnvironmentObject var coredataManager: CoreDataManager
+    @State private var presentingSheet = false
+    
     var mockDataArray: [String] = ["Salary", "Gasoline", "Groceries", "Medicine"]
     
     var body: some View {
@@ -38,7 +40,7 @@ struct SmartSavingsMainView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
-                        
+                        presentingSheet = true
                     }) {
                         Image(systemName: "plus.circle")
                             .padding(.horizontal)
@@ -46,6 +48,9 @@ struct SmartSavingsMainView: View {
                             .font(.title2)
                             .bold()
                     }
+                    .sheet(isPresented: $presentingSheet, content: {
+                        AddPaymentView()
+                    })
                 }
             }
         }

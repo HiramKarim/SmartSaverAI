@@ -13,6 +13,7 @@
 		1F8D1C0E2BB65DB5001286DF /* SavingsAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C0D2BB65DB5001286DF /* SavingsAppTests.swift */; };
 		1F8D1C182BB65DB5001286DF /* SavingsAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C172BB65DB5001286DF /* SavingsAppUITests.swift */; };
 		1F8D1C1A2BB65DB5001286DF /* SavingsAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C192BB65DB5001286DF /* SavingsAppUITestsLaunchTests.swift */; };
+		1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F96C6C22BBBAF590089578D /* AddPaymentView.swift */; };
 		1FDFC52F2BB76322006CE24C /* PersistenceModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FDFC52E2BB76322006CE24C /* PersistenceModule.framework */; };
 		1FDFC5302BB76322006CE24C /* PersistenceModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1FDFC52E2BB76322006CE24C /* PersistenceModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1FDFC5352BB76947006CE24C /* SmartSavingsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC5342BB76947006CE24C /* SmartSavingsMainView.swift */; };
@@ -61,6 +62,7 @@
 		1F8D1C132BB65DB5001286DF /* SavingsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SavingsAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8D1C172BB65DB5001286DF /* SavingsAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsAppUITests.swift; sourceTree = "<group>"; };
 		1F8D1C192BB65DB5001286DF /* SavingsAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1F96C6C22BBBAF590089578D /* AddPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentView.swift; sourceTree = "<group>"; };
 		1FDFC52E2BB76322006CE24C /* PersistenceModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PersistenceModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FDFC5342BB76947006CE24C /* SmartSavingsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSavingsMainView.swift; sourceTree = "<group>"; };
 		1FDFC5382BB7DDE9006CE24C /* BalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceView.swift; sourceTree = "<group>"; };
@@ -150,6 +152,14 @@
 			path = SavingsAppUITests;
 			sourceTree = "<group>";
 		};
+		1F96C6C12BBBAF270089578D /* AddPaymentView */ = {
+			isa = PBXGroup;
+			children = (
+				1F96C6C22BBBAF590089578D /* AddPaymentView.swift */,
+			);
+			path = AddPaymentView;
+			sourceTree = "<group>";
+		};
 		1FDFC52D2BB76322006CE24C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -180,6 +190,7 @@
 		1FDFC5362BB77220006CE24C /* Payment */ = {
 			isa = PBXGroup;
 			children = (
+				1F96C6C12BBBAF270089578D /* AddPaymentView */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -195,17 +206,9 @@
 		1FDFC53A2BB7DF8D006CE24C /* TransactionsView */ = {
 			isa = PBXGroup;
 			children = (
-				1FDFC53D2BB7E37D006CE24C /* TransactionRow */,
 				1FDFC53B2BB7DFAC006CE24C /* TransactionsView.swift */,
 			);
 			path = TransactionsView;
-			sourceTree = "<group>";
-		};
-		1FDFC53D2BB7E37D006CE24C /* TransactionRow */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = TransactionRow;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,6 +344,7 @@
 			files = (
 				1FDFC5392BB7DDE9006CE24C /* BalanceView.swift in Sources */,
 				1FDFC53C2BB7DFAC006CE24C /* TransactionsView.swift in Sources */,
+				1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */,
 				1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */,
 				1FDFC5352BB76947006CE24C /* SmartSavingsMainView.swift in Sources */,
 			);
