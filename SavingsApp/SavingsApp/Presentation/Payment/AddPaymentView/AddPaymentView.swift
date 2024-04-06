@@ -17,8 +17,19 @@ struct AddPaymentView: View {
     @State var paymentLocation: String = ""
     @State var paymentMemo: String = ""
     
+    enum PaymentCategory: String, Identifiable, CaseIterable {
+        var id: Self { self }
+        case unspecified = "Unspecified"
+        case Bank = "Bank"
+        case PersonalAccount = "Personal Account"
+        case Other = "Other"
+    }
+    
+    @State private var selectedPaymentCategory: PaymentCategory = .unspecified
+    
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
+            
             HStack {
                 Text("New Payment")
                     .bold()
@@ -36,7 +47,6 @@ struct AddPaymentView: View {
                 }
 
             }
-            .padding()
             
             HStack {
                 VStack(alignment: .leading) {
@@ -54,7 +64,6 @@ struct AddPaymentView: View {
                 
                 Spacer()
             }
-            .padding()
             
             VStack(alignment: .leading) {
                 Text("Name")
@@ -62,7 +71,6 @@ struct AddPaymentView: View {
                 TextField("Enter payment name", text: $paymentName)
                     .textFieldStyle(.roundedBorder)
             }
-            .padding()
             
             VStack(alignment: .leading) {
                 Text("Type")
@@ -73,8 +81,26 @@ struct AddPaymentView: View {
                 }
                 .pickerStyle(.segmented)
             }
-            .padding()
             
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("Category")
+                        .bold()
+                    
+                    Picker("Category", selection: $selectedPaymentCategory) {
+                        ForEach(PaymentCategory.allCases) { category in
+                            Text(category.rawValue)
+                                .tag(category)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .padding(.leading, -10)
+                    .tint(Color.blue)
+                }
+                
+                Spacer()
+            }
+
             HStack() {
                 VStack {
                     Text("Date")
@@ -92,10 +118,7 @@ struct AddPaymentView: View {
                     TextField("0.0", text: $paymentAmount)
                         .textFieldStyle(.roundedBorder)
                 }
-                
-                
             }
-            .padding()
             
             VStack(alignment: .leading) {
                 Text("Location (optional)")
@@ -103,7 +126,6 @@ struct AddPaymentView: View {
                 TextField("Where do you spend?", text: $paymentLocation)
                     .textFieldStyle(.roundedBorder)
             }
-            .padding()
             
             VStack(alignment: .leading) {
                 Text("Memo")
@@ -111,21 +133,19 @@ struct AddPaymentView: View {
                 TextField("Your personal note", text: $paymentName)
                     .textFieldStyle(.roundedBorder)
             }
-            .padding()
             
             Button(action: {
                 
             }, label: {
                 Text("Save")
-                    .frame(maxWidth: .infinity)
             })
             .controlSize(.extraLarge)
             .background(Color.purple)
             .foregroundStyle(Color.white)
-            .frame(height: 50)
             
             Spacer()
         }
+        .padding()
     }
 }
 
