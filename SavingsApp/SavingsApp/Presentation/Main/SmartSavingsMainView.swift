@@ -11,6 +11,7 @@ import PersistenceModule
 struct SmartSavingsMainView: View {
     @EnvironmentObject var coredataManager: CoreDataManager
     @State private var presentingSheet = false
+    @State private var presentingPaymentDetailSheet = false
     
     var mockDataArray: [String] = ["Salary", "Gasoline", "Groceries", "Medicine"]
     
@@ -20,7 +21,12 @@ struct SmartSavingsMainView: View {
                 Divider()
                 ScrollView(showsIndicators: false) {
                     BalanceView()
-                    TransactionsView()
+                    TransactionsView(presentPaymentDetail: $presentingPaymentDetailSheet)
+                    .sheet(isPresented: $presentingPaymentDetailSheet, content: {
+                        PaymentDetailsView()
+                        .padding()
+                        .presentationDetents([.fraction(0.75), .height(400)])
+                    })
                 }
             }
             .navigationTitle("Personal Finance")

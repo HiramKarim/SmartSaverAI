@@ -10,6 +10,7 @@ import SwiftUI
 struct TransactionsView: View {
     
     var mockDataArray: [String] = ["Salary", "Gasoline", "Groceries", "Medicine"]
+    @Binding var presentPaymentDetail: Bool
     
     var body: some View {
         VStack {
@@ -61,6 +62,9 @@ struct TransactionsView: View {
                         Text("+ $20,000")
                     }
                     .frame(width: .infinity, height: 50)
+                    .onTapGesture {
+                        presentPaymentDetail = true
+                    }
                     
                     Divider()
                 }
@@ -72,5 +76,5 @@ struct TransactionsView: View {
 }
 
 #Preview {
-    TransactionsView()
+    TransactionsView(presentPaymentDetail: .constant(true))
 }

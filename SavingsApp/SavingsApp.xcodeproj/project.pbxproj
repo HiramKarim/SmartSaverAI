@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F8B6D872BC24A4B0008450A /* PaymentDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B6D862BC24A4B0008450A /* PaymentDetailsView.swift */; };
 		1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1BFC2BB65DB4001286DF /* SavingsAppApp.swift */; };
 		1F8D1C012BB65DB5001286DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F8D1C002BB65DB5001286DF /* Assets.xcassets */; };
 		1F8D1C042BB65DB5001286DF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F8D1C032BB65DB5001286DF /* Preview Assets.xcassets */; };
@@ -53,6 +54,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1F8B6D862BC24A4B0008450A /* PaymentDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetailsView.swift; sourceTree = "<group>"; };
 		1F8D1BF92BB65DB4001286DF /* SavingsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SavingsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8D1BFC2BB65DB4001286DF /* SavingsAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsAppApp.swift; sourceTree = "<group>"; };
 		1F8D1C002BB65DB5001286DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -95,6 +97,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F8B6D852BC24A170008450A /* PaymentDetailsView */ = {
+			isa = PBXGroup;
+			children = (
+				1F8B6D862BC24A4B0008450A /* PaymentDetailsView.swift */,
+			);
+			path = PaymentDetailsView;
+			sourceTree = "<group>";
+		};
 		1F8D1BF02BB65DB4001286DF = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +200,7 @@
 		1FDFC5362BB77220006CE24C /* Payment */ = {
 			isa = PBXGroup;
 			children = (
+				1F8B6D852BC24A170008450A /* PaymentDetailsView */,
 				1F96C6C12BBBAF270089578D /* AddPaymentView */,
 			);
 			path = Payment;
@@ -346,6 +357,7 @@
 				1FDFC53C2BB7DFAC006CE24C /* TransactionsView.swift in Sources */,
 				1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */,
 				1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */,
+				1F8B6D872BC24A4B0008450A /* PaymentDetailsView.swift in Sources */,
 				1FDFC5352BB76947006CE24C /* SmartSavingsMainView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
