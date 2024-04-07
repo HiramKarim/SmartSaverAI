@@ -19,17 +19,17 @@ struct AddPaymentView: View {
     
     enum PaymentCategory: String, Identifiable, CaseIterable {
         var id: Self { self }
-        case unspecified = "Unspecified"
         case Bank = "Bank"
         case PersonalAccount = "Personal Account"
         case Other = "Other"
     }
     
-    @State private var selectedPaymentCategory: PaymentCategory = .unspecified
+    @State private var selectedPaymentCategory: PaymentCategory = .Other
     
     var body: some View {
         VStack(spacing: 20) {
             
+            //MARK: - New Payment header section
             HStack {
                 Text("New Payment")
                     .bold()
@@ -48,6 +48,7 @@ struct AddPaymentView: View {
 
             }
             
+            //MARK: - Alerts section
             HStack {
                 VStack(alignment: .leading) {
                     HStack {
@@ -65,6 +66,7 @@ struct AddPaymentView: View {
                 Spacer()
             }
             
+            //MARK: - Name Section
             VStack(alignment: .leading) {
                 Text("Name")
                     .bold()
@@ -72,6 +74,7 @@ struct AddPaymentView: View {
                     .textFieldStyle(.roundedBorder)
             }
             
+            //MARK: - Type Section
             VStack(alignment: .leading) {
                 Text("Type")
                     .bold()
@@ -82,6 +85,7 @@ struct AddPaymentView: View {
                 .pickerStyle(.segmented)
             }
             
+            //MARK: - Category Section
             HStack {
                 VStack(alignment: .leading) {
                     Text("Category")
@@ -101,6 +105,7 @@ struct AddPaymentView: View {
                 Spacer()
             }
 
+            //MARK: - Date and amount Section
             HStack() {
                 VStack {
                     Text("Date")
@@ -120,6 +125,7 @@ struct AddPaymentView: View {
                 }
             }
             
+            //MARK: - Location Section
             VStack(alignment: .leading) {
                 Text("Location (optional)")
                     .bold()
@@ -127,6 +133,7 @@ struct AddPaymentView: View {
                     .textFieldStyle(.roundedBorder)
             }
             
+            //MARK: - Memo Section
             VStack(alignment: .leading) {
                 Text("Memo")
                     .bold()
@@ -134,14 +141,17 @@ struct AddPaymentView: View {
                     .textFieldStyle(.roundedBorder)
             }
             
+            //MARK: - Button Action Section
             Button(action: {
                 
             }, label: {
                 Text("Save")
+                    .padding(EdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20))
+                    .foregroundStyle(Color.white)
+                    .background(Color.purple, in: Capsule())
             })
-            .controlSize(.extraLarge)
-            .background(Color.purple)
-            .foregroundStyle(Color.white)
+            .frame(width: 200)
+            
             
             Spacer()
         }
