@@ -146,11 +146,12 @@ struct AddPaymentView: View {
                 
             }, label: {
                 Text("Save")
+                    .frame(maxWidth: .infinity)
                     .padding(EdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20))
                     .foregroundStyle(Color.white)
                     .background(Color.purple, in: Capsule())
             })
-            .frame(width: 200)
+            .controlSize(.large)
             
             
             Spacer()
