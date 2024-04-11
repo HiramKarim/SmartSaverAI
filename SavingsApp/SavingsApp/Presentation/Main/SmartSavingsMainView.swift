@@ -20,6 +20,7 @@ struct SmartSavingsMainView: View {
             VStack {
                 Divider()
                 ScrollView(showsIndicators: false) {
+                    CalendarSectionView()
                     BalanceView()
                     TransactionsView(presentPaymentDetail: $presentingPaymentDetailSheet)
                     .sheet(isPresented: $presentingPaymentDetailSheet, content: {
