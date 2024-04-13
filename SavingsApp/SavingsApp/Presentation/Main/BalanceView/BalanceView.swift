@@ -17,7 +17,7 @@ struct BalanceView: View {
                     VStack(spacing: 20) {
                         Text("Total Balance")
                             .font(.system(size: 30))
-                        Text("$2,771")
+                        Text("$0")
                             .font(.system(size: 70))
                     }
                     .foregroundColor(Color.white)
@@ -34,7 +34,7 @@ struct BalanceView: View {
                     .overlay(
                         VStack(spacing: 10) {
                             Text("Income")
-                            Text("$2,771")
+                            Text("$0")
                         }
                         .foregroundColor(Color.white)
                         .bold()
@@ -50,7 +50,7 @@ struct BalanceView: View {
                     .overlay(
                         VStack(spacing: 10) {
                             Text("Expense")
-                            Text("$2,771")
+                            Text("$0")
                         }
                         .foregroundColor(Color.white)
                         .bold()

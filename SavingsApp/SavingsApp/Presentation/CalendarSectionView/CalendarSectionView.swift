@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct CalendarSectionView: View {
+
+    @ObservedObject var vm = CalendarSectionVM()
     
-    @State private var currentDate = Date()
-    @State private var showCalendar = false
+    enum AlterMonth: Int {
+        case increase = 1
+        case decrease = -1
+    }
     
     var body: some View {
         HStack(spacing: 20) {
             Button {
-                
+                vm.alterMonth(using: AlterMonth.decrease.rawValue)
             } label: {
                 Image(systemName: "arrow.backward.circle")
                     .resizable()
@@ -25,21 +29,23 @@ struct CalendarSectionView: View {
             
             Spacer()
             
-            Text("Marzo, 2024")
+            Text(vm.dateText)
                 .font(.headline)
                 .foregroundStyle(Color.white)
-                .onTapGesture {
-                    showCalendar.toggle()
-                    
-                    if showCalendar {
-                        print("show calendar")
-                    }
+                .overlay {
+                    DatePicker("", 
+                               selection: $vm.currentDate,
+                               displayedComponents: .date)
+                        .blendMode(.destinationOver)
+                        .onChange(of: vm.currentDate) { oldValue, newValue in
+                            
+                        }
                 }
             
             Spacer()
             
             Button {
-                
+                vm.alterMonth(using: AlterMonth.increase.rawValue)
             } label: {
                 Image(systemName: "arrow.right.circle")
                     .resizable()
@@ -53,6 +59,9 @@ struct CalendarSectionView: View {
                 Capsule()
                     .foregroundStyle(Color.green)
         )
+        .onAppear {
+            vm.getCurrentDateFormatted()
+        }
     }
 }
 

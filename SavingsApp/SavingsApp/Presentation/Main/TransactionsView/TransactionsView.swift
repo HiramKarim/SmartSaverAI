@@ -12,6 +12,14 @@ struct TransactionsView: View {
     var mockDataArray: [String] = ["Salary", "Gasoline", "Groceries", "Medicine"]
     @Binding var presentPaymentDetail: Bool
     
+    @State private var allButton:Bool = true
+    @State private var incomeButton:Bool = false
+    @State private var expenceButton:Bool = false
+    
+    private func handleButtonsColor(buttonState:Bool) {
+        
+    }
+    
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
@@ -21,25 +29,31 @@ struct TransactionsView: View {
                 
                 HStack {
                     Button("All") {
-                        
+                        allButton = true
+                        incomeButton = false
+                        expenceButton = false
                     }
                     .buttonBorderShape(.capsule)
                     .buttonStyle(.borderedProminent)
-                    .tint(.purple)
+                    .tint(allButton ? .purple : .gray)
                     
                     Button("Income") {
-                        
+                        allButton = false
+                        incomeButton = true
+                        expenceButton = false
                     }
                     .buttonBorderShape(.capsule)
                     .buttonStyle(.borderedProminent)
-                    .tint(.gray)
+                    .tint(incomeButton ? .purple : .gray)
                     
                     Button("Expence") {
-                        
+                        allButton = false
+                        incomeButton = false
+                        expenceButton = true
                     }
                     .buttonBorderShape(.capsule)
                     .buttonStyle(.borderedProminent)
-                    .tint(.gray)
+                    .tint(expenceButton ? .purple : .gray)
                     
                     Spacer()
 
@@ -59,7 +73,7 @@ struct TransactionsView: View {
                             Text(data)
                         }
                         Spacer()
-                        Text("+ $20,000")
+                        Text("$0")
                     }
                     .frame(width: .infinity, height: 50)
                     .onTapGesture {

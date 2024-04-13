@@ -14,6 +14,8 @@
 		1F8D1C0E2BB65DB5001286DF /* SavingsAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C0D2BB65DB5001286DF /* SavingsAppTests.swift */; };
 		1F8D1C182BB65DB5001286DF /* SavingsAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C172BB65DB5001286DF /* SavingsAppUITests.swift */; };
 		1F8D1C1A2BB65DB5001286DF /* SavingsAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C192BB65DB5001286DF /* SavingsAppUITestsLaunchTests.swift */; };
+		1F93A5922BC9C553006A5300 /* CalendarSectionVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F93A5912BC9C553006A5300 /* CalendarSectionVM.swift */; };
+		1F93A5952BC9C70B006A5300 /* Date+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F93A5942BC9C70B006A5300 /* Date+Formatter.swift */; };
 		1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F96C6C22BBBAF590089578D /* AddPaymentView.swift */; };
 		1FDE89062BC752A000FC0CC9 /* SavingsWatchAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE89052BC752A000FC0CC9 /* SavingsWatchAppApp.swift */; };
 		1FDE89082BC752A000FC0CC9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE89072BC752A000FC0CC9 /* ContentView.swift */; };
@@ -105,6 +107,8 @@
 		1F8D1C132BB65DB5001286DF /* SavingsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SavingsAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8D1C172BB65DB5001286DF /* SavingsAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsAppUITests.swift; sourceTree = "<group>"; };
 		1F8D1C192BB65DB5001286DF /* SavingsAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1F93A5912BC9C553006A5300 /* CalendarSectionVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSectionVM.swift; sourceTree = "<group>"; };
+		1F93A5942BC9C70B006A5300 /* Date+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatter.swift"; sourceTree = "<group>"; };
 		1F96C6C22BBBAF590089578D /* AddPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentView.swift; sourceTree = "<group>"; };
 		1FDE89032BC752A000FC0CC9 /* SavingsWatchApp Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SavingsWatchApp Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FDE89052BC752A000FC0CC9 /* SavingsWatchAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsWatchAppApp.swift; sourceTree = "<group>"; };
@@ -208,6 +212,8 @@
 		1F8D1BFB2BB65DB4001286DF /* SavingsApp */ = {
 			isa = PBXGroup;
 			children = (
+				1F93A5932BC9C65B006A5300 /* Helpers */,
+				1F93A58D2BC9C3F3006A5300 /* Domain */,
 				1FDFC5322BB76908006CE24C /* Presentation */,
 				1F8D1BFC2BB65DB4001286DF /* SavingsAppApp.swift */,
 				1F8D1C002BB65DB5001286DF /* Assets.xcassets */,
@@ -239,6 +245,46 @@
 				1F8D1C192BB65DB5001286DF /* SavingsAppUITestsLaunchTests.swift */,
 			);
 			path = SavingsAppUITests;
+			sourceTree = "<group>";
+		};
+		1F93A58D2BC9C3F3006A5300 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				1F93A58E2BC9C3FC006A5300 /* CalendarSection */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		1F93A58E2BC9C3FC006A5300 /* CalendarSection */ = {
+			isa = PBXGroup;
+			children = (
+				1F93A5902BC9C51B006A5300 /* Model */,
+				1F93A58F2BC9C514006A5300 /* ViewModel */,
+			);
+			path = CalendarSection;
+			sourceTree = "<group>";
+		};
+		1F93A58F2BC9C514006A5300 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1F93A5912BC9C553006A5300 /* CalendarSectionVM.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		1F93A5902BC9C51B006A5300 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1F93A5932BC9C65B006A5300 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1F93A5942BC9C70B006A5300 /* Date+Formatter.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		1F96C6C12BBBAF270089578D /* AddPaymentView */ = {
@@ -573,8 +619,10 @@
 				1FDFC53C2BB7DFAC006CE24C /* TransactionsView.swift in Sources */,
 				1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */,
 				1FDE89372BC7AD3400FC0CC9 /* CalendarSectionView.swift in Sources */,
+				1F93A5922BC9C553006A5300 /* CalendarSectionVM.swift in Sources */,
 				1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */,
 				1F8B6D872BC24A4B0008450A /* PaymentDetailsView.swift in Sources */,
+				1F93A5952BC9C70B006A5300 /* Date+Formatter.swift in Sources */,
 				1FDFC5352BB76947006CE24C /* SmartSavingsMainView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
