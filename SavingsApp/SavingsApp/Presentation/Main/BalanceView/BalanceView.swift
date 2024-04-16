@@ -12,13 +12,15 @@ struct BalanceView: View {
         VStack {
             ViewThatFits(in: .vertical) {
                 RoundedRectangle(cornerRadius: 16)
-                .fill(Color.blue)
+                .fill(Color.init("low-blue", bundle: nil))
                 .overlay(
                     VStack(spacing: 20) {
                         Text("Total Balance")
                             .font(.system(size: 30))
+                            .foregroundStyle(Color.gray)
                         Text("$0")
                             .font(.system(size: 70))
+                            .foregroundStyle(Color.init("black-color", bundle: nil))
                     }
                     .foregroundColor(Color.white)
                     .bold()
@@ -30,13 +32,14 @@ struct BalanceView: View {
             HStack {
                 ViewThatFits(in: .vertical) {
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.purple)
+                        .fill(Color.init("light-brown-color", bundle: nil))
                     .overlay(
                         VStack(spacing: 10) {
                             Text("Income")
+                                .foregroundStyle(Color.gray)
                             Text("$0")
+                                .foregroundStyle(Color.init("black-color", bundle: nil))
                         }
-                        .foregroundColor(Color.white)
                         .bold()
                         .font(.system(size: 30))
                     )
@@ -46,13 +49,14 @@ struct BalanceView: View {
                 
                 ViewThatFits(in: .vertical) {
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.orange)
+                        .fill(Color.init("light-brown-color", bundle: nil))
                     .overlay(
                         VStack(spacing: 10) {
                             Text("Expense")
+                                .foregroundStyle(Color.gray)
                             Text("$0")
+                                .foregroundStyle(Color.init("black-color", bundle: nil))
                         }
-                        .foregroundColor(Color.white)
                         .bold()
                         .font(.system(size: 30))
 

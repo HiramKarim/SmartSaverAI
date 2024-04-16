@@ -24,14 +24,14 @@ struct CalendarSectionView: View {
                 Image(systemName: "arrow.backward.circle")
                     .resizable()
                     .frame(width: 30, height: 30)
-                    .foregroundStyle(Color.white)
+                    .foregroundStyle(Color.init("black-color", bundle: nil))
             }
             
             Spacer()
             
             Text(vm.dateText)
                 .font(.headline)
-                .foregroundStyle(Color.white)
+                .foregroundStyle(Color.init("black-color", bundle: nil))
                 .overlay {
                     DatePicker("", 
                                selection: $vm.currentDate,
@@ -50,14 +50,14 @@ struct CalendarSectionView: View {
                 Image(systemName: "arrow.right.circle")
                     .resizable()
                     .frame(width: 30, height: 30)
-                    .foregroundStyle(Color.white)
+                    .foregroundStyle(Color.init("black-color", bundle: nil))
             }
         }
         .frame(width: 320)
         .padding()
         .background(
                 Capsule()
-                    .foregroundStyle(Color.green)
+                    .foregroundStyle(Color.init("pale-green", bundle: nil))
         )
         .onAppear {
             vm.getCurrentDateFormatted()
