@@ -69,6 +69,7 @@ struct TransactionsView: View {
                         Image(systemName: "arrowtriangle.up.circle")
                             .resizable()
                             .frame(width: 50, height: 50)
+                            .foregroundStyle(Color.green)
                         VStack(alignment: .leading, spacing: 10) {
                             Text(data)
                                 .font(.headline)
