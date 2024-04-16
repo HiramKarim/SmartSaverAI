@@ -63,24 +63,31 @@ struct TransactionsView: View {
             .padding(.leading, 0)
             .padding(.bottom, 10)
             
-            LazyVStack {
+            LazyVStack(spacing: 20) {
                 ForEach(mockDataArray, id: \.self) { data in
-                    HStack() {
+                    HStack(spacing: 20) {
                         Image(systemName: "arrowtriangle.up.circle")
                             .resizable()
-                            .frame(width: 30, height: 30)
-                        VStack {
+                            .frame(width: 50, height: 50)
+                        VStack(alignment: .leading, spacing: 10) {
                             Text(data)
+                                .font(.headline)
+                            Text("Yesterday, 4:15 pm")
+                                .font(.callout)
+                                .foregroundStyle(Color.gray)
                         }
+                        .padding()
                         Spacer()
                         Text("$0")
+                            .font(.headline)
                     }
-                    .frame(width: .infinity, height: 50)
+                    .padding()
+                    .frame(width: .infinity, height: 80)
+                    .background(RoundedRectangle(cornerRadius: 20)
+                    .foregroundStyle(Color.init("low-blue", bundle: nil)))
                     .onTapGesture {
                         presentPaymentDetail = true
                     }
-                    
-                    Divider()
                 }
             }
             .frame(width: .infinity)
