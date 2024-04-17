@@ -8,9 +8,14 @@
 import CoreData
 import Combine
 
+protocol CoreDataProtocol {
+    func savePayment(payment: PaymentActivityDTO)
+    func getAllPayments(limit:Int)
+    func deletePayment(payment: PaymentActivityDTO)
+}
+
 public class CoreDataManager: ObservableObject {
-    
-    let persistentContainer: NSPersistentContainer
+    private let persistentContainer: NSPersistentContainer
     public static let shared = CoreDataManager()
     
     @Published var payments: [PaymentActivity] = []
@@ -23,19 +28,20 @@ public class CoreDataManager: ObservableObject {
             }
         }
     }
-    
-    public func savePayment() {
+}
+
+extension CoreDataManager: CoreDataProtocol {
+    public func savePayment(payment: PaymentActivityDTO) {
+        let paymentInfo = PaymentActivity(context: persistentContainer.viewContext)
         do {
             try persistentContainer.viewContext.save()
-            getAllPayments() // update payments after saving
         } catch {
             print("Failed to save a movie")
         }
     }
     
-    private func getAllPayments() {
+    public func getAllPayments(limit: Int) {
         let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
-        
         do {
             payments = try persistentContainer.viewContext.fetch(fetchRequest)
         } catch {
@@ -43,24 +49,15 @@ public class CoreDataManager: ObservableObject {
         }
     }
     
-    public func deletePayment(_ payment: PaymentActivity) {
-        persistentContainer.viewContext.delete(payment) //not delete, just mark for deletion
+    public func deletePayment(payment: PaymentActivityDTO) {
+        let paymentInfo = PaymentActivity(context: persistentContainer.viewContext)
+        paymentInfo.name = payment.name
+        persistentContainer.viewContext.delete(paymentInfo) //not delete, just mark for deletion
         do {
             try persistentContainer.viewContext.save()
-            getAllPayments() // update payments after saving
         } catch {
             persistentContainer.viewContext.rollback()
             print("Failed to delete movie \(error)")
         }
     }
-    
-    public func getPaymentById(id: NSManagedObjectID) -> PaymentActivity? {
-        do {
-            return try persistentContainer.viewContext.existingObject(with: id) as? PaymentActivity
-        } catch {
-            print(error)
-            return nil
-        }
-    }
-    
 }

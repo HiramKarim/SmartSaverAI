@@ -12,6 +12,8 @@
 		1F8D1C3F2BB66163001286DF /* PersistenceModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F8D1C332BB66162001286DF /* PersistenceModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1F8D1C4C2BB66379001286DF /* PaymentActivityModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C4A2BB66379001286DF /* PaymentActivityModel.xcdatamodeld */; };
 		1F8D1C4F2BB663CB001286DF /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C4E2BB663CB001286DF /* CoreDataManager.swift */; };
+		1F94D0172BCF6F6000665FE3 /* PaymentActivityDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94D0162BCF6F6000665FE3 /* PaymentActivityDTO.swift */; };
+		1F94D0182BCF6F6000665FE3 /* PaymentActivityDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94D0162BCF6F6000665FE3 /* PaymentActivityDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +33,7 @@
 		1F8D1C3D2BB66163001286DF /* PersistenceModuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceModuleTests.swift; sourceTree = "<group>"; };
 		1F8D1C4B2BB66379001286DF /* PaymentActivityModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PaymentActivityModel.xcdatamodel; sourceTree = "<group>"; };
 		1F8D1C4E2BB663CB001286DF /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		1F94D0162BCF6F6000665FE3 /* PaymentActivityDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentActivityDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +93,7 @@
 		1F8D1C482BB662B2001286DF /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				1F94D0152BCF6F3A00665FE3 /* PaymentDTO */,
 				1F8D1C4D2BB66393001286DF /* CoreDataManager */,
 				1F8D1C492BB6632B001286DF /* Persistence */,
 			);
@@ -110,6 +114,14 @@
 				1F8D1C4E2BB663CB001286DF /* CoreDataManager.swift */,
 			);
 			path = CoreDataManager;
+			sourceTree = "<group>";
+		};
+		1F94D0152BCF6F3A00665FE3 /* PaymentDTO */ = {
+			isa = PBXGroup;
+			children = (
+				1F94D0162BCF6F6000665FE3 /* PaymentActivityDTO.swift */,
+			);
+			path = PaymentDTO;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,6 +236,7 @@
 			files = (
 				1F8D1C4F2BB663CB001286DF /* CoreDataManager.swift in Sources */,
 				1F8D1C4C2BB66379001286DF /* PaymentActivityModel.xcdatamodeld in Sources */,
+				1F94D0172BCF6F6000665FE3 /* PaymentActivityDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F8D1C3E2BB66163001286DF /* PersistenceModuleTests.swift in Sources */,
+				1F94D0182BCF6F6000665FE3 /* PaymentActivityDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
