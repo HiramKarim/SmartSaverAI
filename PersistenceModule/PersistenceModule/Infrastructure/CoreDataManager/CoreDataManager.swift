@@ -21,7 +21,16 @@ public class CoreDataManager: ObservableObject {
     @Published var payments: [PaymentActivity] = []
     
     private init() {
-        self.persistentContainer = NSPersistentContainer(name: "PaymentActivityModel")
+
+        guard let modelURL = Bundle(for: type(of: self)).url(forResource: "PaymentActivityModel", withExtension:"momd")
+        else { fatalError("Error loading model from bundle") }
+
+        guard let mom = NSManagedObjectModel(contentsOf: modelURL) else {
+            fatalError("Error initializing mom from: \(modelURL)")
+        }
+        
+        self.persistentContainer = NSPersistentContainer(name: "PaymentActivityModel",
+                                                         managedObjectModel: mom)
         self.persistentContainer.loadPersistentStores { description, error in
             if let error = error {
                 fatalError("Failed to initialize Core Data \(error)")
@@ -33,8 +42,15 @@ public class CoreDataManager: ObservableObject {
 extension CoreDataManager: CoreDataProtocol {
     public func savePayment(payment: PaymentActivityDTO) {
         let paymentInfo = PaymentActivity(context: persistentContainer.viewContext)
+        paymentInfo.name = payment.name
+        paymentInfo.address = payment.address
+        paymentInfo.amount = payment.amount
+        paymentInfo.date = payment.date
+        paymentInfo.memo = payment.memo
+        paymentInfo.typeNum = payment.typeNum
         do {
             try persistentContainer.viewContext.save()
+            print("Payment saved!")
         } catch {
             print("Failed to save a movie")
         }
