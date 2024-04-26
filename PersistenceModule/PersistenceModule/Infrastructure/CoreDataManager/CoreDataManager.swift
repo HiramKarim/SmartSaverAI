@@ -39,7 +39,7 @@ public class CoreDataManager {
             fatalError("Error initializing mom from: \(modelURL)")
         }
         
-        self.persistentContainer = NSPersistentContainer(name: "PaymentActivityModel",
+        self.persistentContainer = NSPersistentContainer(name: "PaymentActivity",
                                                          managedObjectModel: mom)
         self.persistentContainer.loadPersistentStores { description, error in
             if let error = error {

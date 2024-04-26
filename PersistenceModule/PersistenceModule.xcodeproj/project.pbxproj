@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F89BA302BDB6C1300B20008 /* PaymentActivityModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C4A2BB66379001286DF /* PaymentActivityModel.xcdatamodeld */; };
 		1F8D1C392BB66163001286DF /* PersistenceModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8D1C302BB66162001286DF /* PersistenceModule.framework */; };
 		1F8D1C3E2BB66163001286DF /* PersistenceModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C3D2BB66163001286DF /* PersistenceModuleTests.swift */; };
 		1F8D1C3F2BB66163001286DF /* PersistenceModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F8D1C332BB66162001286DF /* PersistenceModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1F8D1C4F2BB663CB001286DF /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C4E2BB663CB001286DF /* CoreDataManager.swift */; };
 		1F94D0172BCF6F6000665FE3 /* PaymentActivityDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94D0162BCF6F6000665FE3 /* PaymentActivityDTO.swift */; };
-		1FA26D432BDA057E00C11EB0 /* PaymentActivityModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C4A2BB66379001286DF /* PaymentActivityModel.xcdatamodeld */; };
 		1FA8BCC62BD787290036F462 /* PaymentActivityModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C4A2BB66379001286DF /* PaymentActivityModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -245,7 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F8D1C3E2BB66163001286DF /* PersistenceModuleTests.swift in Sources */,
-				1FA26D432BDA057E00C11EB0 /* PaymentActivityModel.xcdatamodeld in Sources */,
+				1F89BA302BDB6C1300B20008 /* PaymentActivityModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
