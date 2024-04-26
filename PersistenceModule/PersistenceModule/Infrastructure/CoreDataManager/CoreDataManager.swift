@@ -8,17 +8,27 @@
 import CoreData
 import Combine
 
-protocol CoreDataProtocol {
-    func savePayment(payment: PaymentActivityDTO)
-    func getAllPayments(limit:Int)
-    func deletePayment(payment: PaymentActivityDTO)
+private enum ErrorPersistence: Error {
+    case InsertionError
+    case ConsultError
+    case DeletionError
+    case InitCoreDataError
 }
 
-public class CoreDataManager: ObservableObject {
+public enum PersistenceResult {
+    case success([PaymentActivityDTO]?)
+    case failure(Error)
+}
+
+protocol CoreDataProtocol {
+    func savePayment(payment: PaymentActivityDTO, completion: @escaping (PersistenceResult) -> Void)
+    func getAllPayments(limit:Int,completion: @escaping (PersistenceResult) -> Void)
+    func deletePayment(payment: PaymentActivityDTO, completion: @escaping (PersistenceResult) -> Void)
+}
+
+public class CoreDataManager {
     private let persistentContainer: NSPersistentContainer
     public static let shared = CoreDataManager()
-    
-    @Published var payments: [PaymentActivity] = []
     
     private init() {
 
@@ -40,7 +50,12 @@ public class CoreDataManager: ObservableObject {
 }
 
 extension CoreDataManager: CoreDataProtocol {
-    public func savePayment(payment: PaymentActivityDTO) {
+    
+    ///Insert method
+    public func savePayment(
+        payment: PaymentActivityDTO,
+        completion: @escaping (PersistenceResult) -> Void
+    ) {
         let paymentInfo = PaymentActivity(context: persistentContainer.viewContext)
         paymentInfo.name = payment.name
         paymentInfo.address = payment.address
@@ -50,30 +65,46 @@ extension CoreDataManager: CoreDataProtocol {
         paymentInfo.typeNum = payment.typeNum
         do {
             try persistentContainer.viewContext.save()
-            print("Payment saved!")
+            completion(.success(nil))
         } catch {
-            print("Failed to save a movie")
+            completion(.failure(ErrorPersistence.InsertionError))
         }
     }
     
-    public func getAllPayments(limit: Int) {
+    public func getAllPayments(
+        limit: Int,
+        completion: @escaping (PersistenceResult) -> Void
+    ) {
         let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
         do {
-            payments = try persistentContainer.viewContext.fetch(fetchRequest)
+            let payments = try persistentContainer.viewContext.fetch(fetchRequest).compactMap { paymentActivity in
+                PaymentActivityDTO(id: UUID(),
+                                   name: paymentActivity.name ?? "",
+                                   memo: paymentActivity.memo,
+                                   date: paymentActivity.date ?? Date(),
+                                   amount: paymentActivity.amount,
+                                   address: paymentActivity.address, 
+                                   typeNum: paymentActivity.typeNum)
+            }
+            completion(.success(payments))
         } catch {
-            print("Failed to fetch payments \(error)")
+            completion(.failure(ErrorPersistence.ConsultError))
         }
     }
     
-    public func deletePayment(payment: PaymentActivityDTO) {
+    public func deletePayment(
+        payment: PaymentActivityDTO,
+        completion: @escaping (PersistenceResult) -> Void
+    ) {
         let paymentInfo = PaymentActivity(context: persistentContainer.viewContext)
         paymentInfo.name = payment.name
         persistentContainer.viewContext.delete(paymentInfo) //not delete, just mark for deletion
         do {
             try persistentContainer.viewContext.save()
+            completion(.success(nil))
         } catch {
             persistentContainer.viewContext.rollback()
-            print("Failed to delete movie \(error)")
+            completion(.failure(ErrorPersistence.DeletionError))
         }
     }
 }
