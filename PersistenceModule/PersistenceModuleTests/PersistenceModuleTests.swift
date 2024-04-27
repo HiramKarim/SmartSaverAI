@@ -176,70 +176,119 @@ extension CoreDataManagerMock: CoreDataProtocol {
     }
 }
 
-class MockPersistentStoreContainer: NSPersistentContainer {
-    init() {
-        guard let modelURL = Bundle(for: type(of: self)).url(forResource: "PaymentActivityModel", withExtension:"momd") else {
-            fatalError("Error loading model URL from bundle")
-        }
+class MockCoreDataStack: CoreDataStack {
+    override init() {
+        super.init()
 
-        guard let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL) else {
-            fatalError("Error initializing managed object model from: \(modelURL)")
-        }
-
-        super.init(name: "PaymentActivity", managedObjectModel: managedObjectModel)
-
-        let inMemoryStoreDescription = NSPersistentStoreDescription()
-        inMemoryStoreDescription.type = NSInMemoryStoreType
-
-        // En lugar de /dev/null, usa una URL temporal única para el almacenamiento en disco
-        let fileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("PaymentActivity.sqlite")
-        let fileStoreDescription = NSPersistentStoreDescription(url: fileURL)
-
-        self.persistentStoreDescriptions = [inMemoryStoreDescription, fileStoreDescription]
-
-        self.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        guard let modelURL = Bundle(for: type(of: self)).url(forResource: "PaymentActivityModel", withExtension:"momd")
+        else { fatalError("Error loading model from bundle") }
+        guard let mom = NSManagedObjectModel(contentsOf: modelURL) 
+        else { fatalError("Error initializing mom from: \(modelURL)") }
+        let description = NSPersistentStoreDescription()
+        description.type = NSInMemoryStoreType
+        let container = NSPersistentContainer(name: "PaymentActivityModel", managedObjectModel: mom)
+        container.persistentStoreDescriptions = [description]
+        container.loadPersistentStores { _, error in
             if let error = error as NSError? {
-                fatalError("Failed to load persistent stores: \(error)")
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        }
+        
+        self.persistentContainer = container
+    }
+}
+
+class CoreDataStack {
+    static let shared = CoreDataStack()
+
+    init() {}
+
+    lazy var persistentContainer: NSPersistentContainer = {
+        guard let modelURL = Bundle(for: type(of: self)).url(forResource: "PaymentActivityModel", withExtension:"momd")
+        else { fatalError("Error loading model from bundle") }
+
+        guard let mom = NSManagedObjectModel(contentsOf: modelURL) else {
+            fatalError("Error initializing mom from: \(modelURL)")
+        }
+        let container = NSPersistentContainer(name: "PaymentActivityModel", managedObjectModel: mom)
+        container.loadPersistentStores(completionHandler: { (_, error) in
+            if let error = error as NSError? {
+                fatalError("Error al cargar el modelo persistente: \(error), \(error.userInfo)")
             }
         })
-    }
-}
+        return container
+    }()
 
-
-
-struct PaymentCoreDataInteractor {
-    var context : NSManagedObjectContext
-
-    init(withContext context : NSManagedObjectContext) {
-        self.context = context
+    var viewContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
     }
 
-    func saveData(payment: PaymentActivityDTO) {
-        self.context.performAndWait {
+    func saveContext (payment: PaymentActivityDTO, completion: @escaping (Bool) -> Void) {
+        let context = persistentContainer.viewContext
+        let paymentInfo = PaymentActivity(context: context)
+        paymentInfo.name = payment.name
+        paymentInfo.address = payment.address
+        paymentInfo.amount = payment.amount
+        paymentInfo.date = payment.date
+        paymentInfo.memo = payment.memo
+        paymentInfo.typeNum = payment.typeNum
+        if context.hasChanges {
             do {
-                let paymentInfo = PaymentActivity(context: self.context)
-                paymentInfo.name = payment.name
-                paymentInfo.address = payment.address
-                paymentInfo.amount = payment.amount
-                paymentInfo.date = payment.date
-                paymentInfo.memo = payment.memo
-                paymentInfo.typeNum = payment.typeNum
-                try self.context.save()
+                try context.save()
+                completion(true)
             } catch {
-                NSLog("Error while inserting data")
+                let nserror = error as NSError
+                completion(false)
             }
+        }
+    }
+
+    func deleteObject(_ object: NSManagedObject, completion: @escaping (Bool) -> Void) {
+        let context = persistentContainer.viewContext
+        context.delete(object)
+        do {
+            try context.save()
+            completion(true)
+        } catch {
+            let nserror = error as NSError
+            completion(false)
+        }
+    }
+
+    func fetchObjects<T: NSManagedObject>(_ objectType: T.Type, limit: Int? = nil) -> [T] {
+        let request = NSFetchRequest<T>(entityName: String(describing: objectType))
+        if let limit = limit {
+            request.fetchLimit = limit
+        }
+        do {
+            let result = try viewContext.fetch(request)
+            return result
+        } catch {
+            fatalError("Error al recuperar objetos: \(error)")
         }
     }
 }
 
+class PaymentManagerUseCase {
+    let coreDataStack: CoreDataStack
+
+    init(coreDataStack: CoreDataStack = CoreDataStack.shared) {
+        self.coreDataStack = coreDataStack
+    }
+
+    func saveData(payment: PaymentActivityDTO, completion: @escaping (Bool) -> Void) {
+        coreDataStack.saveContext(payment: payment) { success in
+            completion(success)
+        }
+    }
+}
+
+
 class EmployeeCoreDataInteractorTests: XCTestCase {
-    var paymentCoreDataInteractor: PaymentCoreDataInteractor?
     var context: NSManagedObjectContext?
     
     override func setUpWithError() throws {
-        let persistentStore = MockPersistentStoreContainer.init()
-        self.context = persistentStore.newBackgroundContext()
-        self.paymentCoreDataInteractor = PaymentCoreDataInteractor.init(withContext: self.context!)
+        
     }
     
     override func tearDownWithError() throws {
@@ -247,6 +296,8 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
     }
     
     func testSaveData() {
+        //given
+        let sut = PaymentManagerUseCase(coreDataStack: MockCoreDataStack())
         let paymentBillDTO = PaymentActivityDTO(id: UUID(),
                                             name: "Rent bill",
                                             memo: "just for test",
@@ -254,24 +305,17 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
                                             amount: Double(20000),
                                             address: "Condesa",
                                             typeNum: Int32(1))
-        let paymentGassDTO = PaymentActivityDTO(id: UUID(),
-                                            name: "Gas",
-                                            memo: "just for test",
-                                            date: Date(),
-                                            amount: Double(200),
-                                            address: "Condesa",
-                                            typeNum: Int32(1))
-        self.paymentCoreDataInteractor?.saveData(payment: paymentBillDTO)
-        self.paymentCoreDataInteractor?.saveData(payment: paymentGassDTO)
-        do {
-            try self.context?.performAndWait {
-                let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
-                let payments = try self.context?.fetch(fetchRequest)
-                let first = payments?.first
-                print(">>> \(first?.name ?? "")")
-            }
-        } catch {
-            NSLog("Error while fetching data")
+        let exp = expectation(description: "wait for completion")
+        var result:Bool = false
+        
+        //when
+        sut.saveData(payment: paymentBillDTO) { success in
+            result = success
+            exp.fulfill()
         }
+        
+        //then
+        wait(for: [exp], timeout: 1.0)
+        XCTAssertTrue(result)
     }
 }

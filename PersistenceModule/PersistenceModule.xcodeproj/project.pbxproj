@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F89BA302BDB6C1300B20008 /* PaymentActivityModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C4A2BB66379001286DF /* PaymentActivityModel.xcdatamodeld */; };
-		1F8D1C392BB66163001286DF /* PersistenceModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8D1C302BB66162001286DF /* PersistenceModule.framework */; };
 		1F8D1C3E2BB66163001286DF /* PersistenceModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C3D2BB66163001286DF /* PersistenceModuleTests.swift */; };
 		1F8D1C3F2BB66163001286DF /* PersistenceModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F8D1C332BB66162001286DF /* PersistenceModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1F8D1C4F2BB663CB001286DF /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C4E2BB663CB001286DF /* CoreDataManager.swift */; };
+		1F8F65212BDCB6A60071DA06 /* PaymentActivityModel.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = 1F8D1C4A2BB66379001286DF /* PaymentActivityModel.xcdatamodeld */; };
+		1F8F65222BDCB8860071DA06 /* PersistenceModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8D1C302BB66162001286DF /* PersistenceModule.framework */; };
+		1F8F65232BDCB8860071DA06 /* PersistenceModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8D1C302BB66162001286DF /* PersistenceModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1F94D0172BCF6F6000665FE3 /* PaymentActivityDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94D0162BCF6F6000665FE3 /* PaymentActivityDTO.swift */; };
 		1FA8BCC62BD787290036F462 /* PaymentActivityModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C4A2BB66379001286DF /* PaymentActivityModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
@@ -25,6 +26,20 @@
 			remoteInfo = PersistenceModule;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1F8F65242BDCB8860071DA06 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1F8F65232BDCB8860071DA06 /* PersistenceModule.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1F8D1C302BB66162001286DF /* PersistenceModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PersistenceModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F8D1C392BB66163001286DF /* PersistenceModule.framework in Frameworks */,
+				1F8F65222BDCB8860071DA06 /* PersistenceModule.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +178,7 @@
 				1F8D1C342BB66163001286DF /* Sources */,
 				1F8D1C352BB66163001286DF /* Frameworks */,
 				1F8D1C362BB66163001286DF /* Resources */,
+				1F8F65242BDCB8860071DA06 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -224,6 +240,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F8F65212BDCB6A60071DA06 /* PaymentActivityModel.xcdatamodeld in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,7 +262,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F8D1C3E2BB66163001286DF /* PersistenceModuleTests.swift in Sources */,
-				1F89BA302BDB6C1300B20008 /* PaymentActivityModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,7 +475,6 @@
 		1F8D1C462BB66163001286DF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SNTB2L8C6Q;
@@ -476,7 +491,6 @@
 		1F8D1C472BB66163001286DF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SNTB2L8C6Q;
