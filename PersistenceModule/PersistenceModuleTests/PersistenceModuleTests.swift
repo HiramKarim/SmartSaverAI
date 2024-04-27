@@ -223,9 +223,10 @@ class CoreDataStack {
         return persistentContainer.viewContext
     }
 
-    func saveContext (payment: PaymentActivityDTO, completion: @escaping (Bool) -> Void) {
+    func saveContext (payment: PaymentActivityDTO, completion: @escaping (Bool, NSError?) -> Void) {
         let context = persistentContainer.viewContext
         let paymentInfo = PaymentActivity(context: context)
+        paymentInfo.paymentId = payment.id
         paymentInfo.name = payment.name
         paymentInfo.address = payment.address
         paymentInfo.amount = payment.amount
@@ -235,23 +236,23 @@ class CoreDataStack {
         if context.hasChanges {
             do {
                 try context.save()
-                completion(true)
+                completion(true, nil)
             } catch {
                 let nserror = error as NSError
-                completion(false)
+                completion(false, nserror)
             }
         }
     }
 
-    func deleteObject(_ object: NSManagedObject, completion: @escaping (Bool) -> Void) {
+    func deleteObject(_ object: NSManagedObject, completion: @escaping (Bool, NSError?) -> Void) {
         let context = persistentContainer.viewContext
         context.delete(object)
         do {
             try context.save()
-            completion(true)
+            completion(true, nil)
         } catch {
             let nserror = error as NSError
-            completion(false)
+            completion(false, nserror)
         }
     }
 
@@ -276,10 +277,14 @@ class PaymentManagerUseCase {
         self.coreDataStack = coreDataStack
     }
 
-    func saveData(payment: PaymentActivityDTO, completion: @escaping (Bool) -> Void) {
-        coreDataStack.saveContext(payment: payment) { success in
-            completion(success)
+    func saveData(payment: PaymentActivityDTO, completion: @escaping (Bool, NSError?) -> Void) {
+        self.coreDataStack.saveContext(payment: payment) { success, error in
+            completion(success, error)
         }
+    }
+    
+    func fetchAllData() -> [PaymentActivity] {
+        return self.coreDataStack.fetchObjects(PaymentActivity.self)
     }
 }
 
@@ -297,7 +302,8 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
     
     func testSaveData() {
         //given
-        let sut = PaymentManagerUseCase(coreDataStack: MockCoreDataStack())
+        let mockCoreDataStack = MockCoreDataStack()
+        let sut = PaymentManagerUseCase(coreDataStack: mockCoreDataStack)
         let paymentBillDTO = PaymentActivityDTO(id: UUID(),
                                             name: "Rent bill",
                                             memo: "just for test",
@@ -309,13 +315,29 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
         var result:Bool = false
         
         //when
-        sut.saveData(payment: paymentBillDTO) { success in
+        sut.saveData(payment: paymentBillDTO) { success, error in
             result = success
             exp.fulfill()
         }
         
+        let paymentData = sut.fetchAllData()
+        let firstElement = paymentData.first
         //then
         wait(for: [exp], timeout: 1.0)
         XCTAssertTrue(result)
+        XCTAssertNotNil(paymentData)
+        XCTAssertGreaterThan(paymentData.count, 0)
+        XCTAssertEqual(paymentData[0].name ?? "", "Rent bill")
+    }
+    
+    func testFetchAllData() {
+        //given
+        let mockCoreDataStack = MockCoreDataStack()
+        let sut = PaymentManagerUseCase(coreDataStack: mockCoreDataStack)
+        //when
+        let paymentData = sut.fetchAllData()
+        //then
+        XCTAssertNotNil(paymentData)
+        XCTAssertGreaterThan(paymentData.count, 0)
     }
 }
