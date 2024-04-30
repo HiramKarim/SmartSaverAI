@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TransactionsView: View {
     
-    var mockDataArray: [String] = ["Salary", "Gasoline", "Groceries", "Medicine"]
+    var mockDataArray: [String] = [""]
     @Binding var presentPaymentDetail: Bool
     
     @State private var allButton:Bool = true

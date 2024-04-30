@@ -9,7 +9,6 @@ import SwiftUI
 import PersistenceModule
 
 struct SmartSavingsMainView: View {
-    @EnvironmentObject var coredataManager: CoreDataManager
     @State private var presentingSheet = false
     @State private var presentingPaymentDetailSheet = false
     

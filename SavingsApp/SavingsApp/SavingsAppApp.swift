@@ -10,13 +10,9 @@ import PersistenceModule
 
 @main
 struct SavingsAppApp: App {
-    
-   @StateObject var coreDataManager = CoreDataManager.shared
-    
     var body: some Scene {
         WindowGroup {
             SmartSavingsMainView()
-                .environmentObject(coreDataManager)
         }
     }
 }
