@@ -10,7 +10,7 @@ import Combine
 
 private enum ErrorPersistence: Error {
     case InsertionError
-    case ConsultError
+    case FetchError
     case DeletionError
     case InitCoreDataError
 }
@@ -22,30 +22,32 @@ public enum PersistenceResult {
 
 protocol CoreDataProtocol {
     func savePayment(payment: PaymentActivityDTO, completion: @escaping (PersistenceResult) -> Void)
-    func getAllPayments(limit:Int,completion: @escaping (PersistenceResult) -> Void)
+    func getAllPayments(limit: Int?, completion: @escaping (PersistenceResult) -> Void)
     func deletePayment(payment: PaymentActivityDTO, completion: @escaping (PersistenceResult) -> Void)
 }
 
 public class CoreDataManager {
     private let persistentContainer: NSPersistentContainer
+    
     public static let shared = CoreDataManager()
     
+    var viewContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
     private init() {
-
         guard let modelURL = Bundle(for: type(of: self)).url(forResource: "PaymentActivityModel", withExtension:"momd")
         else { fatalError("Error loading model from bundle") }
 
         guard let mom = NSManagedObjectModel(contentsOf: modelURL) else {
             fatalError("Error initializing mom from: \(modelURL)")
         }
-        
-        self.persistentContainer = NSPersistentContainer(name: "PaymentActivityModel",
-                                                         managedObjectModel: mom)
-        self.persistentContainer.loadPersistentStores { description, error in
-            if let error = error {
-                fatalError("Failed to initialize Core Data \(error)")
+        persistentContainer = NSPersistentContainer(name: "PaymentActivityModel", managedObjectModel: mom)
+        persistentContainer.loadPersistentStores(completionHandler: { (_, error) in
+            if let error = error as NSError? {
+                fatalError("Error al cargar el modelo persistente: \(error), \(error.userInfo)")
             }
-        }
+        })
     }
 }
 
@@ -57,28 +59,34 @@ extension CoreDataManager: CoreDataProtocol {
         completion: @escaping (PersistenceResult) -> Void
     ) {
         let paymentInfo = PaymentActivity(context: persistentContainer.viewContext)
+        paymentInfo.paymentId = payment.id
         paymentInfo.name = payment.name
         paymentInfo.address = payment.address
         paymentInfo.amount = payment.amount
         paymentInfo.date = payment.date
         paymentInfo.memo = payment.memo
         paymentInfo.typeNum = payment.typeNum
-        do {
-            try persistentContainer.viewContext.save()
-            completion(.success(nil))
-        } catch {
-            completion(.failure(ErrorPersistence.InsertionError))
+        if persistentContainer.viewContext.hasChanges {
+            do {
+                try persistentContainer.viewContext.save()
+                completion(.success(nil))
+            } catch {
+                completion(.failure(ErrorPersistence.InsertionError))
+            }
         }
     }
     
     public func getAllPayments(
-        limit: Int,
+        limit: Int? = nil,
         completion: @escaping (PersistenceResult) -> Void
     ) {
         let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
+        if let limit = limit {
+            fetchRequest.fetchLimit = limit
+        }
         do {
             let payments = try persistentContainer.viewContext.fetch(fetchRequest).compactMap { paymentActivity in
-                PaymentActivityDTO(id: UUID(),
+                PaymentActivityDTO(id: paymentActivity.paymentId ?? UUID(),
                                    name: paymentActivity.name ?? "",
                                    memo: paymentActivity.memo,
                                    date: paymentActivity.date ?? Date(),
@@ -88,7 +96,7 @@ extension CoreDataManager: CoreDataProtocol {
             }
             completion(.success(payments))
         } catch {
-            completion(.failure(ErrorPersistence.ConsultError))
+            completion(.failure(ErrorPersistence.FetchError))
         }
     }
     
@@ -98,7 +106,7 @@ extension CoreDataManager: CoreDataProtocol {
     ) {
         let paymentInfo = PaymentActivity(context: persistentContainer.viewContext)
         paymentInfo.name = payment.name
-        persistentContainer.viewContext.delete(paymentInfo) //not delete, just mark for deletion
+        persistentContainer.viewContext.delete(paymentInfo)
         do {
             try persistentContainer.viewContext.save()
             completion(.success(nil))

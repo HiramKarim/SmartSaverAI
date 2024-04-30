@@ -9,173 +9,6 @@ import XCTest
 import CoreData
 @testable import PersistenceModule
 
-final class PersistenceModuleTests: XCTestCase {
-    
-    let managerMock = CoreDataManagerMock()
-    
-    func testInsertPayment() throws {
-        //given
-        let paymentDTO = PaymentActivityDTO(id: UUID(),
-                                            name: "Rent bill",
-                                            memo: "just for test",
-                                            date: Date(),
-                                            amount: Double(20000),
-                                            address: "Condesa",
-                                            typeNum: Int32(1))
-        
-        var receivedError: Error?
-        var data:[PaymentActivityDTO]?
-        let exp = expectation(description: "wait for completion")
-        
-        //when
-        managerMock.savePayment(payment: paymentDTO) { result in
-            switch result {
-            case .success(let payment):
-                data = payment
-            case .failure(let error):
-                receivedError = error
-            }
-            exp.fulfill()
-        }
-        
-        //then
-        wait(for: [exp], timeout: 1.0)
-        XCTAssertNil(data)
-        XCTAssertNil(receivedError)
-    }
-    
-    func testFetchAllPayments() {
-        //given
-        var receivedError: Error?
-        var data:[PaymentActivityDTO]?
-        let exp = expectation(description: "wait for completion")
-        
-        //when
-        managerMock.getAllPayments(limit: 0) { result in
-            switch result {
-            case .success(let payment):
-                data = payment
-            case .failure(let error):
-                receivedError = error
-            }
-            exp.fulfill()
-        }
-        
-        //then
-        wait(for: [exp], timeout: 1.0)
-        XCTAssertGreaterThan(data?.count ?? 0, 0)
-        XCTAssertNil(receivedError)
-    }
-    
-    func testDeletePayment() {
-        //given
-        let paymentDTO = PaymentActivityDTO(id: UUID(),
-                                            name: "Rent bill",
-                                            memo: "just for test",
-                                            date: Date(),
-                                            amount: Double(20000),
-                                            address: "Condesa",
-                                            typeNum: Int32(1))
-        
-        var receivedError: Error?
-        var data:[PaymentActivityDTO]?
-        let exp = expectation(description: "wait for completion")
-        //when
-        managerMock.deletePayment(payment: paymentDTO) { result in
-            switch result {
-            case .success(let payment):
-                data = payment
-            case .failure(let error):
-                receivedError = error
-            }
-            exp.fulfill()
-        }
-        //then
-        wait(for: [exp], timeout: 1.0)
-        XCTAssertNotNil(data)
-        XCTAssertNil(receivedError)
-    }
-
-}
-
-class CoreDataManagerMock {
-    lazy var persistentContainer: NSPersistentContainer = {
-        
-        guard let modelURL = Bundle(for: type(of: self)).url(forResource: "PaymentActivityModel", withExtension:"momd")
-        else { fatalError("Error loading model from bundle") }
-
-        guard let mom = NSManagedObjectModel(contentsOf: modelURL) else {
-            fatalError("Error initializing mom from: \(modelURL)")
-        }
-        
-        let description = NSPersistentStoreDescription()
-        description.url = URL(fileURLWithPath: "/dev/null")
-        let container = NSPersistentContainer(name: "PaymentActivityModel", managedObjectModel: mom)
-        container.persistentStoreDescriptions = [description]
-        container.loadPersistentStores { _, error in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        }
-        return container
-    }()
-}
-
-extension CoreDataManagerMock: CoreDataProtocol {
-    func savePayment(payment: PaymentActivityDTO, completion: @escaping (PersistenceResult) -> Void) {
-        let paymentInfo = PaymentActivity(context: CoreDataManagerMock().persistentContainer.viewContext)
-        paymentInfo.name = payment.name
-        paymentInfo.address = payment.address
-        paymentInfo.amount = payment.amount
-        paymentInfo.date = payment.date
-        paymentInfo.memo = payment.memo
-        paymentInfo.typeNum = payment.typeNum
-        do {
-            try CoreDataManagerMock().persistentContainer.viewContext.save()
-            completion(.success(nil))
-        } catch {
-            completion(.failure(NSError(domain: "Cannot insert", code: 0)))
-        }
-    }
-    
-    func getAllPayments(limit: Int, completion: @escaping (PersistenceResult) -> Void) {
-        let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
-        do {
-            let payments = try CoreDataManagerMock().persistentContainer.viewContext.fetch(fetchRequest).compactMap { paymentActivity in
-                PaymentActivityDTO(id: UUID(),
-                                   name: paymentActivity.name ?? "",
-                                   memo: paymentActivity.memo,
-                                   date: paymentActivity.date ?? Date(),
-                                   amount: paymentActivity.amount,
-                                   address: paymentActivity.address,
-                                   typeNum: paymentActivity.typeNum)
-            }
-            completion(.success(payments))
-        } catch {
-            completion(.failure(NSError(domain: "Cannot fetch", code: 0)))
-        }
-    }
-    
-    func deletePayment(payment: PaymentActivityDTO, completion: @escaping (PersistenceResult) -> Void) {
-        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PaymentActivity")
-        let predicate = NSPredicate(format: "name = %@", argumentArray: [payment.name]) // Specify your condition here
-        fetch.predicate = predicate
-        do {
-            guard let paymentInfo = try CoreDataManagerMock().persistentContainer.viewContext.fetch(fetch).first as? PaymentActivity
-            else {
-                completion(.failure(NSError(domain: "Cannot fetch entity to delete", code: 0)))
-                return
-            }
-            CoreDataManagerMock().persistentContainer.viewContext.delete(paymentInfo) //not delete, just mark for deletion
-            try CoreDataManagerMock().persistentContainer.viewContext.save()
-            completion(.success(nil))
-        } catch {
-            CoreDataManagerMock().persistentContainer.viewContext.rollback()
-            completion(.failure(NSError(domain: "Cannot Delete", code: 0)))
-        }
-    }
-}
-
 class MockCoreDataStack: CoreDataStack {
     override init() {
         super.init()
@@ -223,7 +56,9 @@ class CoreDataStack {
         return persistentContainer.viewContext
     }
 
-    func saveContext (payment: PaymentActivityDTO, completion: @escaping (Bool, NSError?) -> Void) {
+    func saveContext (payment: PaymentActivityDTO, 
+                      completion: @escaping (Bool, NSError?) -> Void
+    ) {
         let context = persistentContainer.viewContext
         let paymentInfo = PaymentActivity(context: context)
         paymentInfo.paymentId = payment.id
@@ -244,30 +79,38 @@ class CoreDataStack {
         }
     }
 
-    func deleteObject(_ object: NSManagedObject, completion: @escaping (Bool, NSError?) -> Void) {
+    func deleteObject(_ object: NSManagedObject, 
+                      completion: @escaping (Bool, NSError?
+                      ) -> Void) {
         let context = persistentContainer.viewContext
         context.delete(object)
         do {
             try context.save()
             completion(true, nil)
         } catch {
+            context.rollback()
             let nserror = error as NSError
             completion(false, nserror)
         }
     }
-
-    func fetchObjects<T: NSManagedObject>(_ objectType: T.Type, limit: Int? = nil) -> [T] {
-        let request = NSFetchRequest<T>(entityName: String(describing: objectType))
-        if let limit = limit {
-            request.fetchLimit = limit
+    
+    func fetchPayments(
+        withName name: String? = nil
+    ) -> [PaymentActivity] {
+        let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
+        if let name = name {
+            fetchRequest.predicate = NSPredicate(format: "name == %@", name)
         }
+        
         do {
-            let result = try viewContext.fetch(request)
+            let result = try viewContext.fetch(fetchRequest)
             return result
         } catch {
-            fatalError("Error al recuperar objetos: \(error)")
+            print("Error al recuperar pagos: \(error.localizedDescription)")
+            return []
         }
     }
+
 }
 
 class PaymentManagerUseCase {
@@ -283,8 +126,30 @@ class PaymentManagerUseCase {
         }
     }
     
-    func fetchAllData() -> [PaymentActivity] {
-        return self.coreDataStack.fetchObjects(PaymentActivity.self)
+    func fetchPayments(withName name: String? = nil) -> [PaymentActivityDTO] {
+        let payments = self.coreDataStack.fetchPayments(withName: name)
+        return convertToDTO(payments: payments)
+    }
+    
+    func deletePayment(withName name: String? = nil, completion: @escaping (Bool, NSError?) -> Void) {
+        let payments = self.coreDataStack.fetchPayments(withName: name)
+        guard let payment = payments.first else {
+            completion(false, nil)
+            return
+        }
+        self.coreDataStack.deleteObject(payment, completion: completion)
+    }
+    
+    private func convertToDTO(payments:[PaymentActivity]) -> [PaymentActivityDTO] {
+        return payments.compactMap { paymentActivity in
+            PaymentActivityDTO(id: paymentActivity.paymentId ?? UUID(),
+                               name: paymentActivity.name ?? "",
+                               memo: paymentActivity.memo ?? "",
+                               date: paymentActivity.date ?? Date(),
+                               amount: paymentActivity.amount,
+                               address: paymentActivity.address ?? "",
+                               typeNum: paymentActivity.typeNum)
+        }
     }
 }
 
@@ -304,40 +169,61 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
         //given
         let mockCoreDataStack = MockCoreDataStack()
         let sut = PaymentManagerUseCase(coreDataStack: mockCoreDataStack)
-        let paymentBillDTO = PaymentActivityDTO(id: UUID(),
+        
+        let paymentRentBillDTO = PaymentActivityDTO(id: UUID(),
                                             name: "Rent bill",
                                             memo: "just for test",
                                             date: Date(),
                                             amount: Double(20000),
                                             address: "Condesa",
                                             typeNum: Int32(1))
-        let exp = expectation(description: "wait for completion")
-        var result:Bool = false
         
+        let paymentGasBillDTO = PaymentActivityDTO(id: UUID(),
+                                            name: "Gas bill",
+                                            memo: "just for test",
+                                            date: Date(),
+                                            amount: Double(500),
+                                            address: "Condesa",
+                                            typeNum: Int32(2))
+        
+        let exp_1 = expectation(description: "wait for completion")
+        let exp_2 = expectation(description: "wait for completion")
+        let exp_3 = expectation(description: "wait for completion")
+        
+        var result:Bool = false
+        var result_2:Bool = false
+        var result_3:Bool = false
+
         //when
-        sut.saveData(payment: paymentBillDTO) { success, error in
+        sut.saveData(payment: paymentRentBillDTO) { success, error in
             result = success
-            exp.fulfill()
+            exp_1.fulfill()
         }
         
-        let paymentData = sut.fetchAllData()
-        let firstElement = paymentData.first
+        sut.saveData(payment: paymentGasBillDTO) { success, error in
+            result_2 = success
+            exp_2.fulfill()
+        }
+        
+        sut.deletePayment(withName: "Gas bill") { success, error in
+            result_3 = success
+            exp_3.fulfill()
+        }
+        
+        let paymentData = sut.fetchPayments()
+        let rentPayment = sut.fetchPayments(withName: "Rent bill")
+        let gasPayment = sut.fetchPayments(withName: "Gas bill")
+
+        wait(for: [exp_1, exp_2, exp_3], timeout: 1.0)
+        
         //then
-        wait(for: [exp], timeout: 1.0)
+        
         XCTAssertTrue(result)
-        XCTAssertNotNil(paymentData)
+        XCTAssertTrue(result_2)
+        XCTAssertTrue(result_3)
+        
         XCTAssertGreaterThan(paymentData.count, 0)
-        XCTAssertEqual(paymentData[0].name ?? "", "Rent bill")
-    }
-    
-    func testFetchAllData() {
-        //given
-        let mockCoreDataStack = MockCoreDataStack()
-        let sut = PaymentManagerUseCase(coreDataStack: mockCoreDataStack)
-        //when
-        let paymentData = sut.fetchAllData()
-        //then
-        XCTAssertNotNil(paymentData)
-        XCTAssertGreaterThan(paymentData.count, 0)
+        XCTAssertNotNil(rentPayment)
+        XCTAssertTrue(gasPayment.isEmpty)
     }
 }
