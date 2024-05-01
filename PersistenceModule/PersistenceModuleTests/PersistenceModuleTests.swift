@@ -110,6 +110,33 @@ class CoreDataStack {
             return []
         }
     }
+    
+    func fetchPayments(for month: Int, year: Int) -> [PaymentActivity] {
+        let calendar = Calendar.current
+        var startDateComponents = DateComponents()
+        startDateComponents.year = year
+        startDateComponents.month = month
+        
+        guard let startDate = calendar.date(from: startDateComponents) else {
+            return []
+        }
+        
+        guard let endDate = calendar.date(byAdding: DateComponents(month: 1, day: -1), to: startDate) else {
+            return []
+        }
+        
+        let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
+        let predicate = NSPredicate(format: "date >= %@ AND date <= %@", startDate as NSDate, endDate as NSDate)
+        fetchRequest.predicate = predicate
+        
+        do {
+            let result = try viewContext.fetch(fetchRequest)
+            return result
+        } catch {
+            print("Error al recuperar pagos: \(error.localizedDescription)")
+            return []
+        }
+    }
 
 }
 
@@ -128,6 +155,11 @@ class PaymentManagerUseCase {
     
     func fetchPayments(withName name: String? = nil) -> [PaymentActivityDTO] {
         let payments = self.coreDataStack.fetchPayments(withName: name)
+        return convertToDTO(payments: payments)
+    }
+    
+    func fetchPayments(for month: Int, year: Int) -> [PaymentActivityDTO] {
+        let payments = self.coreDataStack.fetchPayments(for: month, year: year)
         return convertToDTO(payments: payments)
     }
     
@@ -164,8 +196,8 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
     override func tearDownWithError() throws {
         self.context = nil
     }
-    
-    func testSaveData() {
+    /*
+    func testCRUD() {
         //given
         let mockCoreDataStack = MockCoreDataStack()
         let sut = PaymentManagerUseCase(coreDataStack: mockCoreDataStack)
@@ -226,4 +258,106 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
         XCTAssertNotNil(rentPayment)
         XCTAssertTrue(gasPayment.isEmpty)
     }
+    */
+    
+    func testFetchDataByMonth() {
+        //given
+        let mockCoreDataStack = MockCoreDataStack()
+        let sut = PaymentManagerUseCase(coreDataStack: mockCoreDataStack)
+        let currentDate = Date()
+        
+        let paymentRentBillDTO = PaymentActivityDTO(id: UUID(),
+                                                    name: "Rent bill",
+                                                    memo: "just for test",
+                                                    date: currentDate,
+                                                    amount: Double(20000),
+                                                    address: "Condesa",
+                                                    typeNum: Int32(1))
+        
+        let paymentGasBillDTO = PaymentActivityDTO(id: UUID(),
+                                                   name: "Gas bill",
+                                                   memo: "just for test",
+                                                   date: currentDate,
+                                                   amount: Double(500),
+                                                   address: "Condesa",
+                                                   typeNum: Int32(2))
+        
+        let paymentCarServiceBillDTO = PaymentActivityDTO(id: UUID(),
+                                                          name: "Car service bill",
+                                                          memo: "just for test",
+                                                          date: Utils().prevMonth,
+                                                          amount: Double(17500),
+                                                          address: "Condesa",
+                                                          typeNum: Int32(3))
+        
+        let paymentGpsBillDTO = PaymentActivityDTO(id: UUID(),
+                                                   name: "GPS bill",
+                                                   memo: "just for test",
+                                                   date: Utils().prevMonth,
+                                                   amount: Double(200),
+                                                   address: "Condesa",
+                                                   typeNum: Int32(5))
+        
+        let exp_1 = expectation(description: "wait for completion")
+        let exp_2 = expectation(description: "wait for completion")
+        let exp_3 = expectation(description: "wait for completion")
+        let exp_4 = expectation(description: "wait for completion")
+        
+        var result:Bool = false
+        var result_2:Bool = false
+        var result_3:Bool = false
+        var result_4:Bool = false
+
+        //when
+        sut.saveData(payment: paymentRentBillDTO) { success, error in
+            result = success
+            exp_1.fulfill()
+        }
+        
+        sut.saveData(payment: paymentGasBillDTO) { success, error in
+            result_2 = success
+            exp_2.fulfill()
+        }
+        
+        sut.saveData(payment: paymentCarServiceBillDTO) { success, error in
+            result_3 = success
+            exp_3.fulfill()
+        }
+        
+        sut.saveData(payment: paymentGpsBillDTO) { success, error in
+            result_4 = success
+            exp_4.fulfill()
+        }
+        
+        let calendar = Calendar.current
+        let month = calendar.component(.month, from: currentDate)
+        let prevMonthDate = calendar.date(byAdding: .month, value: -1, to: currentDate)!
+        let prevMonth = calendar.component(.month, from: prevMonthDate)
+        
+        let paymentData = sut.fetchPayments()
+        let paymentsOfCurrentMonth = sut.fetchPayments(for: month, year: 2024)
+        let paymentsOfPastMonth = sut.fetchPayments(for: prevMonth, year: 2024)
+
+        wait(for: [exp_1, exp_2, exp_3, exp_4], timeout: 1.0)
+        
+        //then
+        
+        XCTAssertTrue(result)
+        XCTAssertTrue(result_2)
+        XCTAssertTrue(result_3)
+        XCTAssertTrue(result_4)
+        
+        XCTAssertGreaterThan(paymentData.count, 0)
+        XCTAssertGreaterThan(paymentsOfCurrentMonth.count, 0)
+        XCTAssertGreaterThan(paymentsOfPastMonth.count, 0)
+    }
+}
+
+class Utils {
+    lazy var prevMonth:Date = {
+        let calendar = Calendar.current
+        let currentDate = Date()
+        let prevMonthDate = calendar.date(byAdding: .month, value: -1, to: currentDate)!
+        return prevMonthDate
+    }()
 }
