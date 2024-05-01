@@ -20,8 +20,8 @@ public enum PersistenceResult {
     case failure(Error?)
 }
 
-protocol CoreDataProtocol {
-    func savePayment(payment: PaymentActivityDTO, 
+public protocol CoreDataProtocol {
+    func savePayment(payment: PaymentActivityDTO,
                      completion: @escaping (PersistenceResult) -> Void)
     func fetchPayments(withName name: String?,
                        limit: Int?,
@@ -29,6 +29,8 @@ protocol CoreDataProtocol {
     func fetchPayments(forMonth month: Int,
                        year: Int,
                        limit: Int?,
+                       completion: @escaping (PersistenceResult) -> Void)
+    func deletePayment(_ object: NSManagedObject,
                        completion: @escaping (PersistenceResult) -> Void)
 }
 

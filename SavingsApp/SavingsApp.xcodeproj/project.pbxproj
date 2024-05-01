@@ -31,6 +31,7 @@
 		1FDFC5352BB76947006CE24C /* SmartSavingsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC5342BB76947006CE24C /* SmartSavingsMainView.swift */; };
 		1FDFC5392BB7DDE9006CE24C /* BalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC5382BB7DDE9006CE24C /* BalanceView.swift */; };
 		1FDFC53C2BB7DFAC006CE24C /* TransactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC53B2BB7DFAC006CE24C /* TransactionsView.swift */; };
+		1FF19A162BE2F02600324E56 /* PaymentManagerUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF19A152BE2F02600324E56 /* PaymentManagerUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +126,7 @@
 		1FDFC5342BB76947006CE24C /* SmartSavingsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSavingsMainView.swift; sourceTree = "<group>"; };
 		1FDFC5382BB7DDE9006CE24C /* BalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceView.swift; sourceTree = "<group>"; };
 		1FDFC53B2BB7DFAC006CE24C /* TransactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsView.swift; sourceTree = "<group>"; };
+		1FF19A152BE2F02600324E56 /* PaymentManagerUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManagerUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +252,7 @@
 		1F93A58D2BC9C3F3006A5300 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				1FF19A122BE2EFB600324E56 /* PaymentTransactions */,
 				1F93A58E2BC9C3FC006A5300 /* CalendarSection */,
 			);
 			path = Domain;
@@ -360,7 +363,6 @@
 		1FDFC5332BB76926006CE24C /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				1FDFC53A2BB7DF8D006CE24C /* TransactionsView */,
 				1FDFC5372BB7DDC0006CE24C /* BalanceView */,
 				1FDFC5342BB76947006CE24C /* SmartSavingsMainView.swift */,
 			);
@@ -370,6 +372,7 @@
 		1FDFC5362BB77220006CE24C /* Payment */ = {
 			isa = PBXGroup;
 			children = (
+				1FDFC53A2BB7DF8D006CE24C /* PaymentTransactionsView */,
 				1F8B6D852BC24A170008450A /* PaymentDetailsView */,
 				1F96C6C12BBBAF270089578D /* AddPaymentView */,
 			);
@@ -384,12 +387,36 @@
 			path = BalanceView;
 			sourceTree = "<group>";
 		};
-		1FDFC53A2BB7DF8D006CE24C /* TransactionsView */ = {
+		1FDFC53A2BB7DF8D006CE24C /* PaymentTransactionsView */ = {
 			isa = PBXGroup;
 			children = (
 				1FDFC53B2BB7DFAC006CE24C /* TransactionsView.swift */,
 			);
-			path = TransactionsView;
+			path = PaymentTransactionsView;
+			sourceTree = "<group>";
+		};
+		1FF19A122BE2EFB600324E56 /* PaymentTransactions */ = {
+			isa = PBXGroup;
+			children = (
+				1FF19A142BE2F00500324E56 /* UseCase */,
+				1FF19A132BE2EFFF00324E56 /* ViewModel */,
+			);
+			path = PaymentTransactions;
+			sourceTree = "<group>";
+		};
+		1FF19A132BE2EFFF00324E56 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		1FF19A142BE2F00500324E56 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				1FF19A152BE2F02600324E56 /* PaymentManagerUseCase.swift */,
+			);
+			path = UseCase;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -617,6 +644,7 @@
 			files = (
 				1FDFC5392BB7DDE9006CE24C /* BalanceView.swift in Sources */,
 				1FDFC53C2BB7DFAC006CE24C /* TransactionsView.swift in Sources */,
+				1FF19A162BE2F02600324E56 /* PaymentManagerUseCase.swift in Sources */,
 				1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */,
 				1FDE89372BC7AD3400FC0CC9 /* CalendarSectionView.swift in Sources */,
 				1F93A5922BC9C553006A5300 /* CalendarSectionVM.swift in Sources */,
