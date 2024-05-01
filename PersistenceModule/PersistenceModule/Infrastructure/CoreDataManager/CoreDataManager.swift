@@ -125,7 +125,7 @@ extension CoreDataManager: CoreDataProtocol {
         }
         
         guard let endDate = calendar.date(byAdding: DateComponents(month: 1, day: -1), to: startDate) else {
-            completion(.failure(NSError(domain: "Cannot calculate start date", code: 1)))
+            completion(.failure(NSError(domain: "Cannot calculate end date", code: 1)))
             return
         }
         
