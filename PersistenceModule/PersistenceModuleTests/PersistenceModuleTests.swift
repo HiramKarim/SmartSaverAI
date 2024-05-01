@@ -187,169 +187,161 @@ class PaymentManagerUseCase {
 
 
 class EmployeeCoreDataInteractorTests: XCTestCase {
-    var context: NSManagedObjectContext?
+    var mockCoreDataStack: MockCoreDataStack!
+    var sut: PaymentManagerUseCase!
     
     override func setUpWithError() throws {
-        
+        super.setUp()
+        self.mockCoreDataStack = MockCoreDataStack()
+        self.sut = PaymentManagerUseCase(coreDataStack: mockCoreDataStack)
     }
     
     override func tearDownWithError() throws {
-        self.context = nil
+        self.sut = nil
+        self.mockCoreDataStack = nil
+        super.tearDown()
     }
-    /*
-    func testCRUD() {
-        //given
-        let mockCoreDataStack = MockCoreDataStack()
-        let sut = PaymentManagerUseCase(coreDataStack: mockCoreDataStack)
+    
+    func testSavePayment() {
+        // Given
+        let paymentRentBillDTO = Utils.createPaymentDTO()
+        var result:Bool = false
+        var errorInsert:NSError? = nil
         
-        let paymentRentBillDTO = PaymentActivityDTO(id: UUID(),
-                                            name: "Rent bill",
-                                            memo: "just for test",
-                                            date: Date(),
-                                            amount: Double(20000),
-                                            address: "Condesa",
-                                            typeNum: Int32(1))
+        let exp_1 = expectation(description: "wait for completion")
         
-        let paymentGasBillDTO = PaymentActivityDTO(id: UUID(),
-                                            name: "Gas bill",
-                                            memo: "just for test",
-                                            date: Date(),
-                                            amount: Double(500),
-                                            address: "Condesa",
-                                            typeNum: Int32(2))
+        // When
+        sut.saveData(payment: paymentRentBillDTO) { success, error in
+            
+            result = success
+            errorInsert = error
+            
+            exp_1.fulfill()
+        }
+        
+        wait(for: [exp_1], timeout: 1.0)
+        // Then
+        XCTAssertTrue(result)
+        XCTAssertNil(errorInsert)
+    }
+    
+    func testFetchAllPayments() {
+        // Given
+        let paymentRentBillDTO = Utils.createPaymentDTO()
+        
+        let exp_1 = expectation(description: "wait for completion")
+        
+        // When
+        sut.saveData(payment: paymentRentBillDTO) { _, _ in
+            exp_1.fulfill()
+        }
+        
+        wait(for: [exp_1], timeout: 1.0)
+        
+        let paymentData = sut.fetchPayments()
+        
+        // Then
+        XCTAssertGreaterThan(paymentData.count, 0)
+    }
+    
+    func testFetchPaymentsByName() {
+        // Given
+        let currentPaymentBillDTO = Utils.createPaymentDTO()
+        let pastPaymentBillDTO = Utils.createPastPaymentDTO()
+        
+        let exp_1 = expectation(description: "wait for completion")
+        let exp_2 = expectation(description: "wait for completion")
+        
+        // When
+        sut.saveData(payment: currentPaymentBillDTO) { _, _ in
+            exp_1.fulfill()
+        }
+        
+        sut.saveData(payment: pastPaymentBillDTO) { _, _ in
+            exp_2.fulfill()
+        }
+        
+        wait(for: [exp_1, exp_2], timeout: 1.0)
+        
+        let rentPayment = sut.fetchPayments(withName: "Rent bill")
+        let gasPayment = sut.fetchPayments(withName: "Gas bill")
+        
+        // Then
+        XCTAssertGreaterThan(rentPayment.count, 0)
+        XCTAssertGreaterThan(gasPayment.count, 0)
+    }
+    
+    func testFetchPaymentsByDateRange() {
+        // Given
+        let currentDate = Date()
+        let calendar = Calendar.current
+        let currentPaymentBillDTO = Utils.createPaymentDTO()
+        let pastPaymentBillDTO = Utils.createPastPaymentDTO()
+        
+        let month = calendar.component(.month, from: currentDate)
+        let year = calendar.component(.year, from: currentDate)
+        
+        let prevMonthDate = calendar.date(byAdding: .month, value: -1, to: currentDate)!
+        let prevMonth = calendar.component(.month, from: prevMonthDate)
+        let prevYear = calendar.component(.year, from: prevMonthDate)
+        
+        let exp_1 = expectation(description: "wait for completion")
+        let exp_2 = expectation(description: "wait for completion")
+        
+        // When
+        sut.saveData(payment: currentPaymentBillDTO) { _, _ in
+            exp_1.fulfill()
+        }
+        
+        sut.saveData(payment: pastPaymentBillDTO) { _, _ in
+            exp_2.fulfill()
+        }
+        
+        wait(for: [exp_1, exp_2], timeout: 1.0)
+        
+        let paymentsOfCurrentMonth = sut.fetchPayments(for: month, year: year)
+        let paymentsOfPastMonth = sut.fetchPayments(for: prevMonth, year: prevYear)
+        
+        
+        // Then
+        XCTAssertGreaterThan(paymentsOfCurrentMonth.count, 0)
+        XCTAssertGreaterThan(paymentsOfPastMonth.count, 0)
+    }
+    
+    func testDeletePayment() {
+        // Given
+        let paymentRentBillDTO = Utils.createPaymentDTO()
+        let pastPaymentBillDTO = Utils.createPastPaymentDTO()
         
         let exp_1 = expectation(description: "wait for completion")
         let exp_2 = expectation(description: "wait for completion")
         let exp_3 = expectation(description: "wait for completion")
-        
         var result:Bool = false
-        var result_2:Bool = false
-        var result_3:Bool = false
-
-        //when
-        sut.saveData(payment: paymentRentBillDTO) { success, error in
-            result = success
+        var errorInsert:NSError? = nil
+        
+        // When
+        sut.saveData(payment: paymentRentBillDTO) { _, _ in
             exp_1.fulfill()
         }
         
-        sut.saveData(payment: paymentGasBillDTO) { success, error in
-            result_2 = success
+        sut.saveData(payment: pastPaymentBillDTO) { _, _ in
             exp_2.fulfill()
         }
         
         sut.deletePayment(withName: "Gas bill") { success, error in
-            result_3 = success
+            result = success
+            errorInsert = error
             exp_3.fulfill()
         }
         
-        let paymentData = sut.fetchPayments()
-        let rentPayment = sut.fetchPayments(withName: "Rent bill")
-        let gasPayment = sut.fetchPayments(withName: "Gas bill")
-
         wait(for: [exp_1, exp_2, exp_3], timeout: 1.0)
         
-        //then
-        
-        XCTAssertTrue(result)
-        XCTAssertTrue(result_2)
-        XCTAssertTrue(result_3)
-        
-        XCTAssertGreaterThan(paymentData.count, 0)
-        XCTAssertNotNil(rentPayment)
-        XCTAssertTrue(gasPayment.isEmpty)
-    }
-    */
-    
-    func testFetchDataByMonth() {
-        //given
-        let mockCoreDataStack = MockCoreDataStack()
-        let sut = PaymentManagerUseCase(coreDataStack: mockCoreDataStack)
-        let currentDate = Date()
-        
-        let paymentRentBillDTO = PaymentActivityDTO(id: UUID(),
-                                                    name: "Rent bill",
-                                                    memo: "just for test",
-                                                    date: currentDate,
-                                                    amount: Double(20000),
-                                                    address: "Condesa",
-                                                    typeNum: Int32(1))
-        
-        let paymentGasBillDTO = PaymentActivityDTO(id: UUID(),
-                                                   name: "Gas bill",
-                                                   memo: "just for test",
-                                                   date: currentDate,
-                                                   amount: Double(500),
-                                                   address: "Condesa",
-                                                   typeNum: Int32(2))
-        
-        let paymentCarServiceBillDTO = PaymentActivityDTO(id: UUID(),
-                                                          name: "Car service bill",
-                                                          memo: "just for test",
-                                                          date: Utils().prevMonth,
-                                                          amount: Double(17500),
-                                                          address: "Condesa",
-                                                          typeNum: Int32(3))
-        
-        let paymentGpsBillDTO = PaymentActivityDTO(id: UUID(),
-                                                   name: "GPS bill",
-                                                   memo: "just for test",
-                                                   date: Utils().prevMonth,
-                                                   amount: Double(200),
-                                                   address: "Condesa",
-                                                   typeNum: Int32(5))
-        
-        let exp_1 = expectation(description: "wait for completion")
-        let exp_2 = expectation(description: "wait for completion")
-        let exp_3 = expectation(description: "wait for completion")
-        let exp_4 = expectation(description: "wait for completion")
-        
-        var result:Bool = false
-        var result_2:Bool = false
-        var result_3:Bool = false
-        var result_4:Bool = false
-
-        //when
-        sut.saveData(payment: paymentRentBillDTO) { success, error in
-            result = success
-            exp_1.fulfill()
-        }
-        
-        sut.saveData(payment: paymentGasBillDTO) { success, error in
-            result_2 = success
-            exp_2.fulfill()
-        }
-        
-        sut.saveData(payment: paymentCarServiceBillDTO) { success, error in
-            result_3 = success
-            exp_3.fulfill()
-        }
-        
-        sut.saveData(payment: paymentGpsBillDTO) { success, error in
-            result_4 = success
-            exp_4.fulfill()
-        }
-        
-        let calendar = Calendar.current
-        let month = calendar.component(.month, from: currentDate)
-        let prevMonthDate = calendar.date(byAdding: .month, value: -1, to: currentDate)!
-        let prevMonth = calendar.component(.month, from: prevMonthDate)
-        
         let paymentData = sut.fetchPayments()
-        let paymentsOfCurrentMonth = sut.fetchPayments(for: month, year: 2024)
-        let paymentsOfPastMonth = sut.fetchPayments(for: prevMonth, year: 2024)
-
-        wait(for: [exp_1, exp_2, exp_3, exp_4], timeout: 1.0)
         
-        //then
-        
+        // Then
+        XCTAssertEqual(paymentData.count, 1)
         XCTAssertTrue(result)
-        XCTAssertTrue(result_2)
-        XCTAssertTrue(result_3)
-        XCTAssertTrue(result_4)
-        
-        XCTAssertGreaterThan(paymentData.count, 0)
-        XCTAssertGreaterThan(paymentsOfCurrentMonth.count, 0)
-        XCTAssertGreaterThan(paymentsOfPastMonth.count, 0)
+        XCTAssertNil(errorInsert)
     }
 }
 
@@ -360,4 +352,24 @@ class Utils {
         let prevMonthDate = calendar.date(byAdding: .month, value: -1, to: currentDate)!
         return prevMonthDate
     }()
+    
+    static func createPaymentDTO() -> PaymentActivityDTO {
+        return PaymentActivityDTO(id: UUID(),
+                                  name: "Rent bill",
+                                  memo: "just for test",
+                                  date: Date(),
+                                  amount: Double(20000),
+                                  address: "Condesa",
+                                  typeNum: Int32(1))
+    }
+    
+    static func createPastPaymentDTO() -> PaymentActivityDTO {
+        return PaymentActivityDTO(id: UUID(),
+                                  name: "Gas bill",
+                                  memo: "just for test",
+                                  date: Utils().prevMonth,
+                                  amount: Double(500),
+                                  address: "Condesa",
+                                  typeNum: Int32(4))
+    }
 }
