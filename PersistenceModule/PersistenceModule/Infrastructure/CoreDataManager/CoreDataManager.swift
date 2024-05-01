@@ -16,14 +16,20 @@ private enum ErrorPersistence: Error {
 }
 
 public enum PersistenceResult {
-    case success([PaymentActivityDTO]?)
-    case failure(Error)
+    case success([PaymentActivity]?)
+    case failure(Error?)
 }
 
 protocol CoreDataProtocol {
-    func savePayment(payment: PaymentActivityDTO, completion: @escaping (PersistenceResult) -> Void)
-    func getAllPayments(limit: Int?, completion: @escaping (PersistenceResult) -> Void)
-    func deletePayment(payment: PaymentActivityDTO, completion: @escaping (PersistenceResult) -> Void)
+    func savePayment(payment: PaymentActivityDTO, 
+                     completion: @escaping (PersistenceResult) -> Void)
+    func fetchPayments(withName name: String?,
+                       limit: Int?,
+                       completion: @escaping (PersistenceResult) -> Void)
+    func fetchPayments(forMonth month: Int,
+                       year: Int,
+                       limit: Int?,
+                       completion: @escaping (PersistenceResult) -> Void)
 }
 
 public class CoreDataManager {
@@ -31,7 +37,7 @@ public class CoreDataManager {
     
     public static let shared = CoreDataManager()
     
-    var viewContext: NSManagedObjectContext {
+    private var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
@@ -54,11 +60,8 @@ public class CoreDataManager {
 extension CoreDataManager: CoreDataProtocol {
     
     ///Insert method
-    public func savePayment(
-        payment: PaymentActivityDTO,
-        completion: @escaping (PersistenceResult) -> Void
-    ) {
-        let paymentInfo = PaymentActivity(context: persistentContainer.viewContext)
+    public func savePayment(payment: PaymentActivityDTO, completion: @escaping (PersistenceResult) -> Void) {
+        let paymentInfo = PaymentActivity(context: viewContext)
         paymentInfo.paymentId = payment.id
         paymentInfo.name = payment.name
         paymentInfo.address = payment.address
@@ -66,9 +69,9 @@ extension CoreDataManager: CoreDataProtocol {
         paymentInfo.date = payment.date
         paymentInfo.memo = payment.memo
         paymentInfo.typeNum = payment.typeNum
-        if persistentContainer.viewContext.hasChanges {
+        if viewContext.hasChanges {
             do {
-                try persistentContainer.viewContext.save()
+                try viewContext.save()
                 completion(.success(nil))
             } catch {
                 completion(.failure(ErrorPersistence.InsertionError))
@@ -76,43 +79,70 @@ extension CoreDataManager: CoreDataProtocol {
         }
     }
     
-    public func getAllPayments(
-        limit: Int? = nil,
-        completion: @escaping (PersistenceResult) -> Void
-    ) {
+    public func deletePayment(_ object: NSManagedObject, completion: @escaping (PersistenceResult) -> Void) {
+        viewContext.delete(object)
+        do {
+            try viewContext.save()
+            completion(.success(nil))
+        } catch {
+            viewContext.rollback()
+            let nserror = error as NSError
+            completion(.failure(nserror))
+        }
+    }
+    
+    public func fetchPayments(withName name: String? = nil,
+                              limit: Int? = nil,
+                              completion: @escaping (PersistenceResult) -> Void) {
         let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
+        if let name = name {
+            fetchRequest.predicate = NSPredicate(format: "name == %@", name)
+        }
         if let limit = limit {
             fetchRequest.fetchLimit = limit
         }
         do {
-            let payments = try persistentContainer.viewContext.fetch(fetchRequest).compactMap { paymentActivity in
-                PaymentActivityDTO(id: paymentActivity.paymentId ?? UUID(),
-                                   name: paymentActivity.name ?? "",
-                                   memo: paymentActivity.memo,
-                                   date: paymentActivity.date ?? Date(),
-                                   amount: paymentActivity.amount,
-                                   address: paymentActivity.address, 
-                                   typeNum: paymentActivity.typeNum)
-            }
-            completion(.success(payments))
+            let result = try viewContext.fetch(fetchRequest)
+            completion(.success(result))
         } catch {
-            completion(.failure(ErrorPersistence.FetchError))
+            let nserror = error as NSError
+            completion(.failure(nserror))
         }
     }
     
-    public func deletePayment(
-        payment: PaymentActivityDTO,
-        completion: @escaping (PersistenceResult) -> Void
-    ) {
-        let paymentInfo = PaymentActivity(context: persistentContainer.viewContext)
-        paymentInfo.name = payment.name
-        persistentContainer.viewContext.delete(paymentInfo)
+    public func fetchPayments(forMonth month: Int,
+                              year: Int,
+                              limit: Int? = nil,
+                              completion: @escaping (PersistenceResult) -> Void) {
+        let calendar = Calendar.current
+        var startDateComponents = DateComponents()
+        startDateComponents.year = year
+        startDateComponents.month = month
+        
+        guard let startDate = calendar.date(from: startDateComponents) else {
+            completion(.failure(NSError(domain: "Cannot calculate start date", code: 1)))
+            return
+        }
+        
+        guard let endDate = calendar.date(byAdding: DateComponents(month: 1, day: -1), to: startDate) else {
+            completion(.failure(NSError(domain: "Cannot calculate start date", code: 1)))
+            return
+        }
+        
+        let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
+        let predicate = NSPredicate(format: "date >= %@ AND date <= %@", startDate as NSDate, endDate as NSDate)
+        fetchRequest.predicate = predicate
+        
+        if let limit = limit {
+            fetchRequest.fetchLimit = limit
+        }
+        
         do {
-            try persistentContainer.viewContext.save()
-            completion(.success(nil))
+            let result = try viewContext.fetch(fetchRequest)
+            completion(.success(result))
         } catch {
-            persistentContainer.viewContext.rollback()
-            completion(.failure(ErrorPersistence.DeletionError))
+            let nserror = error as NSError
+            completion(.failure(nserror))
         }
     }
 }
