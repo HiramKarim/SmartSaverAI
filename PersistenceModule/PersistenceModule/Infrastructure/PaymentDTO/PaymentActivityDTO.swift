@@ -15,6 +15,7 @@ public struct PaymentActivityDTO {
     let amount:Double
     let address:String?
     let typeNum:Int32
+    let paymentType:Int32
     
     public init(id: UUID, 
                 name: String,
@@ -22,7 +23,8 @@ public struct PaymentActivityDTO {
                 date: Date,
                 amount: Double,
                 address: String?,
-                typeNum: Int32) {
+                typeNum: Int32,
+                paymentType:Int32) {
         self.id = id
         self.name = name
         self.memo = memo
@@ -30,5 +32,6 @@ public struct PaymentActivityDTO {
         self.amount = amount
         self.address = address
         self.typeNum = typeNum
+        self.paymentType = paymentType
     }
 }

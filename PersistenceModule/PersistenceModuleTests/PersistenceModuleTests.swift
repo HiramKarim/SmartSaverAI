@@ -180,7 +180,8 @@ class PaymentManagerUseCase {
                                date: paymentActivity.date ?? Date(),
                                amount: paymentActivity.amount,
                                address: paymentActivity.address ?? "",
-                               typeNum: paymentActivity.typeNum)
+                               typeNum: paymentActivity.typeNum, 
+                               paymentType: paymentActivity.paymentType)
         }
     }
 }
@@ -346,6 +347,17 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
 }
 
 class Utils {
+    
+    enum paymentCategory: Int32 {
+        case Rent = 1
+        case Gas = 2
+    }
+    
+    enum paymentType: Int32 {
+        case payment = 1
+        case transaction = 2
+    }
+    
     lazy var prevMonth:Date = {
         let calendar = Calendar.current
         let currentDate = Date()
@@ -360,7 +372,8 @@ class Utils {
                                   date: Date(),
                                   amount: Double(20000),
                                   address: "Condesa",
-                                  typeNum: Int32(1))
+                                  typeNum: paymentCategory.Rent.rawValue,
+                                  paymentType: paymentType.payment.rawValue)
     }
     
     static func createPastPaymentDTO() -> PaymentActivityDTO {
@@ -370,6 +383,7 @@ class Utils {
                                   date: Utils().prevMonth,
                                   amount: Double(500),
                                   address: "Condesa",
-                                  typeNum: Int32(4))
+                                  typeNum: paymentCategory.Gas.rawValue,
+                                  paymentType: paymentType.payment.rawValue)
     }
 }

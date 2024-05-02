@@ -71,6 +71,7 @@ extension CoreDataManager: CoreDataProtocol {
         paymentInfo.date = payment.date
         paymentInfo.memo = payment.memo
         paymentInfo.typeNum = payment.typeNum
+        paymentInfo.paymentType = payment.paymentType
         if viewContext.hasChanges {
             do {
                 try viewContext.save()

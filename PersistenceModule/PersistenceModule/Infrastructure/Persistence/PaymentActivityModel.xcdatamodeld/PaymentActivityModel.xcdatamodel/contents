@@ -7,6 +7,7 @@
         <attribute name="memo" optional="YES" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="paymentId" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="paymentType" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="typeNum" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
 </model>
