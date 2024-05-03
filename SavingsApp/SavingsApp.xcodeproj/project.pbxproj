@@ -17,7 +17,7 @@
 		1F93A5922BC9C553006A5300 /* CalendarSectionVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F93A5912BC9C553006A5300 /* CalendarSectionVM.swift */; };
 		1F93A5952BC9C70B006A5300 /* Date+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F93A5942BC9C70B006A5300 /* Date+Formatter.swift */; };
 		1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F96C6C22BBBAF590089578D /* AddPaymentView.swift */; };
-		1F9983A92BE47F6E00B38C24 /* PaymentManagerVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983A82BE47F6E00B38C24 /* PaymentManagerVM.swift */; };
+		1F9983A92BE47F6E00B38C24 /* RegisterPaymentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983A82BE47F6E00B38C24 /* RegisterPaymentVM.swift */; };
 		1F9983AF2BE482FB00B38C24 /* RegisterPaymentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983AE2BE482FB00B38C24 /* RegisterPaymentUseCase.swift */; };
 		1F9983B12BE4831300B38C24 /* FetchPaymentByNameUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983B02BE4831300B38C24 /* FetchPaymentByNameUseCase.swift */; };
 		1F9983B32BE4832100B38C24 /* FetchPaymentByDateUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983B22BE4832100B38C24 /* FetchPaymentByDateUseCase.swift */; };
@@ -116,7 +116,7 @@
 		1F93A5912BC9C553006A5300 /* CalendarSectionVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSectionVM.swift; sourceTree = "<group>"; };
 		1F93A5942BC9C70B006A5300 /* Date+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatter.swift"; sourceTree = "<group>"; };
 		1F96C6C22BBBAF590089578D /* AddPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentView.swift; sourceTree = "<group>"; };
-		1F9983A82BE47F6E00B38C24 /* PaymentManagerVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManagerVM.swift; sourceTree = "<group>"; };
+		1F9983A82BE47F6E00B38C24 /* RegisterPaymentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPaymentVM.swift; sourceTree = "<group>"; };
 		1F9983AE2BE482FB00B38C24 /* RegisterPaymentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPaymentUseCase.swift; sourceTree = "<group>"; };
 		1F9983B02BE4831300B38C24 /* FetchPaymentByNameUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPaymentByNameUseCase.swift; sourceTree = "<group>"; };
 		1F9983B22BE4832100B38C24 /* FetchPaymentByDateUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPaymentByDateUseCase.swift; sourceTree = "<group>"; };
@@ -311,6 +311,7 @@
 		1F9983AA2BE4825600B38C24 /* RegisterPaymentUseCase */ = {
 			isa = PBXGroup;
 			children = (
+				1FF19A132BE2EFFF00324E56 /* ViewModel */,
 				1F9983AE2BE482FB00B38C24 /* RegisterPaymentUseCase.swift */,
 			);
 			path = RegisterPaymentUseCase;
@@ -450,7 +451,6 @@
 			children = (
 				1F9983B82BE4958E00B38C24 /* PaymentTransactionBase */,
 				1FF19A142BE2F00500324E56 /* UseCase */,
-				1FF19A132BE2EFFF00324E56 /* ViewModel */,
 			);
 			path = PaymentTransactions;
 			sourceTree = "<group>";
@@ -458,7 +458,7 @@
 		1FF19A132BE2EFFF00324E56 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				1F9983A82BE47F6E00B38C24 /* PaymentManagerVM.swift */,
+				1F9983A82BE47F6E00B38C24 /* RegisterPaymentVM.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -705,7 +705,7 @@
 				1F9983B72BE4842000B38C24 /* PaymentTransactionBase.swift in Sources */,
 				1F93A5922BC9C553006A5300 /* CalendarSectionVM.swift in Sources */,
 				1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */,
-				1F9983A92BE47F6E00B38C24 /* PaymentManagerVM.swift in Sources */,
+				1F9983A92BE47F6E00B38C24 /* RegisterPaymentVM.swift in Sources */,
 				1F8B6D872BC24A4B0008450A /* PaymentDetailsView.swift in Sources */,
 				1F9983B32BE4832100B38C24 /* FetchPaymentByDateUseCase.swift in Sources */,
 				1F93A5952BC9C70B006A5300 /* Date+Formatter.swift in Sources */,

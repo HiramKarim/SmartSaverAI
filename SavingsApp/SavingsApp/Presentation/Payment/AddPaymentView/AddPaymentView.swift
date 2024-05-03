@@ -18,7 +18,7 @@ struct AddPaymentView: View {
     @State private var paymentMemo: String = ""
     @State private var selectedPaymentCategory: PaymentCategory = .other
     
-    @ObservedObject private var vm = PaymentManagerVM()
+    @ObservedObject private var vm = RegisterPaymentVM()
     
     enum PaymentCategory: String, Identifiable, CaseIterable {
         var id: Self { self }

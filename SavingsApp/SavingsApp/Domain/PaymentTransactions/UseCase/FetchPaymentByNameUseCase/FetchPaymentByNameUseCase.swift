@@ -18,7 +18,7 @@ class FetchPaymentByNameUseCase: PaymentTransactionBase {
     }
 }
 
-extension FetchPaymentByNameUseCase: FetchPaymentByNameContract {    
+extension FetchPaymentByNameUseCase: FetchPaymentByNameContract {
     func fetchPayments(withName name: String?, limit: Int?, completion: @escaping (PaymentTransactionBase.PersistenceResult) -> Void) {
         concurrentQueue.async {
             self.coreDataManager.fetchPayments(withName: name, limit: limit) { [weak self] result in

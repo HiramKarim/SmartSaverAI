@@ -8,7 +8,7 @@
 import Foundation
 import PersistenceModule
 
-protocol RegisterPaymentContract {
+protocol RegisterPaymentUCProtocol {
     func savePayment(payment: PersistenceModule.PaymentActivityDTO, completion: @escaping (PaymentTransactionBase.PersistenceResult) -> Void)
 }
 
@@ -18,7 +18,7 @@ class RegisterPaymentUseCase: PaymentTransactionBase {
     }
 }
 
-extension RegisterPaymentUseCase: RegisterPaymentContract {
+extension RegisterPaymentUseCase: RegisterPaymentUCProtocol {
     func savePayment(payment: PersistenceModule.PaymentActivityDTO, completion: @escaping (PaymentTransactionBase.PersistenceResult) -> Void) {
         concurrentQueue.async {
             self.coreDataManager.savePayment(payment: payment) { result in
