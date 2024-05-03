@@ -17,6 +17,12 @@
 		1F93A5922BC9C553006A5300 /* CalendarSectionVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F93A5912BC9C553006A5300 /* CalendarSectionVM.swift */; };
 		1F93A5952BC9C70B006A5300 /* Date+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F93A5942BC9C70B006A5300 /* Date+Formatter.swift */; };
 		1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F96C6C22BBBAF590089578D /* AddPaymentView.swift */; };
+		1F9983A92BE47F6E00B38C24 /* PaymentManagerVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983A82BE47F6E00B38C24 /* PaymentManagerVM.swift */; };
+		1F9983AF2BE482FB00B38C24 /* RegisterPaymentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983AE2BE482FB00B38C24 /* RegisterPaymentUseCase.swift */; };
+		1F9983B12BE4831300B38C24 /* FetchPaymentByNameUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983B02BE4831300B38C24 /* FetchPaymentByNameUseCase.swift */; };
+		1F9983B32BE4832100B38C24 /* FetchPaymentByDateUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983B22BE4832100B38C24 /* FetchPaymentByDateUseCase.swift */; };
+		1F9983B52BE4833A00B38C24 /* DeletePaymentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983B42BE4833A00B38C24 /* DeletePaymentUseCase.swift */; };
+		1F9983B72BE4842000B38C24 /* PaymentTransactionBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983B62BE4842000B38C24 /* PaymentTransactionBase.swift */; };
 		1FDE89062BC752A000FC0CC9 /* SavingsWatchAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE89052BC752A000FC0CC9 /* SavingsWatchAppApp.swift */; };
 		1FDE89082BC752A000FC0CC9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE89072BC752A000FC0CC9 /* ContentView.swift */; };
 		1FDE890A2BC752A200FC0CC9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FDE89092BC752A200FC0CC9 /* Assets.xcassets */; };
@@ -31,7 +37,6 @@
 		1FDFC5352BB76947006CE24C /* SmartSavingsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC5342BB76947006CE24C /* SmartSavingsMainView.swift */; };
 		1FDFC5392BB7DDE9006CE24C /* BalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC5382BB7DDE9006CE24C /* BalanceView.swift */; };
 		1FDFC53C2BB7DFAC006CE24C /* TransactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC53B2BB7DFAC006CE24C /* TransactionsView.swift */; };
-		1FF19A162BE2F02600324E56 /* PaymentManagerUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF19A152BE2F02600324E56 /* PaymentManagerUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +116,12 @@
 		1F93A5912BC9C553006A5300 /* CalendarSectionVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSectionVM.swift; sourceTree = "<group>"; };
 		1F93A5942BC9C70B006A5300 /* Date+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatter.swift"; sourceTree = "<group>"; };
 		1F96C6C22BBBAF590089578D /* AddPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentView.swift; sourceTree = "<group>"; };
+		1F9983A82BE47F6E00B38C24 /* PaymentManagerVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManagerVM.swift; sourceTree = "<group>"; };
+		1F9983AE2BE482FB00B38C24 /* RegisterPaymentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPaymentUseCase.swift; sourceTree = "<group>"; };
+		1F9983B02BE4831300B38C24 /* FetchPaymentByNameUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPaymentByNameUseCase.swift; sourceTree = "<group>"; };
+		1F9983B22BE4832100B38C24 /* FetchPaymentByDateUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPaymentByDateUseCase.swift; sourceTree = "<group>"; };
+		1F9983B42BE4833A00B38C24 /* DeletePaymentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePaymentUseCase.swift; sourceTree = "<group>"; };
+		1F9983B62BE4842000B38C24 /* PaymentTransactionBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTransactionBase.swift; sourceTree = "<group>"; };
 		1FDE89032BC752A000FC0CC9 /* SavingsWatchApp Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SavingsWatchApp Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FDE89052BC752A000FC0CC9 /* SavingsWatchAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsWatchAppApp.swift; sourceTree = "<group>"; };
 		1FDE89072BC752A000FC0CC9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -126,7 +137,6 @@
 		1FDFC5342BB76947006CE24C /* SmartSavingsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSavingsMainView.swift; sourceTree = "<group>"; };
 		1FDFC5382BB7DDE9006CE24C /* BalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceView.swift; sourceTree = "<group>"; };
 		1FDFC53B2BB7DFAC006CE24C /* TransactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsView.swift; sourceTree = "<group>"; };
-		1FF19A152BE2F02600324E56 /* PaymentManagerUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManagerUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,6 +308,46 @@
 			path = AddPaymentView;
 			sourceTree = "<group>";
 		};
+		1F9983AA2BE4825600B38C24 /* RegisterPaymentUseCase */ = {
+			isa = PBXGroup;
+			children = (
+				1F9983AE2BE482FB00B38C24 /* RegisterPaymentUseCase.swift */,
+			);
+			path = RegisterPaymentUseCase;
+			sourceTree = "<group>";
+		};
+		1F9983AB2BE4827200B38C24 /* FetchPaymentByNameUseCase */ = {
+			isa = PBXGroup;
+			children = (
+				1F9983B02BE4831300B38C24 /* FetchPaymentByNameUseCase.swift */,
+			);
+			path = FetchPaymentByNameUseCase;
+			sourceTree = "<group>";
+		};
+		1F9983AC2BE4828100B38C24 /* FetchPaymentByDateUseCase */ = {
+			isa = PBXGroup;
+			children = (
+				1F9983B22BE4832100B38C24 /* FetchPaymentByDateUseCase.swift */,
+			);
+			path = FetchPaymentByDateUseCase;
+			sourceTree = "<group>";
+		};
+		1F9983AD2BE4828E00B38C24 /* DeletePaymentUseCase */ = {
+			isa = PBXGroup;
+			children = (
+				1F9983B42BE4833A00B38C24 /* DeletePaymentUseCase.swift */,
+			);
+			path = DeletePaymentUseCase;
+			sourceTree = "<group>";
+		};
+		1F9983B82BE4958E00B38C24 /* PaymentTransactionBase */ = {
+			isa = PBXGroup;
+			children = (
+				1F9983B62BE4842000B38C24 /* PaymentTransactionBase.swift */,
+			);
+			path = PaymentTransactionBase;
+			sourceTree = "<group>";
+		};
 		1FDE89042BC752A000FC0CC9 /* SavingsWatchApp Watch App */ = {
 			isa = PBXGroup;
 			children = (
@@ -398,6 +448,7 @@
 		1FF19A122BE2EFB600324E56 /* PaymentTransactions */ = {
 			isa = PBXGroup;
 			children = (
+				1F9983B82BE4958E00B38C24 /* PaymentTransactionBase */,
 				1FF19A142BE2F00500324E56 /* UseCase */,
 				1FF19A132BE2EFFF00324E56 /* ViewModel */,
 			);
@@ -407,6 +458,7 @@
 		1FF19A132BE2EFFF00324E56 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				1F9983A82BE47F6E00B38C24 /* PaymentManagerVM.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -414,7 +466,10 @@
 		1FF19A142BE2F00500324E56 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
-				1FF19A152BE2F02600324E56 /* PaymentManagerUseCase.swift */,
+				1F9983AD2BE4828E00B38C24 /* DeletePaymentUseCase */,
+				1F9983AC2BE4828100B38C24 /* FetchPaymentByDateUseCase */,
+				1F9983AB2BE4827200B38C24 /* FetchPaymentByNameUseCase */,
+				1F9983AA2BE4825600B38C24 /* RegisterPaymentUseCase */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -642,16 +697,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F9983B12BE4831300B38C24 /* FetchPaymentByNameUseCase.swift in Sources */,
 				1FDFC5392BB7DDE9006CE24C /* BalanceView.swift in Sources */,
 				1FDFC53C2BB7DFAC006CE24C /* TransactionsView.swift in Sources */,
-				1FF19A162BE2F02600324E56 /* PaymentManagerUseCase.swift in Sources */,
 				1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */,
 				1FDE89372BC7AD3400FC0CC9 /* CalendarSectionView.swift in Sources */,
+				1F9983B72BE4842000B38C24 /* PaymentTransactionBase.swift in Sources */,
 				1F93A5922BC9C553006A5300 /* CalendarSectionVM.swift in Sources */,
 				1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */,
+				1F9983A92BE47F6E00B38C24 /* PaymentManagerVM.swift in Sources */,
 				1F8B6D872BC24A4B0008450A /* PaymentDetailsView.swift in Sources */,
+				1F9983B32BE4832100B38C24 /* FetchPaymentByDateUseCase.swift in Sources */,
 				1F93A5952BC9C70B006A5300 /* Date+Formatter.swift in Sources */,
 				1FDFC5352BB76947006CE24C /* SmartSavingsMainView.swift in Sources */,
+				1F9983B52BE4833A00B38C24 /* DeletePaymentUseCase.swift in Sources */,
+				1F9983AF2BE482FB00B38C24 /* RegisterPaymentUseCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

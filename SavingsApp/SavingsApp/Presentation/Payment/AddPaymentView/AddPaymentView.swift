@@ -10,21 +10,26 @@ import SwiftUI
 struct AddPaymentView: View {
     
     @Environment(\.dismiss) var dismiss
-    @State var paymentName: String = ""
-    @State var paymentType: String = "Income"
-    @State var paymentDate: Date = Date()
-    @State var paymentAmount: String = ""
-    @State var paymentLocation: String = ""
-    @State var paymentMemo: String = ""
+    @State private var paymentName: String = ""
+    @State private var paymentType: String = "Income"
+    @State private var paymentDate: Date = Date()
+    @State private var paymentAmount: String = ""
+    @State private var paymentLocation: String = ""
+    @State private var paymentMemo: String = ""
+    @State private var selectedPaymentCategory: PaymentCategory = .other
+    
+    @ObservedObject private var vm = PaymentManagerVM()
     
     enum PaymentCategory: String, Identifiable, CaseIterable {
         var id: Self { self }
-        case Bank = "Bank"
-        case PersonalAccount = "Personal Account"
-        case Other = "Other"
+        case bank = "Bank"
+        case groseries = "Groseries"
+        case rent = "Rent"
+        case loan = "Loan"
+        case taxBill = "Tax Bill"
+        case gasBill = "Gas Bill"
+        case other = "Other"
     }
-    
-    @State private var selectedPaymentCategory: PaymentCategory = .Other
     
     var body: some View {
         VStack(spacing: 20) {
@@ -137,7 +142,7 @@ struct AddPaymentView: View {
             VStack(alignment: .leading) {
                 Text("Memo")
                     .bold()
-                TextField("Your personal note", text: $paymentName)
+                TextField("Your personal note", text: $paymentMemo)
                     .textFieldStyle(.roundedBorder)
             }
             
