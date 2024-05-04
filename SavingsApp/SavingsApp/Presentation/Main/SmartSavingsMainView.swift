@@ -21,7 +21,7 @@ struct SmartSavingsMainView: View {
                 ScrollView(showsIndicators: false) {
                     CalendarSectionView()
                     BalanceView()
-                    TransactionsView(presentPaymentDetail: $presentingPaymentDetailSheet)
+                    PaymentsTransactionsListView(presentPaymentDetail: $presentingPaymentDetailSheet)
                     .sheet(isPresented: $presentingPaymentDetailSheet, content: {
                         PaymentDetailsView()
                         .padding()

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TransactionsView: View {
+struct PaymentsTransactionsListView: View {
     
     var mockDataArray: [String] = [""]
     @Binding var presentPaymentDetail: Bool
@@ -98,5 +98,5 @@ struct TransactionsView: View {
 }
 
 #Preview {
-    TransactionsView(presentPaymentDetail: .constant(true))
+    PaymentsTransactionsListView(presentPaymentDetail: .constant(true))
 }

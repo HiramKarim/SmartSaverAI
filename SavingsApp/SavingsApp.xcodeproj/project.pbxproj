@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F88C36F2BE6C11F00B0DC56 /* LoadingButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88C36E2BE6C11F00B0DC56 /* LoadingButtonView.swift */; };
 		1F8B6D872BC24A4B0008450A /* PaymentDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B6D862BC24A4B0008450A /* PaymentDetailsView.swift */; };
 		1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1BFC2BB65DB4001286DF /* SavingsAppApp.swift */; };
 		1F8D1C012BB65DB5001286DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F8D1C002BB65DB5001286DF /* Assets.xcassets */; };
@@ -36,7 +37,7 @@
 		1FDFC5302BB76322006CE24C /* PersistenceModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1FDFC52E2BB76322006CE24C /* PersistenceModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1FDFC5352BB76947006CE24C /* SmartSavingsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC5342BB76947006CE24C /* SmartSavingsMainView.swift */; };
 		1FDFC5392BB7DDE9006CE24C /* BalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC5382BB7DDE9006CE24C /* BalanceView.swift */; };
-		1FDFC53C2BB7DFAC006CE24C /* TransactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC53B2BB7DFAC006CE24C /* TransactionsView.swift */; };
+		1FDFC53C2BB7DFAC006CE24C /* PaymentsTransactionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFC53B2BB7DFAC006CE24C /* PaymentsTransactionsListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1F88C36E2BE6C11F00B0DC56 /* LoadingButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButtonView.swift; sourceTree = "<group>"; };
 		1F8B6D862BC24A4B0008450A /* PaymentDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetailsView.swift; sourceTree = "<group>"; };
 		1F8D1BF92BB65DB4001286DF /* SavingsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SavingsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8D1BFC2BB65DB4001286DF /* SavingsAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsAppApp.swift; sourceTree = "<group>"; };
@@ -136,7 +138,7 @@
 		1FDFC52E2BB76322006CE24C /* PersistenceModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PersistenceModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FDFC5342BB76947006CE24C /* SmartSavingsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSavingsMainView.swift; sourceTree = "<group>"; };
 		1FDFC5382BB7DDE9006CE24C /* BalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceView.swift; sourceTree = "<group>"; };
-		1FDFC53B2BB7DFAC006CE24C /* TransactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsView.swift; sourceTree = "<group>"; };
+		1FDFC53B2BB7DFAC006CE24C /* PaymentsTransactionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsTransactionsListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F88C36C2BE6C04600B0DC56 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				1F88C36D2BE6C05B00B0DC56 /* LoadingButton */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		1F88C36D2BE6C05B00B0DC56 /* LoadingButton */ = {
+			isa = PBXGroup;
+			children = (
+				1F88C36E2BE6C11F00B0DC56 /* LoadingButtonView.swift */,
+			);
+			path = LoadingButton;
+			sourceTree = "<group>";
+		};
 		1F8B6D852BC24A170008450A /* PaymentDetailsView */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +242,7 @@
 		1F8D1BFB2BB65DB4001286DF /* SavingsApp */ = {
 			isa = PBXGroup;
 			children = (
+				1F88C36C2BE6C04600B0DC56 /* Shared */,
 				1F93A5932BC9C65B006A5300 /* Helpers */,
 				1F93A58D2BC9C3F3006A5300 /* Domain */,
 				1FDFC5322BB76908006CE24C /* Presentation */,
@@ -423,7 +442,7 @@
 		1FDFC5362BB77220006CE24C /* Payment */ = {
 			isa = PBXGroup;
 			children = (
-				1FDFC53A2BB7DF8D006CE24C /* PaymentTransactionsView */,
+				1FDFC53A2BB7DF8D006CE24C /* PaymentTransactionsListView */,
 				1F8B6D852BC24A170008450A /* PaymentDetailsView */,
 				1F96C6C12BBBAF270089578D /* AddPaymentView */,
 			);
@@ -438,12 +457,12 @@
 			path = BalanceView;
 			sourceTree = "<group>";
 		};
-		1FDFC53A2BB7DF8D006CE24C /* PaymentTransactionsView */ = {
+		1FDFC53A2BB7DF8D006CE24C /* PaymentTransactionsListView */ = {
 			isa = PBXGroup;
 			children = (
-				1FDFC53B2BB7DFAC006CE24C /* TransactionsView.swift */,
+				1FDFC53B2BB7DFAC006CE24C /* PaymentsTransactionsListView.swift */,
 			);
-			path = PaymentTransactionsView;
+			path = PaymentTransactionsListView;
 			sourceTree = "<group>";
 		};
 		1FF19A122BE2EFB600324E56 /* PaymentTransactions */ = {
@@ -699,11 +718,12 @@
 			files = (
 				1F9983B12BE4831300B38C24 /* FetchPaymentByNameUseCase.swift in Sources */,
 				1FDFC5392BB7DDE9006CE24C /* BalanceView.swift in Sources */,
-				1FDFC53C2BB7DFAC006CE24C /* TransactionsView.swift in Sources */,
+				1FDFC53C2BB7DFAC006CE24C /* PaymentsTransactionsListView.swift in Sources */,
 				1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */,
 				1FDE89372BC7AD3400FC0CC9 /* CalendarSectionView.swift in Sources */,
 				1F9983B72BE4842000B38C24 /* PaymentTransactionBase.swift in Sources */,
 				1F93A5922BC9C553006A5300 /* CalendarSectionVM.swift in Sources */,
+				1F88C36F2BE6C11F00B0DC56 /* LoadingButtonView.swift in Sources */,
 				1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */,
 				1F9983A92BE47F6E00B38C24 /* RegisterPaymentVM.swift in Sources */,
 				1F8B6D872BC24A4B0008450A /* PaymentDetailsView.swift in Sources */,

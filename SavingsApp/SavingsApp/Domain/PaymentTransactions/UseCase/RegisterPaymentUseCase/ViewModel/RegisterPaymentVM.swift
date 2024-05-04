@@ -22,16 +22,17 @@ enum PaymentCategory: String, Identifiable, CaseIterable {
 
 class RegisterPaymentVM: ObservableObject {
     
+    @Published var isLoading: Bool = false
     @Published var showSuccessRegistry:Bool = false
     @Published var showErrorOnRegistry:Bool = false
     
-    @Published private var paymentName: String = ""
-    @Published private var paymentType: String = "Income"
-    @Published private var paymentDate: Date = Date()
-    @Published private var paymentAmount: String = ""
-    @Published private var paymentLocation: String = ""
-    @Published private var paymentMemo: String = ""
-    @Published private var selectedPaymentCategory: PaymentCategory = .other
+    @Published internal var paymentName: String = ""
+    @Published internal var paymentType: String = "Income"
+    @Published internal var paymentDate: Date = Date()
+    @Published internal var paymentAmount: String = ""
+    @Published internal var paymentLocation: String = ""
+    @Published internal var paymentMemo: String = ""
+    @Published internal var selectedPaymentCategory: PaymentCategory = .other
     
     private let registerPaymentUseCase: RegisterPaymentUCProtocol
     private var paymentDTO: PaymentActivityDTO!
@@ -44,16 +45,29 @@ class RegisterPaymentVM: ObservableObject {
         registerSubject
             .flatMap { registerPaymentUseCase.savePayment(payment: self.paymentDTO) }
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                // Handle completion if needed
-            }, receiveValue: { result in
-                
+            .sink(receiveCompletion: { [weak self] completion in
+                // Handle error if needed
+                guard let self = self else { return }
+                isLoading = false
+                switch completion {
+                case .finished: 
+                    break
+                case .failure(_):
+                    self.showErrorOnRegistry.toggle()
+                }
+            }, receiveValue: { [weak self] result in
+                // Handle success
+                guard let self = self else { return }
+                isLoading = false
+                self.showSuccessRegistry.toggle()
             })
             .store(in: &cancellables)
             
     }
     
     internal func registerPayment() {
+        isLoading = true
+        
         paymentDTO = PaymentActivityDTO(id: UUID(),
                                         name: paymentName,
                                         memo: paymentMemo,
@@ -63,19 +77,10 @@ class RegisterPaymentVM: ObservableObject {
                                         typeNum: getPaymentType(paymentType: paymentType),
                                         paymentType: getPaymentCategory(selectedPaymentCategory: selectedPaymentCategory))
         registerSubject.send()
-        /*
-        self.registerPaymentUseCase.savePayment(payment: paymentDTO) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(_): self.showSuccessRegistry.toggle()
-            case .failure(_): self.showErrorOnRegistry.toggle()
-            }
-        }
-        */
     }
     
     private func getPaymentType(paymentType: String) -> Int32 {
-        return paymentType == "payment" ? 1 : 2
+        return paymentType == "Income" ? 1 : 2
     }
     
     private func getPaymentCategory(selectedPaymentCategory: PaymentCategory) -> Int32 {

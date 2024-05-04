@@ -10,13 +10,11 @@ import SwiftUI
 struct AddPaymentView: View {
     
     @Environment(\.dismiss) var dismiss
-    
     let registerPaymentUC: RegisterPaymentUCProtocol = RegisterPaymentUseCase()
     @ObservedObject private var vm = RegisterPaymentVM(registerPaymentUseCase: RegisterPaymentUseCase())
     
     var body: some View {
         VStack(spacing: 20) {
-            
             //MARK: - New Payment header section
             HStack {
                 Text("New Payment")
@@ -133,20 +131,49 @@ struct AddPaymentView: View {
             Button(action: {
                 vm.registerPayment()
             }, label: {
-                Text("Save")
-                    .frame(maxWidth: .infinity)
-                    .padding(EdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20))
-                    .foregroundStyle(Color.white)
-                    .background(Color.purple, in: Capsule())
+                if vm.isLoading {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .foregroundStyle(Color.white)
+                } else if vm.showSuccessRegistry {
+                    Image(systemName: "checkmark")
+                    Text("Success")
+                        .font(.headline)
+                        .foregroundStyle(Color.white)
+                } else if vm.showErrorOnRegistry {
+                    Image(systemName: "x.circle.fill")
+                    Text("Error")
+                        .font(.headline)
+                        .foregroundStyle(Color.white)
+                } else {
+                    Text("Save")
+                        .font(.headline)
+                        .foregroundStyle(Color.white)
+                }
             })
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(vm.isLoading || vm.showSuccessRegistry ? Color.green : Color.purple, in: Capsule())
+            .opacity(vm.showSuccessRegistry ? 0.8 : 1.0)
+            .disabled(vm.isLoading)
             .controlSize(.large)
             
             
             Spacer()
         }
+        .onAppear {
+            if vm.showErrorOnRegistry {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2,
+                                              execute: {
+                    vm.showSuccessRegistry = false
+                    vm.showErrorOnRegistry = false
+                })
+            }
+        }
         .padding()
     }
 }
+
 
 #Preview {
     AddPaymentView()
