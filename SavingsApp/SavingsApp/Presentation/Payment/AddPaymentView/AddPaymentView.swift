@@ -10,26 +10,9 @@ import SwiftUI
 struct AddPaymentView: View {
     
     @Environment(\.dismiss) var dismiss
-    @State private var paymentName: String = ""
-    @State private var paymentType: String = "Income"
-    @State private var paymentDate: Date = Date()
-    @State private var paymentAmount: String = ""
-    @State private var paymentLocation: String = ""
-    @State private var paymentMemo: String = ""
-    @State private var selectedPaymentCategory: PaymentCategory = .other
     
-    @ObservedObject private var vm = RegisterPaymentVM()
-    
-    enum PaymentCategory: String, Identifiable, CaseIterable {
-        var id: Self { self }
-        case bank = "Bank"
-        case groseries = "Groseries"
-        case rent = "Rent"
-        case loan = "Loan"
-        case taxBill = "Tax Bill"
-        case gasBill = "Gas Bill"
-        case other = "Other"
-    }
+    let registerPaymentUC: RegisterPaymentUCProtocol = RegisterPaymentUseCase()
+    @ObservedObject private var vm = RegisterPaymentVM(registerPaymentUseCase: RegisterPaymentUseCase())
     
     var body: some View {
         VStack(spacing: 20) {
@@ -75,7 +58,7 @@ struct AddPaymentView: View {
             VStack(alignment: .leading) {
                 Text("Name")
                     .bold()
-                TextField("Enter payment name", text: $paymentName)
+                TextField("Enter payment name", text: $vm.paymentName)
                     .textFieldStyle(.roundedBorder)
             }
             
@@ -83,7 +66,7 @@ struct AddPaymentView: View {
             VStack(alignment: .leading) {
                 Text("Type")
                     .bold()
-                Picker("", selection: $paymentType) {
+                Picker("", selection: $vm.paymentType) {
                     Text("Income").tag("Income")
                     Text("Expence").tag("Expence")
                 }
@@ -96,7 +79,7 @@ struct AddPaymentView: View {
                     Text("Category")
                         .bold()
                     
-                    Picker("Category", selection: $selectedPaymentCategory) {
+                    Picker("Category", selection: $vm.selectedPaymentCategory) {
                         ForEach(PaymentCategory.allCases) { category in
                             Text(category.rawValue)
                                 .tag(category)
@@ -116,7 +99,7 @@ struct AddPaymentView: View {
                     Text("Date")
                         .bold()
                     DatePicker("Today",
-                               selection: $paymentDate,
+                               selection: $vm.paymentDate,
                                displayedComponents: .date)
                     .labelsHidden()
                     .padding(.horizontal)
@@ -125,7 +108,7 @@ struct AddPaymentView: View {
                 VStack {
                     Text("Amount($)")
                         .bold()
-                    TextField("0.0", text: $paymentAmount)
+                    TextField("0.0", text: $vm.paymentAmount)
                         .textFieldStyle(.roundedBorder)
                 }
             }
@@ -134,7 +117,7 @@ struct AddPaymentView: View {
             VStack(alignment: .leading) {
                 Text("Location (optional)")
                     .bold()
-                TextField("Where do you spend?", text: $paymentLocation)
+                TextField("Where do you spend?", text: $vm.paymentLocation)
                     .textFieldStyle(.roundedBorder)
             }
             
@@ -142,13 +125,13 @@ struct AddPaymentView: View {
             VStack(alignment: .leading) {
                 Text("Memo")
                     .bold()
-                TextField("Your personal note", text: $paymentMemo)
+                TextField("Your personal note", text: $vm.paymentMemo)
                     .textFieldStyle(.roundedBorder)
             }
             
             //MARK: - Button Action Section
             Button(action: {
-                
+                vm.registerPayment()
             }, label: {
                 Text("Save")
                     .frame(maxWidth: .infinity)

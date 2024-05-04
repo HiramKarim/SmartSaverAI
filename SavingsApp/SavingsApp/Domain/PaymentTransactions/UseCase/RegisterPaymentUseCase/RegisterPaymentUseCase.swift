@@ -7,9 +7,11 @@
 
 import Foundation
 import PersistenceModule
+import Combine
 
 protocol RegisterPaymentUCProtocol {
     func savePayment(payment: PersistenceModule.PaymentActivityDTO, completion: @escaping (PaymentTransactionBase.PersistenceResult) -> Void)
+    func savePayment(payment: PersistenceModule.PaymentActivityDTO) -> Future<Void, Error>
 }
 
 class RegisterPaymentUseCase: PaymentTransactionBase {
@@ -28,6 +30,28 @@ extension RegisterPaymentUseCase: RegisterPaymentUCProtocol {
                     case .failure(let error): completion(.failure(error))
                     @unknown default:
                         fatalError("")
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension RegisterPaymentUseCase {
+    func savePayment(payment: PersistenceModule.PaymentActivityDTO) -> Future<Void, Error> {
+        Future<Void, Error> { [weak self] promise in
+            guard let self = self else { return }
+            self.concurrentQueue.async {
+                self.coreDataManager.savePayment(payment: payment) { result in
+                    DispatchQueue.main.async {
+                        switch result {
+                        case .success(_): 
+                            promise(.success(()))
+                        case .failure(let error): 
+                            promise(.failure(error!))
+                        @unknown default:
+                            fatalError("")
+                        }
                     }
                 }
             }

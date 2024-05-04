@@ -35,14 +35,14 @@ extension DeletePaymentUseCase: DeletePaymentContract {
                                 switch result {
                                 case .success(_):
                                     completion(.success(nil))
-                                case .failure(let error):
+                                case .failure(_):
                                     completion(.failure(ErrorPersistence.DeletionError))
                                 @unknown default:
                                     completion(.failure(ErrorPersistence.DeletionError))
                                 }
                             }
                         }
-                    case .failure(let error): break
+                    case .failure(_): break
                     @unknown default:
                         completion(.failure(ErrorPersistence.DeletionError))
                     }

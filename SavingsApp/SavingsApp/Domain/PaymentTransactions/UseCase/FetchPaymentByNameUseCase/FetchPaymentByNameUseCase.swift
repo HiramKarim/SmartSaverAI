@@ -31,7 +31,7 @@ extension FetchPaymentByNameUseCase: FetchPaymentByNameContract {
                             return
                         }
                         completion(.success(self.convertToDTO(payments: payments)))
-                    case .failure(let error): completion(.failure(ErrorPersistence.FetchError))
+                    case .failure(_): completion(.failure(ErrorPersistence.FetchError))
                     @unknown default:
                         fatalError("")
                     }
