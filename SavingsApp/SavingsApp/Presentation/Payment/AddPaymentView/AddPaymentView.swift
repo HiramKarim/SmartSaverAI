@@ -13,6 +13,8 @@ struct AddPaymentView: View {
     let registerPaymentUC: RegisterPaymentUCProtocol = RegisterPaymentUseCase()
     @ObservedObject private var vm = RegisterPaymentVM(registerPaymentUseCase: RegisterPaymentUseCase())
     
+    @Binding var reloadTransactionsList: Bool
+    
     var body: some View {
         VStack(spacing: 20) {
             //MARK: - New Payment header section
@@ -162,19 +164,30 @@ struct AddPaymentView: View {
             Spacer()
         }
         .onAppear {
-            if vm.showErrorOnRegistry {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2,
-                                              execute: {
-                    vm.showSuccessRegistry = false
-                    vm.showErrorOnRegistry = false
-                })
-            }
+            
         }
+        .onChange(of: vm.showSuccessRegistry, {
+            reloadTransactionsList = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2,
+                                          execute: {
+                vm.isLoading = false
+                vm.showSuccessRegistry = false
+                vm.showErrorOnRegistry = false
+                reloadTransactionsList = false
+            })
+        })
+        .onChange(of: vm.showErrorOnRegistry, {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2,
+                                          execute: {
+                vm.showSuccessRegistry = false
+                vm.showErrorOnRegistry = false
+            })
+        })
         .padding()
     }
 }
 
 
 #Preview {
-    AddPaymentView()
+    AddPaymentView(reloadTransactionsList: .constant(true))
 }

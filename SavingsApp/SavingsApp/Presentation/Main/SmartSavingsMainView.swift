@@ -11,9 +11,8 @@ import PersistenceModule
 struct SmartSavingsMainView: View {
     @State private var presentingSheet = false
     @State private var presentingPaymentDetailSheet = false
-    
-    var mockDataArray: [String] = ["Salary", "Gasoline", "Groceries", "Medicine"]
-    
+    @State private var reloadTransactionsList = false
+        
     var body: some View {
         NavigationStack {
             VStack {
@@ -21,7 +20,7 @@ struct SmartSavingsMainView: View {
                 ScrollView(showsIndicators: false) {
                     CalendarSectionView()
                     BalanceView()
-                    PaymentsTransactionsListView(presentPaymentDetail: $presentingPaymentDetailSheet)
+                    PaymentsTransactionsListView(presentPaymentDetail: $presentingPaymentDetailSheet, reloadTransactionsList: $reloadTransactionsList)
                     .sheet(isPresented: $presentingPaymentDetailSheet, content: {
                         PaymentDetailsView()
                         .padding()
@@ -55,7 +54,7 @@ struct SmartSavingsMainView: View {
                             .bold()
                     }
                     .sheet(isPresented: $presentingSheet, content: {
-                        AddPaymentView()
+                        AddPaymentView(reloadTransactionsList: $reloadTransactionsList)
                     })
                 }
             }

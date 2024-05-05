@@ -12,6 +12,7 @@ struct PaymentsTransactionsListView: View {
     @ObservedObject private var vm = FetchPaymentByDateVM(fetchPaymentsByDateUseCase: FetchPaymentByDate())
     
     @Binding var presentPaymentDetail: Bool
+    @Binding var reloadTransactionsList: Bool
     
     @State private var allButton:Bool = true
     @State private var incomeButton:Bool = false
@@ -93,10 +94,13 @@ struct PaymentsTransactionsListView: View {
         .onAppear(perform: {
             vm.fetchPayments(forMonth: 5, year: 2024, limit: nil)
         })
+        .onChange(of: reloadTransactionsList, {
+            vm.fetchPayments(forMonth: 5, year: 2024, limit: nil)
+        })
         .padding()
     }
 }
 
 #Preview {
-    PaymentsTransactionsListView(presentPaymentDetail: .constant(true))
+    PaymentsTransactionsListView(presentPaymentDetail: .constant(true), reloadTransactionsList: .constant(false))
 }
