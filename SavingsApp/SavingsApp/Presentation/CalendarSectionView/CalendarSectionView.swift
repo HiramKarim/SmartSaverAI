@@ -11,6 +11,9 @@ struct CalendarSectionView: View {
 
     @ObservedObject var vm = CalendarSectionVM()
     
+    @Binding var month: Int
+    @Binding var year: Int
+    
     enum AlterMonth: Int {
         case increase = 1
         case decrease = -1
@@ -62,9 +65,13 @@ struct CalendarSectionView: View {
         .onAppear {
             vm.getCurrentDateFormatted()
         }
+        .onChange(of: vm.dateText) {
+            self.month = vm.month
+            self.year = vm.year
+        }
     }
 }
 
 #Preview {
-    CalendarSectionView()
+    CalendarSectionView(month: .constant(1), year: .constant(1))
 }

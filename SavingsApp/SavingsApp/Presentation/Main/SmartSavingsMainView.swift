@@ -13,17 +13,22 @@ struct SmartSavingsMainView: View {
     @State private var presentingSheet = false
     @State private var presentingPaymentDetailSheet = false
     @State var dataSaved = PassthroughSubject<Void, Never>()
+    
+    @State var month: Int = 0
+    @State var year: Int = 0
         
     var body: some View {
         NavigationStack {
             VStack {
                 Divider()
                 ScrollView(showsIndicators: false) {
-                    CalendarSectionView()
+                    CalendarSectionView(month: $month, year: $year)
                     BalanceView()
                     PaymentsTransactionsListView(
                         presentPaymentDetail: $presentingPaymentDetailSheet,
-                        dataSaved: $dataSaved
+                        dataSaved: $dataSaved,
+                        month: $month,
+                        year: $year
                     )
                     .sheet(isPresented: $presentingPaymentDetailSheet, content: {
                         PaymentDetailsView()

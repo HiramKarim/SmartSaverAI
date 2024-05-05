@@ -6,14 +6,12 @@
 //
 
 import Foundation
-import PersistenceModule
 import Combine
 
 
 class FetchPaymentByDateVM: ObservableObject {
-    @Published var dataPaymentArray = [PaymentActivityDTO]()
+    @Published var dataPaymentArray = [PaymentRegistryDTO]()
     
-    private let calendar = Calendar.current
     private var cancellables = Set<AnyCancellable>()
     let fetchPaymentsByDateUseCase:FetchPaymentByDateContract
     
@@ -25,10 +23,6 @@ class FetchPaymentByDateVM: ObservableObject {
                        year: Int,
                        limit: Int?) {
         
-        let currentDate = Date()
-        let month = calendar.component(.month, from: currentDate)
-        let year = calendar.component(.year, from: currentDate)
-        
         self.fetchPaymentsByDateUseCase.fetchPayments(forMonth: month,
                                                       year: year,
                                                       limit: nil) { [weak self] result in
@@ -37,9 +31,19 @@ class FetchPaymentByDateVM: ObservableObject {
             switch result {
             case .success(let data):
                 guard let data = data else {
+                    self.dataPaymentArray = []
                     return
                 }
-                self.dataPaymentArray = data
+                self.dataPaymentArray = data.compactMap({ paymentDTO in
+                    PaymentRegistryDTO.init(id: paymentDTO.id,
+                                            name: paymentDTO.name,
+                                            memo: paymentDTO.memo,
+                                            date: paymentDTO.date,
+                                            amount: paymentDTO.amount,
+                                            address: paymentDTO.address,
+                                            typeNum: paymentDTO.typeNum,
+                                            paymentType: paymentDTO.paymentType)
+                })
             case .failure(_): break
             }
         }

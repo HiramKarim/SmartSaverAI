@@ -14,6 +14,8 @@ struct PaymentsTransactionsListView: View {
     
     @Binding var presentPaymentDetail: Bool
     @Binding var dataSaved: PassthroughSubject<Void, Never>
+    @Binding var month: Int
+    @Binding var year: Int
     
     @State private var allButton:Bool = true
     @State private var incomeButton:Bool = false
@@ -84,19 +86,22 @@ struct PaymentsTransactionsListView: View {
                     }
                     .padding()
                     .frame(maxWidth: .infinity, maxHeight: 80)
-                    .background(RoundedRectangle(cornerRadius: 20)
-                    .foregroundStyle(Color.init("low-blue", bundle: nil)))
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .foregroundStyle(Color.lightBrown)
+                    )
                     .onTapGesture {
+                        print("Se ha hecho tap en la fila \(payment)")
                         presentPaymentDetail = true
                     }
                 }
             }
         }
-        .onAppear(perform: {
-            vm.fetchPayments(forMonth: 5, year: 2024, limit: nil)
-        })
         .onReceive(dataSaved, perform: { _ in
-            vm.fetchPayments(forMonth: 5, year: 2024, limit: nil)
+            vm.fetchPayments(forMonth: month, year: year, limit: nil)
+        })
+        .onChange(of: self.month, {
+            vm.fetchPayments(forMonth: month, year: year, limit: nil)
         })
         .padding()
     }
@@ -104,5 +109,8 @@ struct PaymentsTransactionsListView: View {
 
 #Preview {
     PaymentsTransactionsListView(presentPaymentDetail: .constant(true),
-                                 dataSaved: .constant(PassthroughSubject<Void, Never>()))
+                                 dataSaved: .constant(PassthroughSubject<Void, Never>()),
+                                 month: .constant(5),
+                                 year: .constant(2024)
+    )
 }

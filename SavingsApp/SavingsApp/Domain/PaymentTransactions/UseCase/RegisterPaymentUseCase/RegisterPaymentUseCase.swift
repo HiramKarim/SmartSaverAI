@@ -10,8 +10,7 @@ import PersistenceModule
 import Combine
 
 protocol RegisterPaymentUCProtocol {
-    func savePayment(payment: PersistenceModule.PaymentActivityDTO, completion: @escaping (PaymentTransactionBase.PersistenceResult) -> Void)
-    func savePayment(payment: PersistenceModule.PaymentActivityDTO) -> Future<Void, Error>
+    func savePayment(payment: PaymentRegistryDTO) -> Future<Void, Error>
 }
 
 class RegisterPaymentUseCase: PaymentTransactionBase {
@@ -21,28 +20,21 @@ class RegisterPaymentUseCase: PaymentTransactionBase {
 }
 
 extension RegisterPaymentUseCase: RegisterPaymentUCProtocol {
-    func savePayment(payment: PersistenceModule.PaymentActivityDTO, completion: @escaping (PaymentTransactionBase.PersistenceResult) -> Void) {
-        concurrentQueue.async {
-            self.coreDataManager.savePayment(payment: payment) { result in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success(_): completion(.success(nil))
-                    case .failure(let error): completion(.failure(error))
-                    @unknown default:
-                        fatalError("")
-                    }
-                }
-            }
-        }
-    }
-}
-
-extension RegisterPaymentUseCase {
-    func savePayment(payment: PersistenceModule.PaymentActivityDTO) -> Future<Void, Error> {
-        Future<Void, Error> { [weak self] promise in
+    func savePayment(payment: PaymentRegistryDTO) -> Future<Void, Error> {
+        
+        let paymentDTO: PersistenceModule.PaymentActivityDTO = .init(id: payment.id,
+                                                                     name: payment.name,
+                                                                     memo: payment.memo,
+                                                                     date: payment.date,
+                                                                     amount: payment.amount,
+                                                                     address: payment.address,
+                                                                     typeNum: payment.typeNum,
+                                                                     paymentType: payment.paymentType)
+        
+        return Future<Void, Error> { [weak self] promise in
             guard let self = self else { return }
             self.concurrentQueue.async {
-                self.coreDataManager.savePayment(payment: payment) { result in
+                self.coreDataManager.savePayment(payment: paymentDTO) { result in
                     DispatchQueue.main.async {
                         switch result {
                         case .success(_): 

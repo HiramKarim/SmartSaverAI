@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import PersistenceModule
 import Combine
 
 enum PaymentCategory: String, Identifiable, CaseIterable {
@@ -38,7 +37,7 @@ class RegisterPaymentVM: ObservableObject {
     @Published var savedRegistryerrorSubject = PassthroughSubject<Void, Never>()
     
     private let registerPaymentUseCase: RegisterPaymentUCProtocol
-    private var paymentDTO: PaymentActivityDTO!
+    private var paymentDTO: PaymentRegistryDTO!
     
     private var registerSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
@@ -86,7 +85,7 @@ class RegisterPaymentVM: ObservableObject {
     internal func registerPayment() {
         isLoading = true
         
-        paymentDTO = PaymentActivityDTO(id: UUID(),
+        paymentDTO = PaymentRegistryDTO(id: UUID(),
                                         name: paymentName,
                                         memo: paymentMemo,
                                         date: paymentDate,
