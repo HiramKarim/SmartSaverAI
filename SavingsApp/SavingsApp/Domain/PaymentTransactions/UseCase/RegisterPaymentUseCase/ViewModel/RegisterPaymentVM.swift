@@ -34,8 +34,12 @@ class RegisterPaymentVM: ObservableObject {
     @Published internal var paymentMemo: String = ""
     @Published internal var selectedPaymentCategory: PaymentCategory = .other
     
+    @Published var savedRegistrySuccessSubject = PassthroughSubject<Void, Never>()
+    @Published var savedRegistryerrorSubject = PassthroughSubject<Void, Never>()
+    
     private let registerPaymentUseCase: RegisterPaymentUCProtocol
     private var paymentDTO: PaymentActivityDTO!
+    
     private var registerSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
     
@@ -51,18 +55,32 @@ class RegisterPaymentVM: ObservableObject {
                 isLoading = false
                 switch completion {
                 case .finished: 
-                    break
+                    self.resetData()
                 case .failure(_):
+                    self.resetData()
                     self.showErrorOnRegistry.toggle()
+                    self.savedRegistryerrorSubject.send()
                 }
             }, receiveValue: { [weak self] result in
                 // Handle success
                 guard let self = self else { return }
                 isLoading = false
+                self.resetData()
                 self.showSuccessRegistry.toggle()
+                self.savedRegistrySuccessSubject.send()
             })
             .store(in: &cancellables)
             
+    }
+    
+    private func resetData() {
+        paymentName = ""
+        paymentType = "Income"
+        paymentDate = Date()
+        paymentAmount = ""
+        paymentLocation = ""
+        paymentMemo = ""
+        selectedPaymentCategory = .other
     }
     
     internal func registerPayment() {

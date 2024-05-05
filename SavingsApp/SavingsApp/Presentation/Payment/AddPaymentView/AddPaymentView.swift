@@ -6,14 +6,14 @@
 //
 
 import SwiftUI
+import Combine
 
 struct AddPaymentView: View {
     
     @Environment(\.dismiss) var dismiss
-    let registerPaymentUC: RegisterPaymentUCProtocol = RegisterPaymentUseCase()
     @ObservedObject private var vm = RegisterPaymentVM(registerPaymentUseCase: RegisterPaymentUseCase())
     
-    @Binding var reloadTransactionsList: Bool
+    @Binding var dataSaved: PassthroughSubject<Void, Never>
     
     var body: some View {
         VStack(spacing: 20) {
@@ -139,11 +139,13 @@ struct AddPaymentView: View {
                         .foregroundStyle(Color.white)
                 } else if vm.showSuccessRegistry {
                     Image(systemName: "checkmark")
+                        .foregroundStyle(Color.white)
                     Text("Success")
                         .font(.headline)
                         .foregroundStyle(Color.white)
                 } else if vm.showErrorOnRegistry {
                     Image(systemName: "x.circle.fill")
+                        .foregroundStyle(Color.red)
                     Text("Error")
                         .font(.headline)
                         .foregroundStyle(Color.white)
@@ -166,14 +168,15 @@ struct AddPaymentView: View {
         .onAppear {
             
         }
+        .onReceive(vm.savedRegistrySuccessSubject, perform: { _ in
+            self.dataSaved.send()
+        })
         .onChange(of: vm.showSuccessRegistry, {
-            reloadTransactionsList = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 2,
                                           execute: {
                 vm.isLoading = false
                 vm.showSuccessRegistry = false
                 vm.showErrorOnRegistry = false
-                reloadTransactionsList = false
             })
         })
         .onChange(of: vm.showErrorOnRegistry, {
@@ -189,5 +192,5 @@ struct AddPaymentView: View {
 
 
 #Preview {
-    AddPaymentView(reloadTransactionsList: .constant(true))
+    AddPaymentView(dataSaved: .constant(PassthroughSubject<Void, Never>()))
 }

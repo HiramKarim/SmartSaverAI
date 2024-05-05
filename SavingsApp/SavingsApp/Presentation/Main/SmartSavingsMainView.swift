@@ -7,11 +7,12 @@
 
 import SwiftUI
 import PersistenceModule
+import Combine
 
 struct SmartSavingsMainView: View {
     @State private var presentingSheet = false
     @State private var presentingPaymentDetailSheet = false
-    @State private var reloadTransactionsList = false
+    @State var dataSaved = PassthroughSubject<Void, Never>()
         
     var body: some View {
         NavigationStack {
@@ -20,7 +21,10 @@ struct SmartSavingsMainView: View {
                 ScrollView(showsIndicators: false) {
                     CalendarSectionView()
                     BalanceView()
-                    PaymentsTransactionsListView(presentPaymentDetail: $presentingPaymentDetailSheet, reloadTransactionsList: $reloadTransactionsList)
+                    PaymentsTransactionsListView(
+                        presentPaymentDetail: $presentingPaymentDetailSheet,
+                        dataSaved: $dataSaved
+                    )
                     .sheet(isPresented: $presentingPaymentDetailSheet, content: {
                         PaymentDetailsView()
                         .padding()
@@ -54,7 +58,7 @@ struct SmartSavingsMainView: View {
                             .bold()
                     }
                     .sheet(isPresented: $presentingSheet, content: {
-                        AddPaymentView(reloadTransactionsList: $reloadTransactionsList)
+                        AddPaymentView(dataSaved: $dataSaved)
                     })
                 }
             }

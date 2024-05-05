@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import Combine
 
 struct PaymentsTransactionsListView: View {
     
     @ObservedObject private var vm = FetchPaymentByDateVM(fetchPaymentsByDateUseCase: FetchPaymentByDate())
     
     @Binding var presentPaymentDetail: Bool
-    @Binding var reloadTransactionsList: Bool
+    @Binding var dataSaved: PassthroughSubject<Void, Never>
     
     @State private var allButton:Bool = true
     @State private var incomeButton:Bool = false
@@ -94,7 +95,7 @@ struct PaymentsTransactionsListView: View {
         .onAppear(perform: {
             vm.fetchPayments(forMonth: 5, year: 2024, limit: nil)
         })
-        .onChange(of: reloadTransactionsList, {
+        .onReceive(dataSaved, perform: { _ in
             vm.fetchPayments(forMonth: 5, year: 2024, limit: nil)
         })
         .padding()
@@ -102,5 +103,6 @@ struct PaymentsTransactionsListView: View {
 }
 
 #Preview {
-    PaymentsTransactionsListView(presentPaymentDetail: .constant(true), reloadTransactionsList: .constant(false))
+    PaymentsTransactionsListView(presentPaymentDetail: .constant(true),
+                                 dataSaved: .constant(PassthroughSubject<Void, Never>()))
 }
