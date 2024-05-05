@@ -7,13 +7,19 @@
 
 import Foundation
 
+enum DateFormat:String {
+    case monthAndYear = "MMMM, YYYY"
+    case fullDate = "dd MMMM yyyy"
+}
+
 extension Date {
     
-    func convertToString() -> String {
+    func convertToString(withFormat format: DateFormat = .monthAndYear) -> String {
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM, YYYY"
+        formatter.dateFormat = format.rawValue
         formatter.locale = .current
+        formatter.timeZone = .current
         
         return formatter.string(from: self)
     }

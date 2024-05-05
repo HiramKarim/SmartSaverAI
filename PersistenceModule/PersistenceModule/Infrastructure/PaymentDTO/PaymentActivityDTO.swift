@@ -7,15 +7,15 @@
 
 import Foundation
 
-public struct PaymentActivityDTO {
-    let id:UUID
-    let name:String
-    let memo:String?
-    let date:Date
-    let amount:Double
-    let address:String?
-    let typeNum:Int32
-    let paymentType:Int32
+public struct PaymentActivityDTO: Hashable {
+    public let id:UUID
+    public var name:String
+    public var memo:String?
+    public var date:Date
+    public var amount:Double
+    public var address:String?
+    public var typeNum:Int32
+    public var paymentType:Int32
     
     public init(id: UUID, 
                 name: String,

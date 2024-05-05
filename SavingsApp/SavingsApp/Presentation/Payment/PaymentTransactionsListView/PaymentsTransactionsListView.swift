@@ -9,16 +9,13 @@ import SwiftUI
 
 struct PaymentsTransactionsListView: View {
     
-    var mockDataArray: [String] = [""]
+    @ObservedObject private var vm = FetchPaymentByDateVM(fetchPaymentsByDateUseCase: FetchPaymentByDate())
+    
     @Binding var presentPaymentDetail: Bool
     
     @State private var allButton:Bool = true
     @State private var incomeButton:Bool = false
     @State private var expenceButton:Bool = false
-    
-    private func handleButtonsColor(buttonState:Bool) {
-        
-    }
     
     var body: some View {
         VStack {
@@ -63,27 +60,28 @@ struct PaymentsTransactionsListView: View {
             .padding(.leading, 0)
             .padding(.bottom, 10)
             
-            LazyVStack(spacing: 20) {
-                ForEach(mockDataArray, id: \.self) { data in
-                    HStack(spacing: 20) {
-                        Image(systemName: "arrowtriangle.up.circle")
+            LazyVStack(spacing: 10) {
+                ForEach($vm.dataPaymentArray, id: \.self) { payment in
+                    HStack(spacing: 10) {
+                        Image(systemName: payment.typeNum.wrappedValue == 2 ? "arrowtriangle.down.circle" : "arrowtriangle.up.circle")
                             .resizable()
-                            .frame(width: 50, height: 50)
-                            .foregroundStyle(Color.green)
+                            .frame(width: 30, height: 30)
+                            .foregroundStyle(payment.typeNum.wrappedValue == 2 ? Color.red : Color.green)
                         VStack(alignment: .leading, spacing: 10) {
-                            Text(data)
-                                .font(.headline)
-                            Text("Yesterday, 4:15 pm")
+                            Text(payment.name.wrappedValue)
+                                .lineLimit(2)
+                                .font(.callout)
+                            Text(payment.date.wrappedValue.convertToString(withFormat: .fullDate))
                                 .font(.callout)
                                 .foregroundStyle(Color.gray)
                         }
                         .padding()
                         Spacer()
-                        Text("$0")
+                        Text("\(payment.amount.wrappedValue, specifier: "%.2f")")
                             .font(.headline)
                     }
                     .padding()
-                    .frame(width: .infinity, height: 80)
+                    .frame(maxWidth: .infinity, maxHeight: 80)
                     .background(RoundedRectangle(cornerRadius: 20)
                     .foregroundStyle(Color.init("low-blue", bundle: nil)))
                     .onTapGesture {
@@ -91,8 +89,10 @@ struct PaymentsTransactionsListView: View {
                     }
                 }
             }
-            .frame(width: .infinity)
         }
+        .onAppear(perform: {
+            vm.fetchPayments(forMonth: 5, year: 2024, limit: nil)
+        })
         .padding()
     }
 }

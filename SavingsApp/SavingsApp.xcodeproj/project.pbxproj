@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F88C36F2BE6C11F00B0DC56 /* LoadingButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88C36E2BE6C11F00B0DC56 /* LoadingButtonView.swift */; };
+		1F88C3732BE6E07C00B0DC56 /* FetchPaymentByDateVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88C3722BE6E07C00B0DC56 /* FetchPaymentByDateVM.swift */; };
 		1F8B6D872BC24A4B0008450A /* PaymentDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B6D862BC24A4B0008450A /* PaymentDetailsView.swift */; };
 		1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1BFC2BB65DB4001286DF /* SavingsAppApp.swift */; };
 		1F8D1C012BB65DB5001286DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F8D1C002BB65DB5001286DF /* Assets.xcassets */; };
@@ -105,6 +106,7 @@
 
 /* Begin PBXFileReference section */
 		1F88C36E2BE6C11F00B0DC56 /* LoadingButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButtonView.swift; sourceTree = "<group>"; };
+		1F88C3722BE6E07C00B0DC56 /* FetchPaymentByDateVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPaymentByDateVM.swift; sourceTree = "<group>"; };
 		1F8B6D862BC24A4B0008450A /* PaymentDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetailsView.swift; sourceTree = "<group>"; };
 		1F8D1BF92BB65DB4001286DF /* SavingsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SavingsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8D1BFC2BB65DB4001286DF /* SavingsAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsAppApp.swift; sourceTree = "<group>"; };
@@ -202,6 +204,14 @@
 				1F88C36E2BE6C11F00B0DC56 /* LoadingButtonView.swift */,
 			);
 			path = LoadingButton;
+			sourceTree = "<group>";
+		};
+		1F88C3702BE6E06800B0DC56 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1F88C3722BE6E07C00B0DC56 /* FetchPaymentByDateVM.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		1F8B6D852BC24A170008450A /* PaymentDetailsView */ = {
@@ -347,6 +357,7 @@
 		1F9983AC2BE4828100B38C24 /* FetchPaymentByDateUseCase */ = {
 			isa = PBXGroup;
 			children = (
+				1F88C3702BE6E06800B0DC56 /* ViewModel */,
 				1F9983B22BE4832100B38C24 /* FetchPaymentByDateUseCase.swift */,
 			);
 			path = FetchPaymentByDateUseCase;
@@ -724,6 +735,7 @@
 				1F9983B72BE4842000B38C24 /* PaymentTransactionBase.swift in Sources */,
 				1F93A5922BC9C553006A5300 /* CalendarSectionVM.swift in Sources */,
 				1F88C36F2BE6C11F00B0DC56 /* LoadingButtonView.swift in Sources */,
+				1F88C3732BE6E07C00B0DC56 /* FetchPaymentByDateVM.swift in Sources */,
 				1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */,
 				1F9983A92BE47F6E00B38C24 /* RegisterPaymentVM.swift in Sources */,
 				1F8B6D872BC24A4B0008450A /* PaymentDetailsView.swift in Sources */,
