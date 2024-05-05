@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct BalanceView: View {
+    
+    @Binding var totalBalance: Double
+    @Binding var totalIncome: Double
+    @Binding var totalExpence: Double
+    
     var body: some View {
         VStack {
             ViewThatFits(in: .vertical) {
@@ -18,7 +23,7 @@ struct BalanceView: View {
                         Text("Total Balance")
                             .font(.system(size: 30))
                             .foregroundStyle(Color.gray)
-                        Text("$0")
+                        Text("\(totalBalance, specifier: "%.2f")")
                             .font(.system(size: 70))
                             .foregroundStyle(Color.init("black-color", bundle: nil))
                     }
@@ -37,11 +42,11 @@ struct BalanceView: View {
                         VStack(spacing: 10) {
                             Text("Income")
                                 .foregroundStyle(Color.gray)
-                            Text("$0")
+                            Text("\(totalIncome, specifier: "%.2f")")
                                 .foregroundStyle(Color.init("black-color", bundle: nil))
                         }
                         .bold()
-                        .font(.system(size: 30))
+                        .font(.system(size: 20))
                     )
                     .frame(width: 150, height: 130)
                 }
@@ -54,11 +59,11 @@ struct BalanceView: View {
                         VStack(spacing: 10) {
                             Text("Expense")
                                 .foregroundStyle(Color.gray)
-                            Text("$0")
+                            Text("\(totalExpence, specifier: "%.2f")")
                                 .foregroundStyle(Color.init("black-color", bundle: nil))
                         }
                         .bold()
-                        .font(.system(size: 30))
+                        .font(.system(size: 20))
 
                     )
                     .frame(width: 150, height: 130)
@@ -71,5 +76,7 @@ struct BalanceView: View {
 }
 
 #Preview {
-    BalanceView()
+    BalanceView(totalBalance: .constant(0.0),
+                totalIncome: .constant(0.0),
+                totalExpence: .constant(0.0))
 }

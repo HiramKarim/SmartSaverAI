@@ -16,6 +16,10 @@ struct SmartSavingsMainView: View {
     
     @State var month: Int = 0
     @State var year: Int = 0
+    
+    @State var totalBalance: Double = 0
+    @State var totalIncome: Double = 0
+    @State var totalExpence: Double = 0
         
     var body: some View {
         NavigationStack {
@@ -23,12 +27,17 @@ struct SmartSavingsMainView: View {
                 Divider()
                 ScrollView(showsIndicators: false) {
                     CalendarSectionView(month: $month, year: $year)
-                    BalanceView()
+                    BalanceView(totalBalance: $totalBalance,
+                                totalIncome: $totalIncome,
+                                totalExpence: $totalExpence)
                     PaymentsTransactionsListView(
                         presentPaymentDetail: $presentingPaymentDetailSheet,
                         dataSaved: $dataSaved,
                         month: $month,
-                        year: $year
+                        year: $year,
+                        totalBalance: $totalBalance,
+                        totalIncome: $totalIncome,
+                        totalExpence: $totalExpence
                     )
                     .sheet(isPresented: $presentingPaymentDetailSheet, content: {
                         PaymentDetailsView()

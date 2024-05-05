@@ -290,9 +290,33 @@
 			path = SavingsAppUITests;
 			sourceTree = "<group>";
 		};
+		1F9125D52BE84C0F00A225AE /* BalanceProfit */ = {
+			isa = PBXGroup;
+			children = (
+				1F9125D72BE84C2500A225AE /* UseCase */,
+				1F9125D62BE84C1D00A225AE /* ViewModel */,
+			);
+			path = BalanceProfit;
+			sourceTree = "<group>";
+		};
+		1F9125D62BE84C1D00A225AE /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		1F9125D72BE84C2500A225AE /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
 		1F93A58D2BC9C3F3006A5300 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				1F9125D52BE84C0F00A225AE /* BalanceProfit */,
 				1FF19A122BE2EFB600324E56 /* PaymentTransactions */,
 				1F93A58E2BC9C3FC006A5300 /* CalendarSection */,
 			);

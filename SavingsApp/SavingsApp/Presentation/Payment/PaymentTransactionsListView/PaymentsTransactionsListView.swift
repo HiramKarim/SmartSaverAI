@@ -17,6 +17,10 @@ struct PaymentsTransactionsListView: View {
     @Binding var month: Int
     @Binding var year: Int
     
+    @Binding var totalBalance: Double
+    @Binding var totalIncome: Double
+    @Binding var totalExpence: Double
+    
     @State private var allButton:Bool = true
     @State private var incomeButton:Bool = false
     @State private var expenceButton:Bool = false
@@ -103,6 +107,11 @@ struct PaymentsTransactionsListView: View {
         .onChange(of: self.month, {
             vm.fetchPayments(forMonth: month, year: year, limit: nil)
         })
+        .onChange(of: self.vm.totalBalance, { oldValue, newValue in
+            self.totalBalance = vm.totalBalance
+            self.totalExpence = vm.totalExpence
+            self.totalIncome = vm.totalIncome
+        })
         .padding()
     }
 }
@@ -111,6 +120,9 @@ struct PaymentsTransactionsListView: View {
     PaymentsTransactionsListView(presentPaymentDetail: .constant(true),
                                  dataSaved: .constant(PassthroughSubject<Void, Never>()),
                                  month: .constant(5),
-                                 year: .constant(2024)
+                                 year: .constant(2024),
+                                 totalBalance: .constant(0.0),
+                                 totalIncome: .constant(0.0),
+                                 totalExpence: .constant(0.0)
     )
 }
