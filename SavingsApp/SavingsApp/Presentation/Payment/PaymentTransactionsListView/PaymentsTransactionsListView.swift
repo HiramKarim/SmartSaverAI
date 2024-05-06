@@ -16,10 +16,10 @@ struct PaymentsTransactionsListView: View {
     @Binding var dataSaved: PassthroughSubject<Void, Never>
     @Binding var month: Int
     @Binding var year: Int
-    
     @Binding var totalBalance: Double
     @Binding var totalIncome: Double
     @Binding var totalExpence: Double
+    @Binding var paymentTransactionSubject: PaymentRegistryDTO
     
     @State private var allButton:Bool = true
     @State private var incomeButton:Bool = false
@@ -95,8 +95,8 @@ struct PaymentsTransactionsListView: View {
                             .foregroundStyle(Color.lightBrown)
                     )
                     .onTapGesture {
-                        print("Se ha hecho tap en la fila \(payment)")
                         presentPaymentDetail = true
+                        paymentTransactionSubject = payment.wrappedValue
                     }
                 }
             }
@@ -117,12 +117,14 @@ struct PaymentsTransactionsListView: View {
 }
 
 #Preview {
-    PaymentsTransactionsListView(presentPaymentDetail: .constant(true),
-                                 dataSaved: .constant(PassthroughSubject<Void, Never>()),
-                                 month: .constant(5),
-                                 year: .constant(2024),
-                                 totalBalance: .constant(0.0),
-                                 totalIncome: .constant(0.0),
-                                 totalExpence: .constant(0.0)
+    PaymentsTransactionsListView(
+        presentPaymentDetail: .constant(true),
+        dataSaved: .constant(PassthroughSubject<Void, Never>()),
+        month: .constant(5),
+        year: .constant(2024),
+        totalBalance: .constant(0.0),
+        totalIncome: .constant(0.0),
+        totalExpence: .constant(0.0),
+        paymentTransactionSubject: .constant(PaymentRegistryDTO())
     )
 }

@@ -17,14 +17,14 @@ public struct PaymentRegistryDTO: Hashable {
     public var typeNum:Int32
     public var paymentType:Int32
     
-    public init(id: UUID,
-                name: String,
-                memo: String?,
-                date: Date,
-                amount: Double,
-                address: String?,
-                typeNum: Int32,
-                paymentType:Int32) {
+    public init(id: UUID = UUID(),
+                name: String = "",
+                memo: String? = "",
+                date: Date = Date(),
+                amount: Double = 0.0,
+                address: String? = "",
+                typeNum: Int32 = 2,
+                paymentType:Int32 = 1) {
         self.id = id
         self.name = name
         self.memo = memo

@@ -6,8 +6,14 @@
 //
 
 import SwiftUI
+import Combine
 
 struct PaymentDetailsView: View {
+    
+    @Binding var paymentTransactionSubject: PaymentRegistryDTO
+    
+    @ObservedObject var paymentDetailsVM = PaymentDetailsVM()
+    
     var body: some View {
         VStack {
             HStack(spacing: 20) {
@@ -15,30 +21,30 @@ struct PaymentDetailsView: View {
                     .font(.title)
                     .bold()
                 Spacer()
-                Image(systemName: "arrowtriangle.down.circle.fill")
+                Image(systemName: paymentDetailsVM.paymentType == 2 ? "arrowtriangle.down.circle.fill" : "arrowtriangle.up.circle.fill")
                     .resizable()
                     .frame(width: 30, height: 30)
-                    .foregroundStyle(Color.red)
+                    .foregroundStyle(paymentDetailsVM.paymentType == 2 ? Color.red : Color.green)
             }
             
             VStack(alignment: .leading, spacing: 10) {
                 
                 HStack(spacing: 20) {
-                    Text("Movie tickets")
+                    Text(paymentDetailsVM.name)
                         .font(.title2)
                     
                     Spacer()
                     
-                    Text("-49.99")
+                    Text(paymentDetailsVM.paymentType == 2 ? "-\(paymentDetailsVM.amount, specifier: "%.2f")" : "\(paymentDetailsVM.amount, specifier: "%.2f")")
                         .font(.title)
                         .bold()
-                        .foregroundStyle(Color.red)
+                        .foregroundStyle(paymentDetailsVM.paymentType == 2 ? Color.red : Color.green)
                 }
                 
-                Text("08 Jul 2024")
+                Text(paymentDetailsVM.date.convertToString(withFormat: .fullDate))
                     .font(.subheadline)
                 
-                Text("Some address to display but with large text")
+                Text(paymentDetailsVM.location)
                     .font(.subheadline)
                     .lineLimit(2)
                 
@@ -49,7 +55,7 @@ struct PaymentDetailsView: View {
                         .font(.headline)
                         .bold()
                     
-                    Text("Some memo info here")
+                    Text(paymentDetailsVM.memo)
                         .font(.subheadline)
                 }
                 
@@ -60,9 +66,12 @@ struct PaymentDetailsView: View {
             Spacer()
         }
         .padding()
+        .onAppear(perform: {
+            self.paymentDetailsVM.updateView(withPayment: paymentTransactionSubject)
+        })
     }
 }
 
 #Preview {
-    PaymentDetailsView()
+    PaymentDetailsView(paymentTransactionSubject: .constant(PaymentRegistryDTO()))
 }
