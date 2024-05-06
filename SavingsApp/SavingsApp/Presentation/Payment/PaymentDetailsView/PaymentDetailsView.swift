@@ -36,7 +36,7 @@ struct PaymentDetailsView: View {
                     Spacer()
                     
                     Text(paymentDetailsVM.paymentType == 2 ? "-\(paymentDetailsVM.amount, specifier: "%.2f")" : "\(paymentDetailsVM.amount, specifier: "%.2f")")
-                        .font(.title)
+                        .font(.title2)
                         .bold()
                         .foregroundStyle(paymentDetailsVM.paymentType == 2 ? Color.red : Color.green)
                 }

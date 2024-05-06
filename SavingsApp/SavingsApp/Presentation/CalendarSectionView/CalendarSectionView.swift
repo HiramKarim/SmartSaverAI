@@ -56,11 +56,11 @@ struct CalendarSectionView: View {
                     .foregroundStyle(Color.init("black-color", bundle: nil))
             }
         }
-        .frame(width: 320)
+        .frame(width: 250)
         .padding()
         .background(
                 Capsule()
-                    .foregroundStyle(Color.init("low-blue", bundle: nil))
+                    .foregroundStyle(Color.lightBrown)
         )
         .onAppear {
             vm.getCurrentDateFormatted()
