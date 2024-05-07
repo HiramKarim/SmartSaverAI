@@ -488,6 +488,7 @@
 		1FDFC5322BB76908006CE24C /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				1FDFC5372BB7DDC0006CE24C /* BalanceView */,
 				1FDE89352BC7943300FC0CC9 /* CalendarSectionView */,
 				1FDFC5362BB77220006CE24C /* Payment */,
 				1FDFC5332BB76926006CE24C /* Main */,
@@ -498,7 +499,6 @@
 		1FDFC5332BB76926006CE24C /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				1FDFC5372BB7DDC0006CE24C /* BalanceView */,
 				1FDFC5342BB76947006CE24C /* SmartSavingsMainView.swift */,
 			);
 			path = Main;
