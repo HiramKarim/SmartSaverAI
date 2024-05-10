@@ -60,8 +60,20 @@ struct PaymentDetailsView: View {
                 }
                 
                 Divider()
+                
+                //MARK: - Button Action Section
+                Button(action: {
+                    
+                }, label: {
+                    Text("Delete")
+                        .bold()
+                        .foregroundStyle(Color.white)
+                })
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: 50)
+                .background(Color.red, in: Capsule())
+                .controlSize(.large)
             }
-            
             
             Spacer()
         }
