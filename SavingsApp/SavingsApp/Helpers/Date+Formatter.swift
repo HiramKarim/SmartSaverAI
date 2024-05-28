@@ -15,12 +15,10 @@ enum DateFormat:String {
 extension Date {
     
     func convertToString(withFormat format: DateFormat = .monthAndYear) -> String {
-        
         let formatter = DateFormatter()
         formatter.dateFormat = format.rawValue
         formatter.locale = .current
         formatter.timeZone = .current
-        
         return formatter.string(from: self)
     }
     
@@ -28,7 +26,8 @@ extension Date {
         var dateComponent = DateComponents()
         dateComponent.month = numberOfMonths
         let futureDate  = Calendar.current.date(byAdding: dateComponent, to: self)
-        
         return (futureDate?.convertToString() ?? "", futureDate)
     }
 }
+
+

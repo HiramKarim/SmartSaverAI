@@ -19,7 +19,7 @@ class CalendarSectionVM: ObservableObject {
     var year: Int = 1
     
     internal func getCurrentDateFormatted() {
-        dateText = currentDate.convertToString()
+        self.dateText = currentDate.convertToString()
         self.getCurrentDate()
     }
     
@@ -27,6 +27,15 @@ class CalendarSectionVM: ObservableObject {
         let (newText, newDate) = self.currentDate.alterCurrentDateInMonth(using: numberOfMonths)
         self.dateText = newText
         self.currentDate = newDate!
+        self.getCurrentDate()
+    }
+    
+    internal func convertDateSelectedOf(month:String, andYear year:String) {
+        self.dateText = "\(month), \(year)"
+        guard let currentDate = dateText.convertToDate() else {
+            return
+        }
+        self.currentDate = currentDate
         self.getCurrentDate()
     }
     
