@@ -8,7 +8,7 @@
 import Foundation
 
 enum DateFormat:String {
-    case monthAndYear = "MMMM, YYYY"
+    case monthAndYear = "MMMM, yyyy"
     case fullDate = "dd MMMM yyyy"
 }
 

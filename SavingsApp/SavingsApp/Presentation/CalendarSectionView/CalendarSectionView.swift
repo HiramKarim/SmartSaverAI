@@ -90,20 +90,16 @@ struct CalendarSectionView: View {
                                 
                                 HStack {
                                     Picker("Name", selection: $monthSelected) {
-                                        Text("January").tag("January")
-                                        Text("February").tag("February")
-                                        Text("March").tag("March")
-                                        Text("April").tag("April")
-                                        Text("May").tag("May")
+                                        ForEach(vm.getMonths(), id: \.self) { month in
+                                            Text(month).tag(month)
+                                        }
                                     }
                                     .pickerStyle(.wheel)
                                     
                                     Picker("Name", selection: $yearSelected) {
-                                        Text("2000").tag("2000")
-                                        Text("2001").tag("2001")
-                                        Text("2002").tag("2002")
-                                        Text("2003").tag("2003")
-                                        Text("2004").tag("2004")
+                                        ForEach(vm.getRangeOfYear(), id: \.self) { year in
+                                            Text(String(year)).tag(String(year))
+                                        }
                                     }
                                     .pickerStyle(.wheel)
                                 }

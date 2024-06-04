@@ -39,6 +39,34 @@ class CalendarSectionVM: ObservableObject {
         self.getCurrentDate()
     }
     
+    internal func getMonths() 
+    -> [String] {
+        return [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "November",
+            "December"
+        ]
+    }
+    
+    internal func getRangeOfYear()
+    -> [Int] {
+        var sequence = [Int]()
+        
+        for number in stride(from: 1900, through: 2100, by: 1) {
+            sequence.append(number)
+        }
+        
+        return sequence
+    }
+    
     private func getCurrentDate() {
         self.month = calendar.component(.month, from: currentDate)
         self.year = calendar.component(.year, from: currentDate)

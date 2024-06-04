@@ -16,6 +16,7 @@
 		1F8D1C0E2BB65DB5001286DF /* SavingsAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C0D2BB65DB5001286DF /* SavingsAppTests.swift */; };
 		1F8D1C182BB65DB5001286DF /* SavingsAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C172BB65DB5001286DF /* SavingsAppUITests.swift */; };
 		1F8D1C1A2BB65DB5001286DF /* SavingsAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C192BB65DB5001286DF /* SavingsAppUITestsLaunchTests.swift */; };
+		1F8EC0382C0E3E2600EEC352 /* CalendarSectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8EC0372C0E3E2600EEC352 /* CalendarSectionTests.swift */; };
 		1F9125D42BE8306300A225AE /* PaymentRegistryDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9125D32BE8306300A225AE /* PaymentRegistryDTO.swift */; };
 		1F9125DC2BE871A500A225AE /* PaymentDetailsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9125DB2BE871A400A225AE /* PaymentDetailsVM.swift */; };
 		1F93A5922BC9C553006A5300 /* CalendarSectionVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F93A5912BC9C553006A5300 /* CalendarSectionVM.swift */; };
@@ -120,6 +121,8 @@
 		1F8D1C132BB65DB5001286DF /* SavingsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SavingsAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8D1C172BB65DB5001286DF /* SavingsAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsAppUITests.swift; sourceTree = "<group>"; };
 		1F8D1C192BB65DB5001286DF /* SavingsAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1F8EC0372C0E3E2600EEC352 /* CalendarSectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSectionTests.swift; sourceTree = "<group>"; };
+		1F8EC0392C0E411200EEC352 /* SavingsAppTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = SavingsAppTests.xctestplan; path = ../../../SavingsAppTests.xctestplan; sourceTree = "<group>"; };
 		1F9125D32BE8306300A225AE /* PaymentRegistryDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentRegistryDTO.swift; sourceTree = "<group>"; };
 		1F9125DB2BE871A400A225AE /* PaymentDetailsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetailsVM.swift; sourceTree = "<group>"; };
 		1F93A5912BC9C553006A5300 /* CalendarSectionVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSectionVM.swift; sourceTree = "<group>"; };
@@ -280,6 +283,8 @@
 		1F8D1C0C2BB65DB5001286DF /* SavingsAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				1F8EC0392C0E411200EEC352 /* SavingsAppTests.xctestplan */,
+				1F8EC0362C0E3DD700EEC352 /* CalendarSection */,
 				1F8D1C0D2BB65DB5001286DF /* SavingsAppTests.swift */,
 			);
 			path = SavingsAppTests;
@@ -292,6 +297,14 @@
 				1F8D1C192BB65DB5001286DF /* SavingsAppUITestsLaunchTests.swift */,
 			);
 			path = SavingsAppUITests;
+			sourceTree = "<group>";
+		};
+		1F8EC0362C0E3DD700EEC352 /* CalendarSection */ = {
+			isa = PBXGroup;
+			children = (
+				1F8EC0372C0E3E2600EEC352 /* CalendarSectionTests.swift */,
+			);
+			path = CalendarSection;
 			sourceTree = "<group>";
 		};
 		1F9125D52BE84C0F00A225AE /* BalanceProfit */ = {
@@ -812,6 +825,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F8D1C0E2BB65DB5001286DF /* SavingsAppTests.swift in Sources */,
+				1F8EC0382C0E3E2600EEC352 /* CalendarSectionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
