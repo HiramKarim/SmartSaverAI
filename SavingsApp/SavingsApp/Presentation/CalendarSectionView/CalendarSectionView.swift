@@ -41,7 +41,7 @@ struct CalendarSectionView: View {
                     .font(.headline)
                     .foregroundStyle(Color.init("black-color", bundle: nil))
                     .onTapGesture {
-                        showDateCarousell = true
+                        //showDateCarousell = true
                     }
                 
                 Spacer()
