@@ -14,6 +14,7 @@ struct SmartSavingsMainView: View {
     @State private var presentingPaymentDetailSheet = false
     @State var dataSaved = PassthroughSubject<Void, Never>()
     @State var paymentTransactionSubject = PaymentRegistryDTO()
+    @State var shouldRefreshList = false
     
     @State var month: Int = 0
     @State var year: Int = 0
@@ -39,11 +40,13 @@ struct SmartSavingsMainView: View {
                         totalBalance: $totalBalance,
                         totalIncome: $totalIncome,
                         totalExpence: $totalExpence, 
-                        paymentTransactionSubject: $paymentTransactionSubject
+                        paymentTransactionSubject: $paymentTransactionSubject, 
+                        shouldRefreshList: $shouldRefreshList
                     )
                     .sheet(isPresented: $presentingPaymentDetailSheet, 
                            content: {
-                        PaymentDetailsView(paymentTransactionSubject: $paymentTransactionSubject)
+                        PaymentDetailsView(paymentTransactionSubject: $paymentTransactionSubject,                              shouldRefreshList: $shouldRefreshList, 
+                                           presentPaymentDetail: $presentingPaymentDetailSheet)
                         .padding()
                         .presentationDetents([.fraction(0.75), .height(400)])
                     })

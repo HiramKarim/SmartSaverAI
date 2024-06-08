@@ -12,7 +12,10 @@ struct PaymentDetailsView: View {
     
     @Binding var paymentTransactionSubject: PaymentRegistryDTO
     
-    @ObservedObject var paymentDetailsVM = PaymentDetailsVM()
+    @Binding var shouldRefreshList: Bool
+    @Binding var presentPaymentDetail: Bool
+    
+    @ObservedObject var paymentDetailsVM = PaymentDetailsVM(deleteUseCase: DeletePaymentUseCase())
     
     var body: some View {
         VStack {
@@ -63,7 +66,7 @@ struct PaymentDetailsView: View {
                 
                 //MARK: - Button Action Section
                 Button(action: {
-                    
+                    self.paymentDetailsVM.deletePayment()
                 }, label: {
                     Text("Delete")
                         .bold()
@@ -81,9 +84,18 @@ struct PaymentDetailsView: View {
         .onAppear(perform: {
             self.paymentDetailsVM.updateView(withPayment: paymentTransactionSubject)
         })
+        .onChange(of: paymentDetailsVM.showError) { oldValue, newValue in
+            presentPaymentDetail = false
+        }
+        .onChange(of: paymentDetailsVM.paymentDeleted) { oldValue, newValue in
+            shouldRefreshList = true
+            presentPaymentDetail = false
+        }
     }
 }
 
 #Preview {
-    PaymentDetailsView(paymentTransactionSubject: .constant(PaymentRegistryDTO()))
+    PaymentDetailsView(paymentTransactionSubject: .constant(PaymentRegistryDTO()), 
+                       shouldRefreshList: .constant(false), 
+                       presentPaymentDetail: .constant(false))
 }

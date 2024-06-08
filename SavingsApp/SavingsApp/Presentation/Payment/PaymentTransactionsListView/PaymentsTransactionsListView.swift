@@ -20,6 +20,7 @@ struct PaymentsTransactionsListView: View {
     @Binding var totalIncome: Double
     @Binding var totalExpence: Double
     @Binding var paymentTransactionSubject: PaymentRegistryDTO
+    @Binding var shouldRefreshList: Bool
     
     @State private var allButton:Bool = true
     @State private var incomeButton:Bool = false
@@ -107,6 +108,9 @@ struct PaymentsTransactionsListView: View {
         .onChange(of: self.month, {
             vm.fetchPayments(forMonth: month, year: year, limit: nil)
         })
+        .onChange(of: shouldRefreshList, {
+            vm.fetchPayments(forMonth: month, year: year, limit: nil)
+        })
         .onChange(of: self.vm.totalBalance, { oldValue, newValue in
             self.totalBalance = vm.totalBalance
             self.totalExpence = vm.totalExpence
@@ -125,6 +129,7 @@ struct PaymentsTransactionsListView: View {
         totalBalance: .constant(0.0),
         totalIncome: .constant(0.0),
         totalExpence: .constant(0.0),
-        paymentTransactionSubject: .constant(PaymentRegistryDTO())
+        paymentTransactionSubject: .constant(PaymentRegistryDTO()), 
+        shouldRefreshList: .constant(true)
     )
 }
