@@ -20,7 +20,7 @@ struct PaymentsTransactionsListView: View {
     @Binding var totalIncome: Double
     @Binding var totalExpence: Double
     @Binding var paymentTransactionSubject: PaymentRegistryDTO
-    @Binding var shouldRefreshList: Bool
+    @Binding var shouldRefreshList: PassthroughSubject<Void, Never>
     
     @State private var allButton:Bool = true
     @State private var incomeButton:Bool = false
@@ -108,7 +108,7 @@ struct PaymentsTransactionsListView: View {
         .onChange(of: self.month, {
             vm.fetchPayments(forMonth: month, year: year, limit: nil)
         })
-        .onChange(of: shouldRefreshList, {
+        .onReceive(shouldRefreshList, perform: { _ in
             vm.fetchPayments(forMonth: month, year: year, limit: nil)
         })
         .onChange(of: self.vm.totalBalance, { oldValue, newValue in
@@ -130,6 +130,6 @@ struct PaymentsTransactionsListView: View {
         totalIncome: .constant(0.0),
         totalExpence: .constant(0.0),
         paymentTransactionSubject: .constant(PaymentRegistryDTO()), 
-        shouldRefreshList: .constant(true)
+        shouldRefreshList: .constant(PassthroughSubject<Void, Never>())
     )
 }

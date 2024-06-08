@@ -12,7 +12,7 @@ struct PaymentDetailsView: View {
     
     @Binding var paymentTransactionSubject: PaymentRegistryDTO
     
-    @Binding var shouldRefreshList: Bool
+    @Binding var shouldRefreshList: PassthroughSubject<Void, Never>
     @Binding var presentPaymentDetail: Bool
     
     @ObservedObject var paymentDetailsVM = PaymentDetailsVM(deleteUseCase: DeletePaymentUseCase())
@@ -88,7 +88,7 @@ struct PaymentDetailsView: View {
             presentPaymentDetail = false
         }
         .onChange(of: paymentDetailsVM.paymentDeleted) { oldValue, newValue in
-            shouldRefreshList = true
+            shouldRefreshList.send()
             presentPaymentDetail = false
         }
     }
@@ -96,6 +96,6 @@ struct PaymentDetailsView: View {
 
 #Preview {
     PaymentDetailsView(paymentTransactionSubject: .constant(PaymentRegistryDTO()), 
-                       shouldRefreshList: .constant(false), 
+                       shouldRefreshList: .constant(PassthroughSubject<Void, Never>()),
                        presentPaymentDetail: .constant(false))
 }

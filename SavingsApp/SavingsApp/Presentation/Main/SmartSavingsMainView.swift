@@ -14,7 +14,7 @@ struct SmartSavingsMainView: View {
     @State private var presentingPaymentDetailSheet = false
     @State var dataSaved = PassthroughSubject<Void, Never>()
     @State var paymentTransactionSubject = PaymentRegistryDTO()
-    @State var shouldRefreshList = false
+    @State var shouldRefreshList = PassthroughSubject<Void, Never>()
     
     @State var month: Int = 0
     @State var year: Int = 0
