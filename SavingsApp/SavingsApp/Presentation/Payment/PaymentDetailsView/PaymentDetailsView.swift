@@ -11,9 +11,10 @@ import Combine
 struct PaymentDetailsView: View {
     
     @Binding var paymentTransactionSubject: PaymentRegistryDTO
-    
     @Binding var shouldRefreshList: PassthroughSubject<Void, Never>
     @Binding var presentPaymentDetail: Bool
+    
+    @State private var showDeleteAlert = false
     
     @ObservedObject var paymentDetailsVM = PaymentDetailsVM(deleteUseCase: DeletePaymentUseCase())
     
@@ -65,17 +66,31 @@ struct PaymentDetailsView: View {
                 Divider()
                 
                 //MARK: - Button Action Section
-                Button(action: {
-                    self.paymentDetailsVM.deletePayment()
-                }, label: {
-                    Text("Delete")
-                        .bold()
-                        .foregroundStyle(Color.white)
-                })
-                .padding()
-                .frame(maxWidth: .infinity, maxHeight: 50)
-                .background(Color.red, in: Capsule())
-                .controlSize(.large)
+                HStack {
+                    Button(action: {
+                        showDeleteAlert = true
+                    }, label: {
+                        Text("Delete")
+                            .bold()
+                            .foregroundStyle(Color.white)
+                    })
+                    .padding()
+                    .frame(maxWidth: .infinity, maxHeight: 50)
+                    .background(Color.red, in: Capsule())
+                    .controlSize(.large)
+                    
+                    Button(action: {
+                        //self.paymentDetailsVM.deletePayment()
+                    }, label: {
+                        Text("Update")
+                            .bold()
+                            .foregroundStyle(Color.white)
+                    })
+                    .padding()
+                    .frame(maxWidth: .infinity, maxHeight: 50)
+                    .background(Color.blue, in: Capsule())
+                    .controlSize(.large)
+                }
             }
             
             Spacer()
@@ -90,6 +105,17 @@ struct PaymentDetailsView: View {
         .onChange(of: paymentDetailsVM.paymentDeleted) { oldValue, newValue in
             shouldRefreshList.send()
             presentPaymentDetail = false
+        }
+        .alert("Are you sure to delete?", isPresented: $showDeleteAlert) {
+            Button(role: .destructive) {
+                self.paymentDetailsVM.deletePayment()
+            } label: {
+                Text("Delete")
+            }
+        } message: {
+            Text("This will permanently delete the registry.")
+                .font(.largeTitle)
+                .foregroundStyle(.red)
         }
     }
 }

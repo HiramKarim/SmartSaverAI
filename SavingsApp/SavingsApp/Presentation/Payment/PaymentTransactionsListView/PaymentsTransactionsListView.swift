@@ -10,7 +10,9 @@ import Combine
 
 struct PaymentsTransactionsListView: View {
     
-    @ObservedObject private var vm = FetchPaymentByDateVM(fetchPaymentsByDateUseCase: FetchPaymentByDate())
+    @ObservedObject private var vm = FetchPaymentByDateVM(
+        fetchPaymentsByDateUseCase: FetchPaymentByDate()
+    )
     
     @Binding var presentPaymentDetail: Bool
     @Binding var dataSaved: PassthroughSubject<Void, Never>

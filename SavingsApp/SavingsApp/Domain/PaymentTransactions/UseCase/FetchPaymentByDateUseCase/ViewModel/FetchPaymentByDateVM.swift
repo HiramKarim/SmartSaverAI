@@ -61,11 +61,11 @@ class FetchPaymentByDateVM: ObservableObject {
         var totalIncome:Double = 0.0
         var totalExpence:Double = 0.0
         
-        var expences = payments.filter({ payment in
+        let expences = payments.filter({ payment in
             payment.typeNum == 2
         })
         
-        var incomes = payments.filter({ payment in
+        let incomes = payments.filter({ payment in
             payment.typeNum == 1
         })
         
