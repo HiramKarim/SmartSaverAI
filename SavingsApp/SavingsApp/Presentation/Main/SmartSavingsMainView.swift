@@ -12,9 +12,9 @@ import Combine
 struct SmartSavingsMainView: View {
     @State private var presentingSheet = false
     @State private var presentingPaymentDetailSheet = false
-    @State var dataSaved = PassthroughSubject<Void, Never>()
-    @State var paymentTransactionSubject = PaymentRegistryDTO()
-    @State var shouldRefreshList = PassthroughSubject<Void, Never>()
+    @State var dataSavedEvent = PassthroughSubject<Void, Never>()
+    @State var paymentRegistryDTO = PaymentRegistryDTO()
+    @State var shouldRefreshListEvent = PassthroughSubject<Void, Never>()
     
     @State var month: Int = 0
     @State var year: Int = 0
@@ -28,25 +28,33 @@ struct SmartSavingsMainView: View {
             VStack {
                 Divider()
                 ScrollView(showsIndicators: false) {
-                    CalendarSectionView(month: $month, year: $year)
-                    BalanceView(totalBalance: $totalBalance,
-                                totalIncome: $totalIncome,
-                                totalExpence: $totalExpence)
+                    CalendarSectionView(
+                        month: $month,
+                        year: $year
+                    )
+                    BalanceView(
+                        totalBalance: $totalBalance,
+                        totalIncome: $totalIncome,
+                        totalExpence: $totalExpence
+                    )
                     PaymentsTransactionsListView(
                         presentPaymentDetail: $presentingPaymentDetailSheet,
-                        dataSaved: $dataSaved,
+                        dataSavedEvent: $dataSavedEvent,
                         month: $month,
                         year: $year,
                         totalBalance: $totalBalance,
                         totalIncome: $totalIncome,
                         totalExpence: $totalExpence, 
-                        paymentTransactionSubject: $paymentTransactionSubject, 
-                        shouldRefreshList: $shouldRefreshList
+                        paymentRegistryDTO: $paymentRegistryDTO, 
+                        shouldRefreshListEvent: $shouldRefreshListEvent
                     )
                     .sheet(isPresented: $presentingPaymentDetailSheet, 
                            content: {
-                        PaymentDetailsView(paymentTransactionSubject: $paymentTransactionSubject,                              shouldRefreshList: $shouldRefreshList, 
-                                           presentPaymentDetail: $presentingPaymentDetailSheet)
+                        PaymentDetailsView(
+                            paymentRegistryDTO: $paymentRegistryDTO,
+                            shouldRefreshListEvent: $shouldRefreshListEvent,
+                            presentPaymentDetail: $presentingPaymentDetailSheet
+                        )
                         .padding()
                         .presentationDetents([.fraction(0.75), .height(400)])
                     })
@@ -77,8 +85,9 @@ struct SmartSavingsMainView: View {
                             .font(.title2)
                             .bold()
                     }
-                    .sheet(isPresented: $presentingSheet, content: {
-                        AddPaymentView(dataSaved: $dataSaved)
+                    .sheet(isPresented: $presentingSheet, 
+                           content: {
+                        AddPaymentView(dataSaved: $dataSavedEvent)
                     })
                 }
             }

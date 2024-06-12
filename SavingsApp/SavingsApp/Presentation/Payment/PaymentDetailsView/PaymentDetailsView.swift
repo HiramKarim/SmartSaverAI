@@ -10,8 +10,8 @@ import Combine
 
 struct PaymentDetailsView: View {
     
-    @Binding var paymentTransactionSubject: PaymentRegistryDTO
-    @Binding var shouldRefreshList: PassthroughSubject<Void, Never>
+    @Binding var paymentRegistryDTO: PaymentRegistryDTO
+    @Binding var shouldRefreshListEvent: PassthroughSubject<Void, Never>
     @Binding var presentPaymentDetail: Bool
     
     @State private var showDeleteAlert = false
@@ -25,10 +25,15 @@ struct PaymentDetailsView: View {
                     .font(.title)
                     .bold()
                 Spacer()
-                Image(systemName: paymentDetailsVM.paymentType == 2 ? "arrowtriangle.down.circle.fill" : "arrowtriangle.up.circle.fill")
+                Image(systemName: paymentDetailsVM.paymentType == 2 ? 
+                      "arrowtriangle.down.circle.fill" :
+                        "arrowtriangle.up.circle.fill"
+                )
                     .resizable()
                     .frame(width: 30, height: 30)
-                    .foregroundStyle(paymentDetailsVM.paymentType == 2 ? Color.red : Color.green)
+                    .foregroundStyle(paymentDetailsVM.paymentType == 2 ? 
+                                     Color.red :
+                                        Color.green)
             }
             
             VStack(alignment: .leading, spacing: 10) {
@@ -39,10 +44,14 @@ struct PaymentDetailsView: View {
                     
                     Spacer()
                     
-                    Text(paymentDetailsVM.paymentType == 2 ? "-\(paymentDetailsVM.amount, specifier: "%.2f")" : "\(paymentDetailsVM.amount, specifier: "%.2f")")
+                    Text(paymentDetailsVM.paymentType == 2 ? 
+                         "-\(paymentDetailsVM.amount, specifier: "%.2f")" :
+                            "\(paymentDetailsVM.amount, specifier: "%.2f")")
                         .font(.title2)
                         .bold()
-                        .foregroundStyle(paymentDetailsVM.paymentType == 2 ? Color.red : Color.green)
+                        .foregroundStyle(paymentDetailsVM.paymentType == 2 ? 
+                                         Color.red :
+                                            Color.green)
                 }
                 
                 Text(paymentDetailsVM.date.convertToString(withFormat: .fullDate))
@@ -80,7 +89,7 @@ struct PaymentDetailsView: View {
                     .controlSize(.large)
                     
                     Button(action: {
-                        //self.paymentDetailsVM.deletePayment()
+                        
                     }, label: {
                         Text("Update")
                             .bold()
@@ -97,13 +106,13 @@ struct PaymentDetailsView: View {
         }
         .padding()
         .onAppear(perform: {
-            self.paymentDetailsVM.updateView(withPayment: paymentTransactionSubject)
+            self.paymentDetailsVM.updateView(withPayment: paymentRegistryDTO)
         })
         .onChange(of: paymentDetailsVM.showError) { oldValue, newValue in
             presentPaymentDetail = false
         }
         .onChange(of: paymentDetailsVM.paymentDeleted) { oldValue, newValue in
-            shouldRefreshList.send()
+            shouldRefreshListEvent.send()
             presentPaymentDetail = false
         }
         .alert("Are you sure to delete?", isPresented: $showDeleteAlert) {
@@ -121,7 +130,7 @@ struct PaymentDetailsView: View {
 }
 
 #Preview {
-    PaymentDetailsView(paymentTransactionSubject: .constant(PaymentRegistryDTO()), 
-                       shouldRefreshList: .constant(PassthroughSubject<Void, Never>()),
+    PaymentDetailsView(paymentRegistryDTO: .constant(PaymentRegistryDTO()), 
+                       shouldRefreshListEvent: .constant(PassthroughSubject<Void, Never>()),
                        presentPaymentDetail: .constant(false))
 }

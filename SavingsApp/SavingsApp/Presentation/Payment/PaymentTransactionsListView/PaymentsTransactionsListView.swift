@@ -15,14 +15,14 @@ struct PaymentsTransactionsListView: View {
     )
     
     @Binding var presentPaymentDetail: Bool
-    @Binding var dataSaved: PassthroughSubject<Void, Never>
+    @Binding var dataSavedEvent: PassthroughSubject<Void, Never>
     @Binding var month: Int
     @Binding var year: Int
     @Binding var totalBalance: Double
     @Binding var totalIncome: Double
     @Binding var totalExpence: Double
-    @Binding var paymentTransactionSubject: PaymentRegistryDTO
-    @Binding var shouldRefreshList: PassthroughSubject<Void, Never>
+    @Binding var paymentRegistryDTO: PaymentRegistryDTO
+    @Binding var shouldRefreshListEvent: PassthroughSubject<Void, Never>
     
     @State private var allButton:Bool = true
     @State private var incomeButton:Bool = false
@@ -98,19 +98,19 @@ struct PaymentsTransactionsListView: View {
                             .foregroundStyle(Color.lightBrown)
                     )
                     .onTapGesture {
+                        paymentRegistryDTO = payment.wrappedValue
                         presentPaymentDetail = true
-                        paymentTransactionSubject = payment.wrappedValue
                     }
                 }
             }
         }
-        .onReceive(dataSaved, perform: { _ in
+        .onReceive(dataSavedEvent, perform: { _ in
             vm.fetchPayments(forMonth: month, year: year, limit: nil)
         })
         .onChange(of: self.month, {
             vm.fetchPayments(forMonth: month, year: year, limit: nil)
         })
-        .onReceive(shouldRefreshList, perform: { _ in
+        .onReceive(shouldRefreshListEvent, perform: { _ in
             vm.fetchPayments(forMonth: month, year: year, limit: nil)
         })
         .onChange(of: self.vm.totalBalance, { oldValue, newValue in
@@ -125,13 +125,13 @@ struct PaymentsTransactionsListView: View {
 #Preview {
     PaymentsTransactionsListView(
         presentPaymentDetail: .constant(true),
-        dataSaved: .constant(PassthroughSubject<Void, Never>()),
+        dataSavedEvent: .constant(PassthroughSubject<Void, Never>()),
         month: .constant(5),
         year: .constant(2024),
         totalBalance: .constant(0.0),
         totalIncome: .constant(0.0),
         totalExpence: .constant(0.0),
-        paymentTransactionSubject: .constant(PaymentRegistryDTO()), 
-        shouldRefreshList: .constant(PassthroughSubject<Void, Never>())
+        paymentRegistryDTO: .constant(PaymentRegistryDTO()), 
+        shouldRefreshListEvent: .constant(PassthroughSubject<Void, Never>())
     )
 }
