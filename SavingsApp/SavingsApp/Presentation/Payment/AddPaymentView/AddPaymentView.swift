@@ -14,6 +14,9 @@ struct AddPaymentView: View {
     @ObservedObject private var vm = RegisterPaymentVM(registerPaymentUseCase: RegisterPaymentUseCase())
     
     @Binding var dataSaved: PassthroughSubject<Void, Never>
+    @Binding var paymentRegistryDTO: PaymentRegistryDTO
+    
+    var paymentViewState: PaymentViewState = .insert
     
     var body: some View {
         VStack(spacing: 20) {
@@ -192,5 +195,9 @@ struct AddPaymentView: View {
 
 
 #Preview {
-    AddPaymentView(dataSaved: .constant(PassthroughSubject<Void, Never>()))
+    AddPaymentView(
+        dataSaved: .constant(PassthroughSubject<Void, Never>()),
+        paymentRegistryDTO: .constant(PaymentRegistryDTO()),
+        paymentViewState: .insert
+    )
 }

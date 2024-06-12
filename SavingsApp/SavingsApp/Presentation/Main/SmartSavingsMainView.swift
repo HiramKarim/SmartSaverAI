@@ -9,6 +9,11 @@ import SwiftUI
 import PersistenceModule
 import Combine
 
+enum PaymentViewState {
+    case insert
+    case update
+}
+
 struct SmartSavingsMainView: View {
     @State private var presentingSheet = false
     @State private var presentingPaymentDetailSheet = false
@@ -22,6 +27,8 @@ struct SmartSavingsMainView: View {
     @State var totalBalance: Double = 0
     @State var totalIncome: Double = 0
     @State var totalExpence: Double = 0
+    
+    private var paymentViewState: PaymentViewState = .insert
         
     var body: some View {
         NavigationStack {
@@ -87,7 +94,9 @@ struct SmartSavingsMainView: View {
                     }
                     .sheet(isPresented: $presentingSheet, 
                            content: {
-                        AddPaymentView(dataSaved: $dataSavedEvent)
+                        AddPaymentView(
+                                        dataSaved: $dataSavedEvent,
+                                        paymentRegistryDTO:$paymentRegistryDTO)
                     })
                 }
             }
