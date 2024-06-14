@@ -23,6 +23,8 @@ public enum PersistenceResult {
 public protocol CoreDataProtocol {
     func savePayment(payment: PaymentActivityDTO,
                      completion: @escaping (PersistenceResult) -> Void)
+    func updatePayment(payment: PaymentActivityDTO,
+                     completion: @escaping (PersistenceResult) -> Void)
     func fetchPayments(withName name: String?,
                        limit: Int?,
                        completion: @escaping (PersistenceResult) -> Void)
@@ -79,6 +81,36 @@ extension CoreDataManager: CoreDataProtocol {
             } catch {
                 completion(.failure(ErrorPersistence.InsertionError))
             }
+        }
+    }
+    
+    public func updatePayment(payment: PaymentActivityDTO,
+                              completion: @escaping (PersistenceResult) -> Void) {
+        let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "paymentId == %@", payment.id as CVarArg)
+        
+        do {
+            let results = try viewContext.fetch(fetchRequest)
+            
+            if let paymentToUpdate = results.first {
+                paymentToUpdate.name = payment.name
+                paymentToUpdate.address = payment.address
+                paymentToUpdate.amount = payment.amount
+                paymentToUpdate.date = payment.date
+                paymentToUpdate.memo = payment.memo
+                paymentToUpdate.typeNum = payment.typeNum
+                paymentToUpdate.paymentType = payment.paymentType
+                if viewContext.hasChanges {
+                    do {
+                        try viewContext.save()
+                        completion(.success(nil))
+                    } catch {
+                        completion(.failure(ErrorPersistence.InsertionError))
+                    }
+                }
+            }
+        } catch {
+            completion(.failure(ErrorPersistence.InsertionError))
         }
     }
     
