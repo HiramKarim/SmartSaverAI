@@ -17,12 +17,15 @@ struct AddPaymentView: View {
     @Binding var paymentRegistryDTO: PaymentRegistryDTO
     
     var paymentViewState: PaymentViewState = .insert
+    @Binding var paymentViewStateEvent:PassthroughSubject<PaymentViewState, Never>
     
     var body: some View {
         VStack(spacing: 20) {
             //MARK: - New Payment header section
             HStack {
-                Text("New Payment")
+                Text(paymentViewState == .insert ? 
+                     "New Payment" :
+                        "Update Payment")
                     .bold()
                     .font(.system(size: 30))
                 
@@ -169,10 +172,17 @@ struct AddPaymentView: View {
             Spacer()
         }
         .onAppear {
-            
+            if paymentViewState == .update {
+                vm.updateViewForUpdate(paymentRegistry: paymentRegistryDTO)
+            }
         }
         .onReceive(vm.savedRegistrySuccessSubject, perform: { _ in
             self.dataSaved.send()
+        })
+        .onReceive(paymentViewStateEvent, perform: { event in
+//            if event == PaymentViewState.update {
+//                vm.updateViewForUpdate(paymentRegistry: paymentRegistryDTO)
+//            }
         })
         .onChange(of: vm.showSuccessRegistry, {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2,
@@ -198,6 +208,7 @@ struct AddPaymentView: View {
     AddPaymentView(
         dataSaved: .constant(PassthroughSubject<Void, Never>()),
         paymentRegistryDTO: .constant(PaymentRegistryDTO()),
-        paymentViewState: .insert
+        paymentViewState: .insert, 
+        paymentViewStateEvent: .constant(PassthroughSubject<PaymentViewState, Never>())
     )
 }

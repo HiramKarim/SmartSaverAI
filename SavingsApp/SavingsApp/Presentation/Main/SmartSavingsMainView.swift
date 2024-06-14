@@ -15,8 +15,9 @@ enum PaymentViewState {
 }
 
 struct SmartSavingsMainView: View {
-    @State private var presentingSheet = false
+    @State private var presentingAddPaymentSheet = false
     @State private var presentingPaymentDetailSheet = false
+    @State private var presentingUpdatePaymentSheet = false
     @State var dataSavedEvent = PassthroughSubject<Void, Never>()
     @State var paymentRegistryDTO = PaymentRegistryDTO()
     @State var shouldRefreshListEvent = PassthroughSubject<Void, Never>()
@@ -29,6 +30,7 @@ struct SmartSavingsMainView: View {
     @State var totalExpence: Double = 0
     
     private var paymentViewState: PaymentViewState = .insert
+    @State var paymentViewStateEvent = PassthroughSubject<PaymentViewState, Never>()
         
     var body: some View {
         NavigationStack {
@@ -60,10 +62,21 @@ struct SmartSavingsMainView: View {
                         PaymentDetailsView(
                             paymentRegistryDTO: $paymentRegistryDTO,
                             shouldRefreshListEvent: $shouldRefreshListEvent,
-                            presentPaymentDetail: $presentingPaymentDetailSheet
+                            presentPaymentDetail: $presentingPaymentDetailSheet, 
+                            presentingUpdatePaymentSheet: $presentingUpdatePaymentSheet,
+                            paymentViewStateEvent: $paymentViewStateEvent
                         )
                         .padding()
                         .presentationDetents([.fraction(0.75), .height(400)])
+                    })
+                    .sheet(isPresented: $presentingUpdatePaymentSheet,
+                           content: {
+                        AddPaymentView(
+                                        dataSaved: $dataSavedEvent,
+                                        paymentRegistryDTO:$paymentRegistryDTO,
+                                        paymentViewState: .update, 
+                                        paymentViewStateEvent: $paymentViewStateEvent
+                        )
                     })
                 }
             }
@@ -84,7 +97,7 @@ struct SmartSavingsMainView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
-                        presentingSheet = true
+                        presentingAddPaymentSheet = true
                     }) {
                         Image(systemName: "plus.circle")
                             .padding(.horizontal)
@@ -92,11 +105,14 @@ struct SmartSavingsMainView: View {
                             .font(.title2)
                             .bold()
                     }
-                    .sheet(isPresented: $presentingSheet, 
+                    .sheet(isPresented: $presentingAddPaymentSheet, 
                            content: {
                         AddPaymentView(
                                         dataSaved: $dataSavedEvent,
-                                        paymentRegistryDTO:$paymentRegistryDTO)
+                                        paymentRegistryDTO:$paymentRegistryDTO,
+                                        paymentViewState: .insert,
+                                        paymentViewStateEvent: $paymentViewStateEvent
+                        )
                     })
                 }
             }

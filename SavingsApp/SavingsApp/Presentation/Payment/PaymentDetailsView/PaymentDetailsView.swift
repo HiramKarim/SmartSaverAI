@@ -13,10 +13,22 @@ struct PaymentDetailsView: View {
     @Binding var paymentRegistryDTO: PaymentRegistryDTO
     @Binding var shouldRefreshListEvent: PassthroughSubject<Void, Never>
     @Binding var presentPaymentDetail: Bool
+    @Binding var presentingUpdatePaymentSheet: Bool
+    @Binding var paymentViewStateEvent:PassthroughSubject<PaymentViewState, Never>
     
     @State private var showDeleteAlert = false
     
     @ObservedObject var paymentDetailsVM = PaymentDetailsVM(deleteUseCase: DeletePaymentUseCase())
+    
+    
+    private func startTimeForUpdateSheet() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.presentingUpdatePaymentSheet = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.paymentViewStateEvent.send(.update)
+            }
+        }
+    }
     
     var body: some View {
         VStack {
@@ -89,7 +101,8 @@ struct PaymentDetailsView: View {
                     .controlSize(.large)
                     
                     Button(action: {
-                        
+                        presentPaymentDetail = false
+                        startTimeForUpdateSheet()
                     }, label: {
                         Text("Update")
                             .bold()
@@ -130,7 +143,11 @@ struct PaymentDetailsView: View {
 }
 
 #Preview {
-    PaymentDetailsView(paymentRegistryDTO: .constant(PaymentRegistryDTO()), 
-                       shouldRefreshListEvent: .constant(PassthroughSubject<Void, Never>()),
-                       presentPaymentDetail: .constant(false))
+    PaymentDetailsView(
+        paymentRegistryDTO: .constant(PaymentRegistryDTO()),
+        shouldRefreshListEvent: .constant(PassthroughSubject<Void, Never>()),
+        presentPaymentDetail: .constant(false),
+        presentingUpdatePaymentSheet: .constant(false),
+        paymentViewStateEvent: .constant(PassthroughSubject<PaymentViewState, Never>())
+    )
 }

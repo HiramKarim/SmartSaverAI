@@ -85,14 +85,16 @@ class RegisterPaymentVM: ObservableObject {
     internal func registerPayment() {
         isLoading = true
         
-        paymentDTO = PaymentRegistryDTO(id: UUID(),
-                                        name: paymentName,
-                                        memo: paymentMemo,
-                                        date: paymentDate,
-                                        amount: Double(paymentAmount) ?? 0.0,
-                                        address: paymentLocation,
-                                        typeNum: getPaymentType(paymentType: paymentType),
-                                        paymentType: getPaymentCategory(selectedPaymentCategory: selectedPaymentCategory))
+        paymentDTO = PaymentRegistryDTO(
+            id: UUID(),
+            name: paymentName,
+            memo: paymentMemo,
+            date: paymentDate,
+            amount: Double(paymentAmount) ?? 0.0,
+            address: paymentLocation,
+            typeNum: getPaymentType(paymentType: paymentType),
+            paymentType: getPaymentCategory(selectedPaymentCategory: selectedPaymentCategory)
+        )
         registerSubject.send()
     }
     
@@ -110,6 +112,30 @@ class RegisterPaymentVM: ObservableObject {
         case .gasBill: return 6
         case .other: return 7
         }
+    }
+    
+    private func getPaymentCategoryByNumber(categoryNumber: Int32) -> PaymentCategory {
+        switch categoryNumber {
+        case 1: return .bank
+        case 2: return .rent
+        case 3: return .loan
+        case 4: return .groseries
+        case 5: return .taxBill
+        case 6: return .gasBill
+        case 7: return .other
+        default:
+            return .other
+        }
+    }
+    
+    internal func updateViewForUpdate(paymentRegistry: PaymentRegistryDTO) {
+        paymentName = paymentRegistry.name
+        paymentType = (paymentRegistry.paymentType == 1 ? "Income" : "Expence")
+        paymentDate = paymentRegistry.date
+        paymentAmount = "\(Double(paymentRegistry.amount))"
+        paymentLocation = paymentRegistry.address ?? ""
+        paymentMemo = paymentRegistry.memo ?? ""
+        selectedPaymentCategory = getPaymentCategoryByNumber(categoryNumber: paymentRegistry.typeNum)
     }
     
 }
