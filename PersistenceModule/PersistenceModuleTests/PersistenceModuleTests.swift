@@ -78,6 +78,38 @@ class CoreDataStack {
             }
         }
     }
+    
+    public func updatePayment(payment: PaymentActivityDTO,
+                              completion: @escaping (Bool, NSError?) -> Void) {
+        let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", payment.name as CVarArg)
+        
+        do {
+            let results = try viewContext.fetch(fetchRequest)
+            
+            if let paymentToUpdate = results.first {
+                paymentToUpdate.name = payment.name
+                paymentToUpdate.address = payment.address
+                paymentToUpdate.amount = payment.amount
+                paymentToUpdate.date = payment.date
+                paymentToUpdate.memo = payment.memo
+                paymentToUpdate.typeNum = payment.typeNum
+                paymentToUpdate.paymentType = payment.paymentType
+                if viewContext.hasChanges {
+                    do {
+                        try viewContext.save()
+                        completion(true, nil)
+                    } catch {
+                        let nserror = error as NSError
+                        completion(false, nserror)
+                    }
+                }
+            }
+        } catch {
+            let nserror = error as NSError
+            completion(false, nserror)
+        }
+    }
 
     func deleteObject(_ object: NSManagedObject, 
                       completion: @escaping (Bool, NSError?
@@ -153,6 +185,12 @@ class PaymentManagerUseCase {
         }
     }
     
+    func updatePayment(payment: PaymentActivityDTO, completion: @escaping (Bool, NSError?) -> Void) {
+        self.coreDataStack.updatePayment(payment: payment) { success, error in
+            completion(success, error)
+        }
+    }
+    
     func fetchPayments(withName name: String? = nil) -> [PaymentActivityDTO] {
         let payments = self.coreDataStack.fetchPayments(withName: name)
         return convertToDTO(payments: payments)
@@ -224,6 +262,42 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
         // Then
         XCTAssertTrue(result)
         XCTAssertNil(errorInsert)
+    }
+    
+    func testUpdatePayment() {
+        // Given
+        let paymentRentBillDTO = Utils.createPaymentDTO()
+        let newPaymentInfo = Utils.createNewPaymentDTO()
+        
+        var result:Bool = false
+        var errorInsert:NSError? = nil
+        
+        var updateResult:Bool = false
+        var updateErrorInsert:NSError? = nil
+        
+        let exp_1 = expectation(description: "insert - wait for completion")
+        let exp_2 = expectation(description: "update - wait for completion")
+        
+        // When
+        sut.saveData(payment: paymentRentBillDTO) { success, error in
+            result = success
+            errorInsert = error
+            exp_1.fulfill()
+        }
+        
+        sut.updatePayment(payment: newPaymentInfo) { success, error in
+            updateResult = success
+            updateErrorInsert = error
+            exp_2.fulfill()
+        }
+        
+        wait(for: [exp_1, exp_2], timeout: 5.0)
+        // Then
+        XCTAssertTrue(result)
+        XCTAssertNil(errorInsert)
+        
+        XCTAssertTrue(updateResult)
+        XCTAssertNil(updateErrorInsert)
     }
     
     func testFetchAllPayments() {
@@ -371,6 +445,17 @@ class Utils {
                                   memo: "just for test",
                                   date: Date(),
                                   amount: Double(20000),
+                                  address: "Condesa",
+                                  typeNum: paymentCategory.Rent.rawValue,
+                                  paymentType: paymentType.payment.rawValue)
+    }
+    
+    static func createNewPaymentDTO() -> PaymentActivityDTO {
+        return PaymentActivityDTO(id: UUID(),
+                                  name: "Rent bill",
+                                  memo: "just for update test",
+                                  date: Date(),
+                                  amount: Double(40000),
                                   address: "Condesa",
                                   typeNum: paymentCategory.Rent.rawValue,
                                   paymentType: paymentType.payment.rawValue)
