@@ -29,6 +29,8 @@
 		1F9983B52BE4833A00B38C24 /* DeletePaymentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983B42BE4833A00B38C24 /* DeletePaymentUseCase.swift */; };
 		1F9983B72BE4842000B38C24 /* PaymentTransactionBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983B62BE4842000B38C24 /* PaymentTransactionBase.swift */; };
 		1F9E03E82C059E2E0092CAC6 /* String+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9E03E72C059E2E0092CAC6 /* String+Formatter.swift */; };
+		1FA3C0022C21596700A5851B /* UpdatePaymentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA3C0012C21596700A5851B /* UpdatePaymentVM.swift */; };
+		1FA3C0042C215A5B00A5851B /* UpdatePaymentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA3C0032C215A5B00A5851B /* UpdatePaymentUseCase.swift */; };
 		1FDE89062BC752A000FC0CC9 /* SavingsWatchAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE89052BC752A000FC0CC9 /* SavingsWatchAppApp.swift */; };
 		1FDE89082BC752A000FC0CC9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE89072BC752A000FC0CC9 /* ContentView.swift */; };
 		1FDE890A2BC752A200FC0CC9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FDE89092BC752A200FC0CC9 /* Assets.xcassets */; };
@@ -135,6 +137,8 @@
 		1F9983B42BE4833A00B38C24 /* DeletePaymentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePaymentUseCase.swift; sourceTree = "<group>"; };
 		1F9983B62BE4842000B38C24 /* PaymentTransactionBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTransactionBase.swift; sourceTree = "<group>"; };
 		1F9E03E72C059E2E0092CAC6 /* String+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Formatter.swift"; sourceTree = "<group>"; };
+		1FA3C0012C21596700A5851B /* UpdatePaymentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePaymentVM.swift; sourceTree = "<group>"; };
+		1FA3C0032C215A5B00A5851B /* UpdatePaymentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePaymentUseCase.swift; sourceTree = "<group>"; };
 		1FDE89032BC752A000FC0CC9 /* SavingsWatchApp Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SavingsWatchApp Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FDE89052BC752A000FC0CC9 /* SavingsWatchAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsWatchAppApp.swift; sourceTree = "<group>"; };
 		1FDE89072BC752A000FC0CC9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -449,6 +453,23 @@
 			path = PaymentTransactionBase;
 			sourceTree = "<group>";
 		};
+		1FA3BFFF2C2158AF00A5851B /* UpdatePaymentUseCase */ = {
+			isa = PBXGroup;
+			children = (
+				1FA3C0002C2158BF00A5851B /* ViewModel */,
+				1FA3C0032C215A5B00A5851B /* UpdatePaymentUseCase.swift */,
+			);
+			path = UpdatePaymentUseCase;
+			sourceTree = "<group>";
+		};
+		1FA3C0002C2158BF00A5851B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1FA3C0012C21596700A5851B /* UpdatePaymentVM.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		1FDE89042BC752A000FC0CC9 /* SavingsWatchApp Watch App */ = {
 			isa = PBXGroup;
 			children = (
@@ -566,6 +587,7 @@
 		1FF19A142BE2F00500324E56 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				1FA3BFFF2C2158AF00A5851B /* UpdatePaymentUseCase */,
 				1F9983AD2BE4828E00B38C24 /* DeletePaymentUseCase */,
 				1F9983AC2BE4828100B38C24 /* FetchPaymentByDateUseCase */,
 				1F9983AB2BE4827200B38C24 /* FetchPaymentByNameUseCase */,
@@ -798,8 +820,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F9983B12BE4831300B38C24 /* FetchPaymentByNameUseCase.swift in Sources */,
+				1FA3C0042C215A5B00A5851B /* UpdatePaymentUseCase.swift in Sources */,
 				1FDFC5392BB7DDE9006CE24C /* BalanceView.swift in Sources */,
 				1FDFC53C2BB7DFAC006CE24C /* PaymentsTransactionsListView.swift in Sources */,
+				1FA3C0022C21596700A5851B /* UpdatePaymentVM.swift in Sources */,
 				1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */,
 				1FDE89372BC7AD3400FC0CC9 /* CalendarSectionView.swift in Sources */,
 				1F9983B72BE4842000B38C24 /* PaymentTransactionBase.swift in Sources */,
