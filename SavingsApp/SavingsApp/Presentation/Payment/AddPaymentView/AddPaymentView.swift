@@ -12,6 +12,7 @@ struct AddPaymentView: View {
     
     @Environment(\.dismiss) var dismiss
     @ObservedObject private var vm = RegisterPaymentVM(registerPaymentUseCase: RegisterPaymentUseCase())
+    @ObservedObject private var updateVM = UpdatePaymentVM(useCase: UpdatePaymentUseCase())
     
     @Binding var dataSaved: PassthroughSubject<Void, Never>
     @Binding var paymentRegistryDTO: PaymentRegistryDTO
@@ -28,9 +29,9 @@ struct AddPaymentView: View {
                         "Update Payment")
                     .bold()
                     .font(.system(size: 30))
-                
+
                 Spacer()
-                
+
                 Button {
                     dismiss()
                 } label: {
@@ -137,7 +138,11 @@ struct AddPaymentView: View {
             
             //MARK: - Button Action Section
             Button(action: {
-                vm.registerPayment()
+                if paymentViewState == .update {
+                    updateVM.updatePaymentRegistry(payment: vm.getUpdatedPaymentRegistryDTO())
+                } else {
+                    vm.registerPayment()
+                }
             }, label: {
                 if vm.isLoading {
                     ProgressView()
@@ -193,6 +198,21 @@ struct AddPaymentView: View {
             })
         })
         .onChange(of: vm.showErrorOnRegistry, {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2,
+                                          execute: {
+                vm.showSuccessRegistry = false
+                vm.showErrorOnRegistry = false
+            })
+        })
+        .onChange(of: updateVM.paymentUpdated, {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2,
+                                          execute: {
+                vm.isLoading = false
+                vm.showSuccessRegistry = false
+                vm.showErrorOnRegistry = false
+            })
+        })
+        .onChange(of: updateVM.showError, {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2,
                                           execute: {
                 vm.showSuccessRegistry = false

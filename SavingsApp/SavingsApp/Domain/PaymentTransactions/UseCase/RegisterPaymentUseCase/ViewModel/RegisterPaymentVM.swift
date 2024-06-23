@@ -21,6 +21,8 @@ enum PaymentCategory: String, Identifiable, CaseIterable {
 
 class RegisterPaymentVM: ObservableObject {
     
+    private var currentUUIDForUpdatingDTO: UUID = .init()
+    
     @Published var isLoading: Bool = false
     @Published var showSuccessRegistry:Bool = false
     @Published var showErrorOnRegistry:Bool = false
@@ -129,6 +131,7 @@ class RegisterPaymentVM: ObservableObject {
     }
     
     internal func updateViewForUpdate(paymentRegistry: PaymentRegistryDTO) {
+        currentUUIDForUpdatingDTO = paymentRegistry.id
         paymentName = paymentRegistry.name
         paymentType = (paymentRegistry.paymentType == 1 ? "Income" : "Expence")
         paymentDate = paymentRegistry.date
@@ -136,6 +139,19 @@ class RegisterPaymentVM: ObservableObject {
         paymentLocation = paymentRegistry.address ?? ""
         paymentMemo = paymentRegistry.memo ?? ""
         selectedPaymentCategory = getPaymentCategoryByNumber(categoryNumber: paymentRegistry.typeNum)
+    }
+    
+    internal func getUpdatedPaymentRegistryDTO() -> PaymentRegistryDTO {
+        return PaymentRegistryDTO(
+            id: currentUUIDForUpdatingDTO,
+            name: paymentName,
+            memo: paymentMemo,
+            date: paymentDate,
+            amount: Double(paymentAmount) ?? 0.0,
+            address: paymentLocation,
+            typeNum: getPaymentType(paymentType: paymentType),
+            paymentType: getPaymentCategory(selectedPaymentCategory: selectedPaymentCategory)
+        )
     }
     
 }
