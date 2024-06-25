@@ -31,6 +31,18 @@
 		1F9E03E82C059E2E0092CAC6 /* String+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9E03E72C059E2E0092CAC6 /* String+Formatter.swift */; };
 		1FA3C0022C21596700A5851B /* UpdatePaymentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA3C0012C21596700A5851B /* UpdatePaymentVM.swift */; };
 		1FA3C0042C215A5B00A5851B /* UpdatePaymentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA3C0032C215A5B00A5851B /* UpdatePaymentUseCase.swift */; };
+		1FA489882C2A4B6B005A329E /* HelveticaNeueBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA4897A2C2A4B6A005A329E /* HelveticaNeueBoldItalic.ttf */; };
+		1FA489892C2A4B6B005A329E /* HelveticaNeueCondensedBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA4897B2C2A4B6A005A329E /* HelveticaNeueCondensedBold.ttf */; };
+		1FA4898B2C2A4B6B005A329E /* HelveticaNeueUltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA4897D2C2A4B6A005A329E /* HelveticaNeueUltraLight.ttf */; };
+		1FA4898C2C2A4B6B005A329E /* HelveticaNeueLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA4897E2C2A4B6A005A329E /* HelveticaNeueLightItalic.ttf */; };
+		1FA4898D2C2A4B6B005A329E /* HelveticaNeueCondensedBlack.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA4897F2C2A4B6B005A329E /* HelveticaNeueCondensedBlack.ttf */; };
+		1FA4898E2C2A4B6B005A329E /* HelveticaNeueUltraLightItal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA489802C2A4B6B005A329E /* HelveticaNeueUltraLightItal.ttf */; };
+		1FA4898F2C2A4B6B005A329E /* HelveticaNeueItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA489812C2A4B6B005A329E /* HelveticaNeueItalic.ttf */; };
+		1FA489902C2A4B6B005A329E /* HelveticaNeueBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA489822C2A4B6B005A329E /* HelveticaNeueBold.ttf */; };
+		1FA489912C2A4B6B005A329E /* HelveticaNeueLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA489832C2A4B6B005A329E /* HelveticaNeueLight.ttf */; };
+		1FA489942C2A4B6B005A329E /* HelveticaBlkIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA489862C2A4B6B005A329E /* HelveticaBlkIt.ttf */; };
+		1FA489952C2A4B6B005A329E /* HelveticaNeueMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA489872C2A4B6B005A329E /* HelveticaNeueMedium.ttf */; };
+		1FA489992C2A60F0005A329E /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA489982C2A60F0005A329E /* CustomFonts.swift */; };
 		1FDE89062BC752A000FC0CC9 /* SavingsWatchAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE89052BC752A000FC0CC9 /* SavingsWatchAppApp.swift */; };
 		1FDE89082BC752A000FC0CC9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE89072BC752A000FC0CC9 /* ContentView.swift */; };
 		1FDE890A2BC752A200FC0CC9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FDE89092BC752A200FC0CC9 /* Assets.xcassets */; };
@@ -139,6 +151,19 @@
 		1F9E03E72C059E2E0092CAC6 /* String+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Formatter.swift"; sourceTree = "<group>"; };
 		1FA3C0012C21596700A5851B /* UpdatePaymentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePaymentVM.swift; sourceTree = "<group>"; };
 		1FA3C0032C215A5B00A5851B /* UpdatePaymentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePaymentUseCase.swift; sourceTree = "<group>"; };
+		1FA4897A2C2A4B6A005A329E /* HelveticaNeueBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueBoldItalic.ttf; sourceTree = "<group>"; };
+		1FA4897B2C2A4B6A005A329E /* HelveticaNeueCondensedBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueCondensedBold.ttf; sourceTree = "<group>"; };
+		1FA4897D2C2A4B6A005A329E /* HelveticaNeueUltraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueUltraLight.ttf; sourceTree = "<group>"; };
+		1FA4897E2C2A4B6A005A329E /* HelveticaNeueLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueLightItalic.ttf; sourceTree = "<group>"; };
+		1FA4897F2C2A4B6B005A329E /* HelveticaNeueCondensedBlack.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueCondensedBlack.ttf; sourceTree = "<group>"; };
+		1FA489802C2A4B6B005A329E /* HelveticaNeueUltraLightItal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueUltraLightItal.ttf; sourceTree = "<group>"; };
+		1FA489812C2A4B6B005A329E /* HelveticaNeueItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueItalic.ttf; sourceTree = "<group>"; };
+		1FA489822C2A4B6B005A329E /* HelveticaNeueBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueBold.ttf; sourceTree = "<group>"; };
+		1FA489832C2A4B6B005A329E /* HelveticaNeueLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueLight.ttf; sourceTree = "<group>"; };
+		1FA489862C2A4B6B005A329E /* HelveticaBlkIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaBlkIt.ttf; sourceTree = "<group>"; };
+		1FA489872C2A4B6B005A329E /* HelveticaNeueMedium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueMedium.ttf; sourceTree = "<group>"; };
+		1FA489962C2A5E03005A329E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1FA489982C2A60F0005A329E /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
 		1FDE89032BC752A000FC0CC9 /* SavingsWatchApp Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SavingsWatchApp Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FDE89052BC752A000FC0CC9 /* SavingsWatchAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsWatchAppApp.swift; sourceTree = "<group>"; };
 		1FDE89072BC752A000FC0CC9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -265,12 +290,14 @@
 		1F8D1BFB2BB65DB4001286DF /* SavingsApp */ = {
 			isa = PBXGroup;
 			children = (
+				1FA489962C2A5E03005A329E /* Info.plist */,
 				1F88C36C2BE6C04600B0DC56 /* Shared */,
 				1F93A5932BC9C65B006A5300 /* Helpers */,
 				1F93A58D2BC9C3F3006A5300 /* Domain */,
 				1FDFC5322BB76908006CE24C /* Presentation */,
 				1F8D1BFC2BB65DB4001286DF /* SavingsAppApp.swift */,
 				1F8D1C002BB65DB5001286DF /* Assets.xcassets */,
+				1FA489792C2A48E3005A329E /* CustomFont */,
 				1F8D1C022BB65DB5001286DF /* Preview Content */,
 			);
 			path = SavingsApp;
@@ -399,6 +426,7 @@
 				1F93A5942BC9C70B006A5300 /* Date+Formatter.swift */,
 				1F9125D32BE8306300A225AE /* PaymentRegistryDTO.swift */,
 				1F9E03E72C059E2E0092CAC6 /* String+Formatter.swift */,
+				1FA489982C2A60F0005A329E /* CustomFonts.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -468,6 +496,24 @@
 				1FA3C0012C21596700A5851B /* UpdatePaymentVM.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		1FA489792C2A48E3005A329E /* CustomFont */ = {
+			isa = PBXGroup;
+			children = (
+				1FA489862C2A4B6B005A329E /* HelveticaBlkIt.ttf */,
+				1FA489822C2A4B6B005A329E /* HelveticaNeueBold.ttf */,
+				1FA4897A2C2A4B6A005A329E /* HelveticaNeueBoldItalic.ttf */,
+				1FA4897F2C2A4B6B005A329E /* HelveticaNeueCondensedBlack.ttf */,
+				1FA4897B2C2A4B6A005A329E /* HelveticaNeueCondensedBold.ttf */,
+				1FA489812C2A4B6B005A329E /* HelveticaNeueItalic.ttf */,
+				1FA489832C2A4B6B005A329E /* HelveticaNeueLight.ttf */,
+				1FA4897E2C2A4B6A005A329E /* HelveticaNeueLightItalic.ttf */,
+				1FA489872C2A4B6B005A329E /* HelveticaNeueMedium.ttf */,
+				1FA4897D2C2A4B6A005A329E /* HelveticaNeueUltraLight.ttf */,
+				1FA489802C2A4B6B005A329E /* HelveticaNeueUltraLightItal.ttf */,
+			);
+			path = CustomFont;
 			sourceTree = "<group>";
 		};
 		1FDE89042BC752A000FC0CC9 /* SavingsWatchApp Watch App */ = {
@@ -770,8 +816,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FA489892C2A4B6B005A329E /* HelveticaNeueCondensedBold.ttf in Resources */,
+				1FA489942C2A4B6B005A329E /* HelveticaBlkIt.ttf in Resources */,
 				1F8D1C042BB65DB5001286DF /* Preview Assets.xcassets in Resources */,
+				1FA4898B2C2A4B6B005A329E /* HelveticaNeueUltraLight.ttf in Resources */,
+				1FA489952C2A4B6B005A329E /* HelveticaNeueMedium.ttf in Resources */,
+				1FA489912C2A4B6B005A329E /* HelveticaNeueLight.ttf in Resources */,
+				1FA489882C2A4B6B005A329E /* HelveticaNeueBoldItalic.ttf in Resources */,
+				1FA4898D2C2A4B6B005A329E /* HelveticaNeueCondensedBlack.ttf in Resources */,
+				1FA4898C2C2A4B6B005A329E /* HelveticaNeueLightItalic.ttf in Resources */,
+				1FA489902C2A4B6B005A329E /* HelveticaNeueBold.ttf in Resources */,
+				1FA4898E2C2A4B6B005A329E /* HelveticaNeueUltraLightItal.ttf in Resources */,
 				1F8D1C012BB65DB5001286DF /* Assets.xcassets in Resources */,
+				1FA4898F2C2A4B6B005A329E /* HelveticaNeueItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -835,6 +892,7 @@
 				1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */,
 				1F9983A92BE47F6E00B38C24 /* RegisterPaymentVM.swift in Sources */,
 				1F8B6D872BC24A4B0008450A /* PaymentDetailsView.swift in Sources */,
+				1FA489992C2A60F0005A329E /* CustomFonts.swift in Sources */,
 				1F9983B32BE4832100B38C24 /* FetchPaymentByDateUseCase.swift in Sources */,
 				1F9125D42BE8306300A225AE /* PaymentRegistryDTO.swift in Sources */,
 				1F93A5952BC9C70B006A5300 /* Date+Formatter.swift in Sources */,
@@ -1050,6 +1108,7 @@
 				DEVELOPMENT_TEAM = SNTB2L8C6Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SavingsApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1080,6 +1139,7 @@
 				DEVELOPMENT_TEAM = SNTB2L8C6Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SavingsApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
