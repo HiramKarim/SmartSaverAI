@@ -44,6 +44,8 @@
 		1FA489942C2A4B6B005A329E /* HelveticaBlkIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA489862C2A4B6B005A329E /* HelveticaBlkIt.ttf */; };
 		1FA489952C2A4B6B005A329E /* HelveticaNeueMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA489872C2A4B6B005A329E /* HelveticaNeueMedium.ttf */; };
 		1FA489992C2A60F0005A329E /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA489982C2A60F0005A329E /* CustomFonts.swift */; };
+		1FD6891E2C2BBADD008ED3C5 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD6891D2C2BBADD008ED3C5 /* OnboardingView.swift */; };
+		1FD689242C2BCE15008ED3C5 /* OnboardingCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD689232C2BCE15008ED3C5 /* OnboardingCarouselView.swift */; };
 		1FDE89062BC752A000FC0CC9 /* SavingsWatchAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE89052BC752A000FC0CC9 /* SavingsWatchAppApp.swift */; };
 		1FDE89082BC752A000FC0CC9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE89072BC752A000FC0CC9 /* ContentView.swift */; };
 		1FDE890A2BC752A200FC0CC9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FDE89092BC752A200FC0CC9 /* Assets.xcassets */; };
@@ -166,6 +168,8 @@
 		1FA489872C2A4B6B005A329E /* HelveticaNeueMedium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueMedium.ttf; sourceTree = "<group>"; };
 		1FA489962C2A5E03005A329E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1FA489982C2A60F0005A329E /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
+		1FD6891D2C2BBADD008ED3C5 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		1FD689232C2BCE15008ED3C5 /* OnboardingCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCarouselView.swift; sourceTree = "<group>"; };
 		1FDE89032BC752A000FC0CC9 /* SavingsWatchApp Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SavingsWatchApp Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FDE89052BC752A000FC0CC9 /* SavingsWatchAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsWatchAppApp.swift; sourceTree = "<group>"; };
 		1FDE89072BC752A000FC0CC9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -528,6 +532,15 @@
 			path = CustomFont;
 			sourceTree = "<group>";
 		};
+		1FD6891C2C2BBA88008ED3C5 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				1FD6891D2C2BBADD008ED3C5 /* OnboardingView.swift */,
+				1FD689232C2BCE15008ED3C5 /* OnboardingCarouselView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		1FDE89042BC752A000FC0CC9 /* SavingsWatchApp Watch App */ = {
 			isa = PBXGroup;
 			children = (
@@ -583,6 +596,7 @@
 		1FDFC5322BB76908006CE24C /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				1FD6891C2C2BBA88008ED3C5 /* Onboarding */,
 				1FDFC5372BB7DDC0006CE24C /* BalanceView */,
 				1FDE89352BC7943300FC0CC9 /* CalendarSectionView */,
 				1FDFC5362BB77220006CE24C /* Payment */,
@@ -903,6 +917,7 @@
 				1F9E03E82C059E2E0092CAC6 /* String+Formatter.swift in Sources */,
 				1F88C36F2BE6C11F00B0DC56 /* LoadingButtonView.swift in Sources */,
 				1F88C3732BE6E07C00B0DC56 /* FetchPaymentByDateVM.swift in Sources */,
+				1FD689242C2BCE15008ED3C5 /* OnboardingCarouselView.swift in Sources */,
 				1F9125DC2BE871A500A225AE /* PaymentDetailsVM.swift in Sources */,
 				1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */,
 				1F9983A92BE47F6E00B38C24 /* RegisterPaymentVM.swift in Sources */,
@@ -912,6 +927,7 @@
 				1F9125D42BE8306300A225AE /* PaymentRegistryDTO.swift in Sources */,
 				1F93A5952BC9C70B006A5300 /* Date+Formatter.swift in Sources */,
 				1FDFC5352BB76947006CE24C /* SmartSavingsMainView.swift in Sources */,
+				1FD6891E2C2BBADD008ED3C5 /* OnboardingView.swift in Sources */,
 				1F9983B52BE4833A00B38C24 /* DeletePaymentUseCase.swift in Sources */,
 				1F9983AF2BE482FB00B38C24 /* RegisterPaymentUseCase.swift in Sources */,
 			);
