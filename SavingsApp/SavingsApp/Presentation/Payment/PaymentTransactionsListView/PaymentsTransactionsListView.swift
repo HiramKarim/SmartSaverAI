@@ -95,7 +95,7 @@ struct PaymentsTransactionsListView: View {
                     .frame(maxWidth: .infinity, maxHeight: 80)
                     .background(
                         RoundedRectangle(cornerRadius: 20)
-                            .foregroundStyle(Color.lightBrown)
+                            .foregroundStyle(Color.init("black-color", bundle: nil))
                     )
                     .onTapGesture {
                         paymentRegistryDTO = payment.wrappedValue

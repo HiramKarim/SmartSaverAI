@@ -1,6 +1,72 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
+    "-%.2f" : {
+
+    },
+    "%.2f" : {
+
+    },
+    "0.0" : {
+
+    },
+    "Aceptar" : {
+
+    },
+    "All" : {
+
+    },
+    "Amount($)" : {
+
+    },
+    "Are you sure to delete?" : {
+
+    },
+    "Category" : {
+
+    },
+    "Close" : {
+
+    },
+    "Date" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Enter payment name" : {
+
+    },
+    "Error" : {
+
+    },
+    "Expence" : {
+
+    },
+    "Expense" : {
+
+    },
+    "Income" : {
+
+    },
+    "Key" : {
+      "extractionState" : "manual"
+    },
+    "Location (optional)" : {
+
+    },
+    "Memo" : {
+
+    },
+    "Name" : {
+
+    },
+    "New Payment" : {
+
+    },
     "onboarding_button_start" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -197,7 +263,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "onboarding_page_4_title"
+            "value" : "Visualize Your Statistics"
           }
         },
         "es-MX" : {
@@ -253,6 +319,51 @@
           }
         }
       }
+    },
+    "Payment Details" : {
+
+    },
+    "Personal Finance" : {
+
+    },
+    "Please enter a valid amount" : {
+
+    },
+    "Please enter the payment name" : {
+
+    },
+    "Recent transactions" : {
+
+    },
+    "Save" : {
+
+    },
+    "Success" : {
+
+    },
+    "This will permanently delete the registry." : {
+
+    },
+    "Today" : {
+
+    },
+    "Total Balance" : {
+
+    },
+    "Type" : {
+
+    },
+    "Update" : {
+
+    },
+    "Update Payment" : {
+
+    },
+    "Where do you spend?" : {
+
+    },
+    "Your personal note" : {
+
     }
   },
   "version" : "1.0"

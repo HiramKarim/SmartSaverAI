@@ -37,7 +37,7 @@ struct BalanceView: View {
             HStack {
                 ViewThatFits(in: .vertical) {
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.init("light-brown-color", bundle: nil))
+                        .fill(Color.init("black-color", bundle: nil))
                     .overlay(
                         VStack(spacing: 10) {
                             Text("Income")
@@ -54,7 +54,7 @@ struct BalanceView: View {
                 
                 ViewThatFits(in: .vertical) {
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.init("light-brown-color", bundle: nil))
+                        .fill(Color.init("black-color", bundle: nil))
                     .overlay(
                         VStack(spacing: 10) {
                             Text("Expense")

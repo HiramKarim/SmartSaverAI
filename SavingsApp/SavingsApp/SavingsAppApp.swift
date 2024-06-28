@@ -12,7 +12,7 @@ import PersistenceModule
 struct SavingsAppApp: App {
     var body: some Scene {
         WindowGroup {
-            SmartSavingsMainView()
+            OnboardingCarouselView()
         }
     }
 }
