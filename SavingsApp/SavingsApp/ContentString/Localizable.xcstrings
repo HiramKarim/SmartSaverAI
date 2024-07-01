@@ -67,6 +67,29 @@
     "New Payment" : {
 
     },
+    "onboarding_button_next" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weiter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siguiente"
+          }
+        }
+      }
+    },
     "onboarding_button_start" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -336,6 +359,9 @@
 
     },
     "Save" : {
+
+    },
+    "siguiente" : {
 
     },
     "Success" : {

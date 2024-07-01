@@ -44,6 +44,8 @@
 		1FA489942C2A4B6B005A329E /* HelveticaBlkIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA489862C2A4B6B005A329E /* HelveticaBlkIt.ttf */; };
 		1FA489952C2A4B6B005A329E /* HelveticaNeueMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA489872C2A4B6B005A329E /* HelveticaNeueMedium.ttf */; };
 		1FA489992C2A60F0005A329E /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA489982C2A60F0005A329E /* CustomFonts.swift */; };
+		1FB8DCF82C31CBFD0025E79C /* Color+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB8DCF72C31CBFD0025E79C /* Color+Formatter.swift */; };
+		1FB8DCFA2C3202E70025E79C /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB8DCF92C3202E70025E79C /* AppState.swift */; };
 		1FD6891E2C2BBADD008ED3C5 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD6891D2C2BBADD008ED3C5 /* OnboardingView.swift */; };
 		1FD689242C2BCE15008ED3C5 /* OnboardingCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD689232C2BCE15008ED3C5 /* OnboardingCarouselView.swift */; };
 		1FDE89062BC752A000FC0CC9 /* SavingsWatchAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE89052BC752A000FC0CC9 /* SavingsWatchAppApp.swift */; };
@@ -168,6 +170,8 @@
 		1FA489872C2A4B6B005A329E /* HelveticaNeueMedium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueMedium.ttf; sourceTree = "<group>"; };
 		1FA489962C2A5E03005A329E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1FA489982C2A60F0005A329E /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
+		1FB8DCF72C31CBFD0025E79C /* Color+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Formatter.swift"; sourceTree = "<group>"; };
+		1FB8DCF92C3202E70025E79C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		1FD6891D2C2BBADD008ED3C5 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		1FD689232C2BCE15008ED3C5 /* OnboardingCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCarouselView.swift; sourceTree = "<group>"; };
 		1FDE89032BC752A000FC0CC9 /* SavingsWatchApp Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SavingsWatchApp Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -443,6 +447,8 @@
 				1F9125D32BE8306300A225AE /* PaymentRegistryDTO.swift */,
 				1F9E03E72C059E2E0092CAC6 /* String+Formatter.swift */,
 				1FA489982C2A60F0005A329E /* CustomFonts.swift */,
+				1FB8DCF72C31CBFD0025E79C /* Color+Formatter.swift */,
+				1FB8DCF92C3202E70025E79C /* AppState.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -908,6 +914,7 @@
 				1F9983B12BE4831300B38C24 /* FetchPaymentByNameUseCase.swift in Sources */,
 				1FA3C0042C215A5B00A5851B /* UpdatePaymentUseCase.swift in Sources */,
 				1FDFC5392BB7DDE9006CE24C /* BalanceView.swift in Sources */,
+				1FB8DCFA2C3202E70025E79C /* AppState.swift in Sources */,
 				1FDFC53C2BB7DFAC006CE24C /* PaymentsTransactionsListView.swift in Sources */,
 				1FA3C0022C21596700A5851B /* UpdatePaymentVM.swift in Sources */,
 				1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */,
@@ -923,6 +930,7 @@
 				1F9983A92BE47F6E00B38C24 /* RegisterPaymentVM.swift in Sources */,
 				1F8B6D872BC24A4B0008450A /* PaymentDetailsView.swift in Sources */,
 				1FA489992C2A60F0005A329E /* CustomFonts.swift in Sources */,
+				1FB8DCF82C31CBFD0025E79C /* Color+Formatter.swift in Sources */,
 				1F9983B32BE4832100B38C24 /* FetchPaymentByDateUseCase.swift in Sources */,
 				1F9125D42BE8306300A225AE /* PaymentRegistryDTO.swift in Sources */,
 				1F93A5952BC9C70B006A5300 /* Date+Formatter.swift in Sources */,

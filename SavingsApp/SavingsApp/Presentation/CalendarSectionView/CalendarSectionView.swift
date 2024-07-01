@@ -59,7 +59,7 @@ struct CalendarSectionView: View {
             .padding()
             .background(
                     Capsule()
-                        .foregroundStyle(Color.init("black-color", bundle: nil))
+                        .foregroundStyle(Color.init("pale-green", bundle: nil))
             )
             .onAppear {
                 vm.getCurrentDateFormatted()
