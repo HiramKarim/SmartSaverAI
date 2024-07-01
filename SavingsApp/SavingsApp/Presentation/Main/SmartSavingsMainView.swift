@@ -46,6 +46,7 @@ struct SmartSavingsMainView: View {
                         totalIncome: $totalIncome,
                         totalExpence: $totalExpence
                     )
+                    ChartView()
                     PaymentsTransactionsListView(
                         presentPaymentDetail: $presentingPaymentDetailSheet,
                         dataSavedEvent: $dataSavedEvent,
@@ -80,7 +81,7 @@ struct SmartSavingsMainView: View {
                     })
                 }
             }
-            .navigationTitle("Personal Finance")
+            .navigationTitle("Finance Master")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

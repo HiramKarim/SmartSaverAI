@@ -10,19 +10,31 @@
     "%.2f" : {
 
     },
+    "$%.2f" : {
+
+    },
+    "$0" : {
+
+    },
     "0.0" : {
 
     },
     "Aceptar" : {
 
     },
-    "All" : {
-
-    },
     "Amount($)" : {
 
     },
+    "Añadir Gasto" : {
+
+    },
+    "Añadir Ingreso" : {
+
+    },
     "Are you sure to delete?" : {
+
+    },
+    "Balance Actual" : {
 
     },
     "Category" : {
@@ -37,6 +49,9 @@
     "Delete" : {
 
     },
+    "Distribución de Gastos" : {
+
+    },
     "Enter payment name" : {
 
     },
@@ -46,10 +61,22 @@
     "Expence" : {
 
     },
-    "Expense" : {
+    "Expenses" : {
+
+    },
+    "Finance Master" : {
+
+    },
+    "FinanceMaster" : {
+
+    },
+    "Gastos" : {
 
     },
     "Income" : {
+
+    },
+    "Ingresos" : {
 
     },
     "Key" : {
@@ -343,10 +370,13 @@
         }
       }
     },
+    "Owner" : {
+
+    },
     "Payment Details" : {
 
     },
-    "Personal Finance" : {
+    "Pie Chart Placeholder" : {
 
     },
     "Please enter a valid amount" : {
@@ -361,7 +391,7 @@
     "Save" : {
 
     },
-    "siguiente" : {
+    "Share" : {
 
     },
     "Success" : {
@@ -374,6 +404,9 @@
 
     },
     "Total Balance" : {
+
+    },
+    "Transacciones Recientes" : {
 
     },
     "Type" : {

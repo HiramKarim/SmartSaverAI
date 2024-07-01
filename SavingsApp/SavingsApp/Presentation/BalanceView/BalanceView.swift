@@ -15,63 +15,40 @@ struct BalanceView: View {
     
     var body: some View {
         VStack {
-            ViewThatFits(in: .vertical) {
-                RoundedRectangle(cornerRadius: 16)
-                .fill(Color.init("low-blue", bundle: nil))
-                .overlay(
-                    VStack(spacing: 20) {
-                        Text("Total Balance")
-                            .font(.system(size: 30))
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Total Balance")
+                    .foregroundStyle(Color.gray)
+                    .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 20))
+                
+                Text("$\(totalBalance, specifier: "%.2f")")
+                    .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 40))
+                
+                HStack {
+                    VStack(alignment:.leading) {
+                        Text("Income")
                             .foregroundStyle(Color.gray)
-                        Text("\(totalBalance, specifier: "%.2f")")
-                            .font(.system(size: 70))
-                            .foregroundStyle(Color.init("black-color", bundle: nil))
-                    }
-                    .foregroundColor(Color.white)
-                    .bold()
-                )
-                .frame(width: 350, height: 200)
+                            .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 20))
+                        
+                        Text("$\(totalIncome, specifier: "%.2f")")
+                            .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 30))
+                    } //incomes
+                    Spacer()
+                    VStack(alignment:.leading) {
+                        Text("Expenses")
+                            .foregroundStyle(Color.gray)
+                            .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 20))
+                        
+                        Text("$\(totalExpence, specifier: "%.2f")")
+                            .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 30))
+                    } //expenses
+                } //incomes/expenses stack
             }
             .padding()
-            
-            HStack {
-                ViewThatFits(in: .vertical) {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.init("black-color", bundle: nil))
-                    .overlay(
-                        VStack(spacing: 10) {
-                            Text("Income")
-                                .foregroundStyle(Color.gray)
-                            Text("\(totalIncome, specifier: "%.2f")")
-                                .foregroundStyle(Color.init("black-color", bundle: nil))
-                        }
-                        .bold()
-                        .font(.system(size: 20))
-                    )
-                    .frame(width: 150, height: 130)
-                }
-                .padding()
-                
-                ViewThatFits(in: .vertical) {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.init("black-color", bundle: nil))
-                    .overlay(
-                        VStack(spacing: 10) {
-                            Text("Expense")
-                                .foregroundStyle(Color.gray)
-                            Text("\(totalExpence, specifier: "%.2f")")
-                                .foregroundStyle(Color.init("black-color", bundle: nil))
-                        }
-                        .bold()
-                        .font(.system(size: 20))
-
-                    )
-                    .frame(width: 150, height: 130)
-                }
-                .padding()
-            }
+            .background(Color.white)
+            .cornerRadius(10)
+            .shadow(radius: 5)
+            .padding()
         }
-        
     }
 }
 

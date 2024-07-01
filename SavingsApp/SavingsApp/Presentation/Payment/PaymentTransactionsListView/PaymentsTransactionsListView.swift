@@ -29,47 +29,10 @@ struct PaymentsTransactionsListView: View {
     @State private var expenceButton:Bool = false
     
     var body: some View {
-        VStack {
-            VStack(alignment: .leading) {
-                Text("Recent transactions")
-                    .font(.title2)
-                    .foregroundStyle(Color.gray)
-                
-                HStack {
-                    Button("All") {
-                        allButton = true
-                        incomeButton = false
-                        expenceButton = false
-                    }
-                    .buttonBorderShape(.capsule)
-                    .buttonStyle(.borderedProminent)
-                    .tint(allButton ? .purple : .gray)
-                    
-                    Button("Income") {
-                        allButton = false
-                        incomeButton = true
-                        expenceButton = false
-                    }
-                    .buttonBorderShape(.capsule)
-                    .buttonStyle(.borderedProminent)
-                    .tint(incomeButton ? .purple : .gray)
-                    
-                    Button("Expence") {
-                        allButton = false
-                        incomeButton = false
-                        expenceButton = true
-                    }
-                    .buttonBorderShape(.capsule)
-                    .buttonStyle(.borderedProminent)
-                    .tint(expenceButton ? .purple : .gray)
-                    
-                    Spacer()
-
-                }
-                
-            }
-            .padding(.leading, 0)
-            .padding(.bottom, 10)
+        VStack(alignment: .leading) {
+            
+            Text("Recent transactions")
+                .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 20))
             
             LazyVStack(spacing: 10) {
                 ForEach($vm.dataPaymentArray, id: \.self) { payment in
@@ -95,7 +58,7 @@ struct PaymentsTransactionsListView: View {
                     .frame(maxWidth: .infinity, maxHeight: 80)
                     .background(
                         RoundedRectangle(cornerRadius: 20)
-                            .foregroundStyle(Color.init("black-color", bundle: nil))
+                            .foregroundStyle(Color.white)
                     )
                     .onTapGesture {
                         paymentRegistryDTO = payment.wrappedValue
