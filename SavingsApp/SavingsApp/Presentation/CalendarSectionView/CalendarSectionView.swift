@@ -55,12 +55,13 @@ struct CalendarSectionView: View {
                         .foregroundStyle(Color.init("black-color", bundle: nil))
                 }
             }
-            .frame(width: 320)
             .padding()
             .background(
-                    Capsule()
-                        .foregroundStyle(Color.white)
+                Capsule()
+                    .foregroundStyle(Color.white)
+                    .shadow(radius: 5)
             )
+            .padding()
             .onAppear {
                 vm.getCurrentDateFormatted()
             }

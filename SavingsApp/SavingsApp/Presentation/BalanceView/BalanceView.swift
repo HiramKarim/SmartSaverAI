@@ -24,7 +24,7 @@ struct BalanceView: View {
                     .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 40))
                 
                 HStack {
-                    VStack(alignment:.leading) {
+                    VStack(alignment:.leading, spacing: 20) {
                         Text("Income")
                             .foregroundStyle(Color.gray)
                             .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 20))
@@ -33,7 +33,7 @@ struct BalanceView: View {
                             .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 30))
                     } //incomes
                     Spacer()
-                    VStack(alignment:.leading) {
+                    VStack(alignment:.leading, spacing: 20) {
                         Text("Expenses")
                             .foregroundStyle(Color.gray)
                             .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 20))
