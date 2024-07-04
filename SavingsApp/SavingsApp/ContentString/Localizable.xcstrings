@@ -40,6 +40,9 @@
     "Category" : {
 
     },
+    "Chart" : {
+
+    },
     "Close" : {
 
     },
@@ -71,6 +74,9 @@
 
     },
     "Gastos" : {
+
+    },
+    "home" : {
 
     },
     "Income" : {
@@ -389,6 +395,9 @@
 
     },
     "Save" : {
+
+    },
+    "Settings" : {
 
     },
     "Share" : {

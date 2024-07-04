@@ -33,101 +33,108 @@ struct SmartSavingsMainView: View {
     @State var paymentViewStateEvent = PassthroughSubject<PaymentViewState, Never>()
         
     var body: some View {
-        ZStack {
-            NavigationStack {
-                ZStack {
-                    LinearGradient(gradient: .init(colors: [
-                        Color.init("GradientColor-1", bundle: nil),
-                        Color.init("GradientColor-2", bundle: nil),
-                        Color.init("GradientColor-3", bundle: nil)
-                    ]), startPoint: .top,
-                        endPoint: .bottom)
-                    .ignoresSafeArea(.all)
-                    VStack {
-                        Divider()
-                        ScrollView(showsIndicators: false) {
-                            CalendarSectionView(
-                                month: $month,
-                                year: $year
-                            )
-                            BalanceView(
-                                totalBalance: $totalBalance,
-                                totalIncome: $totalIncome,
-                                totalExpence: $totalExpence
-                            )
-                            PaymentsTransactionsListView(
-                                presentPaymentDetail: $presentingPaymentDetailSheet,
-                                dataSavedEvent: $dataSavedEvent,
-                                month: $month,
-                                year: $year,
-                                totalBalance: $totalBalance,
-                                totalIncome: $totalIncome,
-                                totalExpence: $totalExpence,
-                                paymentRegistryDTO: $paymentRegistryDTO,
-                                shouldRefreshListEvent: $shouldRefreshListEvent
-                            )
-                            .sheet(isPresented: $presentingPaymentDetailSheet,
-                                   content: {
-                                PaymentDetailsView(
-                                    paymentRegistryDTO: $paymentRegistryDTO,
-                                    shouldRefreshListEvent: $shouldRefreshListEvent,
+        
+        TabView {
+            ZStack {
+                NavigationStack {
+                    ZStack {
+                        LinearGradient(gradient: .init(colors: [
+                            Color.init("GradientColor-1", bundle: nil),
+                            Color.init("GradientColor-2", bundle: nil),
+                            Color.init("GradientColor-3", bundle: nil)
+                        ]), startPoint: .top,
+                            endPoint: .bottom)
+                        .ignoresSafeArea(.all)
+                        VStack {
+                            Divider()
+                            ScrollView(showsIndicators: false) {
+                                CalendarSectionView(
+                                    month: $month,
+                                    year: $year
+                                )
+                                BalanceView(
+                                    totalBalance: $totalBalance,
+                                    totalIncome: $totalIncome,
+                                    totalExpence: $totalExpence
+                                )
+                                PaymentsTransactionsListView(
                                     presentPaymentDetail: $presentingPaymentDetailSheet,
-                                    presentingUpdatePaymentSheet: $presentingUpdatePaymentSheet,
-                                    paymentViewStateEvent: $paymentViewStateEvent
+                                    dataSavedEvent: $dataSavedEvent,
+                                    month: $month,
+                                    year: $year,
+                                    totalBalance: $totalBalance,
+                                    totalIncome: $totalIncome,
+                                    totalExpence: $totalExpence,
+                                    paymentRegistryDTO: $paymentRegistryDTO,
+                                    shouldRefreshListEvent: $shouldRefreshListEvent
                                 )
-                                .padding()
-                                .presentationDetents([.fraction(0.75), .height(400)])
-                            })
-                            .sheet(isPresented: $presentingUpdatePaymentSheet,
-                                   content: {
-                                AddPaymentView(
-                                    dataSaved: $dataSavedEvent,
-                                    paymentRegistryDTO:$paymentRegistryDTO,
-                                    paymentViewState: .update,
-                                    paymentViewStateEvent: $paymentViewStateEvent
-                                )
-                            })
+                                .sheet(isPresented: $presentingPaymentDetailSheet,
+                                       content: {
+                                    PaymentDetailsView(
+                                        paymentRegistryDTO: $paymentRegistryDTO,
+                                        shouldRefreshListEvent: $shouldRefreshListEvent,
+                                        presentPaymentDetail: $presentingPaymentDetailSheet,
+                                        presentingUpdatePaymentSheet: $presentingUpdatePaymentSheet,
+                                        paymentViewStateEvent: $paymentViewStateEvent
+                                    )
+                                    .padding()
+                                    .presentationDetents([.fraction(0.75), .height(400)])
+                                })
+                                .sheet(isPresented: $presentingUpdatePaymentSheet,
+                                       content: {
+                                    AddPaymentView(
+                                        dataSaved: $dataSavedEvent,
+                                        paymentRegistryDTO:$paymentRegistryDTO,
+                                        paymentViewState: .update,
+                                        paymentViewStateEvent: $paymentViewStateEvent
+                                    )
+                                })
+                            }
                         }
+                        .navigationTitle("Finance Master")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbarBackground(.visible, for: .navigationBar)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button(action: {
+                                    presentingAddPaymentSheet = true
+                                }) {
+                                    Image(systemName: "plus.circle")
+                                        .padding(.horizontal)
+                                        .foregroundColor(Color.black)
+                                        .font(.title2)
+                                        .bold()
+                                }
+                                .sheet(isPresented: $presentingAddPaymentSheet,
+                                       content: {
+                                    AddPaymentView(
+                                        dataSaved: $dataSavedEvent,
+                                        paymentRegistryDTO:$paymentRegistryDTO,
+                                        paymentViewState: .insert,
+                                        paymentViewStateEvent: $paymentViewStateEvent
+                                    )
+                                })
+                            }
+                        } // toolbar
                     }
-                    .navigationTitle("Finance Master")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(action: {
-                                
-                            }) {
-                                Image(systemName: "gear")
-                                    .padding(.horizontal)
-                                    .foregroundColor(Color.black)
-                                    .font(.title2)
-                                    .bold()
-                            }
-                        }
-                        
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button(action: {
-                                presentingAddPaymentSheet = true
-                            }) {
-                                Image(systemName: "plus.circle")
-                                    .padding(.horizontal)
-                                    .foregroundColor(Color.black)
-                                    .font(.title2)
-                                    .bold()
-                            }
-                            .sheet(isPresented: $presentingAddPaymentSheet,
-                                   content: {
-                                AddPaymentView(
-                                    dataSaved: $dataSavedEvent,
-                                    paymentRegistryDTO:$paymentRegistryDTO,
-                                    paymentViewState: .insert,
-                                    paymentViewStateEvent: $paymentViewStateEvent
-                                )
-                            })
-                        }
-                    } // toolbar
-                }
-            } // navigation stack
-        }
+                } // navigation stack
+            }
+            .toolbarBackground(.visible, for: .tabBar)
+            .tabItem { Label("home", systemImage: "house") }
+            
+            ZStack {
+                
+            }
+            .toolbarBackground(.visible, for: .tabBar)
+            .tabItem { Label("Chart", systemImage: "chart.pie.fill") }
+            
+            
+            ZStack {
+                
+            }
+            .toolbarBackground(.visible, for: .tabBar)
+            .tabItem { Label("Settings", systemImage: "gear") }
+        } // tab
     }
 }
 
