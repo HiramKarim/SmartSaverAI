@@ -44,8 +44,50 @@ struct PaymentsTransactionsListView: View {
                 
                 LazyVStack(spacing: 10) {
                     ForEach($vm.dataPaymentArray, id: \.self) { payment in
+                        NavigationLink {
+                            PaymentDetailsView(
+                                paymentRegistryDTO: .constant(payment.wrappedValue),
+                                shouldRefreshListEvent: .constant(PassthroughSubject<Void, Never>()),
+                                presentPaymentDetail: .constant(true),
+                                presentingUpdatePaymentSheet: .constant(true),
+                                paymentViewStateEvent: .constant(PassthroughSubject<PaymentViewState, Never>())
+                            )
+                        } label: {
+                            HStack(spacing: 10) {
+                                Image(systemName: payment.typeNum.wrappedValue == 2 ?
+                                      "arrowtriangle.down.circle" :
+                                        "arrowtriangle.up.circle")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundStyle(payment.typeNum.wrappedValue == 2 ?
+                                                     Color.red :
+                                                     Color.green)
+                                
+                                VStack(alignment: .leading, spacing: 10) {
+                                    Text(payment.name.wrappedValue)
+                                        .lineLimit(2)
+                                        .minimumScaleFactor(1)
+                                        .font(.callout)
+                                    Text(payment.date.wrappedValue.convertToString(withFormat: .fullDate))
+                                        .font(.callout)
+                                        .foregroundStyle(Color.gray)
+                                        .minimumScaleFactor(1)
+                                }
+                                
+                                Spacer()
+                                
+                                Text("$\(payment.amount.wrappedValue, specifier: "%.2f")")
+                                    .font(.headline)
+                                    .foregroundStyle(payment.typeNum.wrappedValue == 2 ?
+                                                     Color.red :
+                                                     Color.green)
+                            } //cell
+                            .frame(maxHeight: 80)
+                            .padding()
+                        }
+
+                        /*
                         HStack(spacing: 10) {
-                            
                             Image(systemName: payment.typeNum.wrappedValue == 2 ?
                                   "arrowtriangle.down.circle" :
                                     "arrowtriangle.up.circle")
@@ -80,6 +122,7 @@ struct PaymentsTransactionsListView: View {
                             presentPaymentDetail = true
                         }
                         .padding()
+                        */
                     }
                 }
             }

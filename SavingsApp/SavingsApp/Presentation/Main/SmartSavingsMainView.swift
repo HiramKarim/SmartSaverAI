@@ -38,13 +38,6 @@ struct SmartSavingsMainView: View {
             ZStack {
                 NavigationStack {
                     ZStack {
-                        LinearGradient(gradient: .init(colors: [
-                            Color.init("GradientColor-1", bundle: nil),
-                            Color.init("GradientColor-2", bundle: nil),
-                            Color.init("GradientColor-3", bundle: nil)
-                        ]), startPoint: .top,
-                            endPoint: .bottom)
-                        .ignoresSafeArea(.all)
                         VStack {
                             Divider()
                             ScrollView(showsIndicators: false) {
@@ -96,34 +89,31 @@ struct SmartSavingsMainView: View {
                         .toolbarBackground(.visible, for: .navigationBar)
                         .toolbar {
                             ToolbarItem(placement: .topBarTrailing) {
-                                Button(action: {
-                                    presentingAddPaymentSheet = true
-                                }) {
-                                    Image(systemName: "plus.circle")
-                                        .padding(.horizontal)
-                                        .foregroundColor(Color.black)
-                                        .font(.title2)
-                                        .bold()
-                                }
-                                .sheet(isPresented: $presentingAddPaymentSheet,
-                                       content: {
+                                NavigationLink {
                                     AddPaymentView(
                                         dataSaved: $dataSavedEvent,
                                         paymentRegistryDTO:$paymentRegistryDTO,
                                         paymentViewState: .insert,
                                         paymentViewStateEvent: $paymentViewStateEvent
                                     )
-                                })
+                                } label: {
+                                    Image(systemName: "plus.circle")
+                                        .padding(.horizontal)
+                                        .foregroundColor(Color.black)
+                                        .font(.title2)
+                                        .bold()
+                                }
                             }
                         } // toolbar
                     }
+                    
                 } // navigation stack
             }
             .toolbarBackground(.visible, for: .tabBar)
             .tabItem { Label("home", systemImage: "house") }
             
             ZStack {
-                
+                ChartView()
             }
             .toolbarBackground(.visible, for: .tabBar)
             .tabItem { Label("Chart", systemImage: "chart.pie.fill") }

@@ -32,9 +32,10 @@ struct ChartView: View {
                 .foregroundStyle(by: .value("Owner", data.category))
             }
         }
+        .padding()
         .chartLegend(position: .bottom, alignment: .center)
         .dynamicTypeSize(.accessibility2)
-        .padding()
+        .frame(maxHeight: .infinity)
     }
 }
 
