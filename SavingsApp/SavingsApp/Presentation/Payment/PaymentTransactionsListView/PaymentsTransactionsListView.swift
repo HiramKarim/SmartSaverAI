@@ -21,7 +21,6 @@ struct PaymentsTransactionsListView: View {
     @Binding var totalBalance: Double
     @Binding var totalIncome: Double
     @Binding var totalExpence: Double
-    @Binding var paymentRegistryDTO: PaymentRegistryDTO
     @Binding var shouldRefreshListEvent: PassthroughSubject<Void, Never>
     
     @State private var allButton:Bool = true
@@ -50,11 +49,8 @@ struct PaymentsTransactionsListView: View {
                         
                         NavigationLink {
                             PaymentDetailsView(
-                                paymentRegistryDTO: .constant(payment.wrappedValue),
+                                paymentRegistryDTO: payment.wrappedValue,
                                 shouldRefreshListEvent: $shouldRefreshListEvent,
-                                presentPaymentDetail: .constant(false),
-                                presentingUpdatePaymentSheet: .constant(false),
-                                paymentViewStateEvent: .constant(PassthroughSubject<PaymentViewState, Never>()),
                                 navPath: $navPath
                             )
                         } label: {
@@ -131,7 +127,6 @@ struct PaymentsTransactionsListView: View {
         totalBalance: .constant(0.0),
         totalIncome: .constant(0.0),
         totalExpence: .constant(0.0),
-        paymentRegistryDTO: .constant(PaymentRegistryDTO()), 
         shouldRefreshListEvent: .constant(PassthroughSubject<Void, Never>()), 
         navPath: .constant([""])
     )

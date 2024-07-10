@@ -56,7 +56,8 @@ class PaymentDetailsVM: ObservableObject {
     
     func getPaymentData() {
         fetchByNameUseCase?.fetchPayments(withName: self.name, 
-                                          limit: nil, completion: { [weak self] result in
+                                          limit: nil, completion: { 
+            [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let paymentActivity):
@@ -73,7 +74,7 @@ class PaymentDetailsVM: ObservableObject {
                                                    paymentType: paymentDTO.paymentType
                                                   )
                 )
-            case .failure(let error): break
+            case .failure(_): break
             }
         })
     }

@@ -15,10 +15,9 @@ struct AddPaymentView: View {
     @ObservedObject private var updateVM = UpdatePaymentVM(useCase: UpdatePaymentUseCase())
     
     @Binding var dataSaved: PassthroughSubject<Void, Never>
-    @Binding var paymentRegistryDTO: PaymentRegistryDTO
+    var paymentRegistryDTO: PaymentRegistryDTO
     
     var paymentViewState: PaymentViewState = .insert
-    @Binding var paymentViewStateEvent:PassthroughSubject<PaymentViewState, Never>
     
     @Binding var navPath: [String]
     
@@ -174,7 +173,7 @@ struct AddPaymentView: View {
                 self.dataSaved.send()
             })
             .onChange(of: vm.showSuccessRegistry, {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2,
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1,
                                               execute: {
                     vm.isLoading = false
                     vm.showSuccessRegistry = false
@@ -182,14 +181,14 @@ struct AddPaymentView: View {
                 })
             })
             .onChange(of: vm.showErrorOnRegistry, {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2,
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1,
                                               execute: {
                     vm.showSuccessRegistry = false
                     vm.showErrorOnRegistry = false
                 })
             })
             .onChange(of: updateVM.paymentUpdated, {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2,
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1,
                                               execute: {
                     vm.isLoading = false
                     vm.showSuccessRegistry = false
@@ -199,7 +198,7 @@ struct AddPaymentView: View {
                 })
             })
             .onChange(of: updateVM.showError, {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2,
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1,
                                               execute: {
                     vm.showSuccessRegistry = false
                     vm.showErrorOnRegistry = false
@@ -214,9 +213,8 @@ struct AddPaymentView: View {
 #Preview {
     AddPaymentView(
         dataSaved: .constant(PassthroughSubject<Void, Never>()),
-        paymentRegistryDTO: .constant(PaymentRegistryDTO()),
-        paymentViewState: .insert, 
-        paymentViewStateEvent: .constant(PassthroughSubject<PaymentViewState, Never>()), 
+        paymentRegistryDTO: PaymentRegistryDTO(),
+        paymentViewState: .insert,
         navPath: .constant([""]), 
         shouldRefreshDetailView: .constant(PassthroughSubject<Void, Never>())
     )

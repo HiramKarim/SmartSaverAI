@@ -10,11 +10,10 @@ import Combine
 
 struct PaymentDetailsView: View {
     
-    @Binding var paymentRegistryDTO: PaymentRegistryDTO
+    @Environment(\.dismiss) var dismiss
+    
+    var paymentRegistryDTO: PaymentRegistryDTO
     @Binding var shouldRefreshListEvent: PassthroughSubject<Void, Never>
-    @Binding var presentPaymentDetail: Bool
-    @Binding var presentingUpdatePaymentSheet: Bool
-    @Binding var paymentViewStateEvent:PassthroughSubject<PaymentViewState, Never>
     
     @State private var showDeleteAlert = false
     @State private var showUpdate = false
@@ -25,15 +24,6 @@ struct PaymentDetailsView: View {
     @Binding var navPath: [String]
     
     @State var shouldRefreshDetailView = PassthroughSubject<Void, Never>()
-    
-    private func startTimeForUpdateSheet() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.presentingUpdatePaymentSheet = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.paymentViewStateEvent.send(.update)
-            }
-        }
-    }
     
     var body: some View {
         ZStack {
@@ -113,8 +103,8 @@ struct PaymentDetailsView: View {
                                 primaryButton: .destructive(Text("Delete")) {
                                     paymentDetailsVM.deletePayment()
                                     shouldRefreshListEvent.send()
-                                    presentPaymentDetail = false
                                     navPath.removeAll()
+                                    dismiss()
                                 },
                                 secondaryButton: .cancel()
                             )
@@ -137,9 +127,8 @@ struct PaymentDetailsView: View {
                         .sheet(isPresented: $showUpdate) {
                             AddPaymentView(
                                 dataSaved: $shouldRefreshListEvent,
-                                paymentRegistryDTO: $paymentRegistryDTO,
+                                paymentRegistryDTO: paymentRegistryDTO,
                                 paymentViewState: .update,
-                                paymentViewStateEvent: $paymentViewStateEvent,
                                 navPath: $navPath, 
                                 shouldRefreshDetailView: $shouldRefreshDetailView
                             )
@@ -158,11 +147,10 @@ struct PaymentDetailsView: View {
                 self.paymentDetailsVM.updateView(withPayment: paymentRegistryDTO)
             })
             .onChange(of: paymentDetailsVM.showError) { oldValue, newValue in
-                presentPaymentDetail = false
+                
             }
             .onChange(of: paymentDetailsVM.paymentDeleted) { oldValue, newValue in
                 shouldRefreshListEvent.send()
-                presentPaymentDetail = false
             }
             .onReceive(shouldRefreshDetailView, perform: { _ in
                 self.shouldRefreshListEvent.send()
@@ -175,11 +163,8 @@ struct PaymentDetailsView: View {
 
 #Preview {
     PaymentDetailsView(
-        paymentRegistryDTO: .constant(PaymentRegistryDTO()),
+        paymentRegistryDTO: PaymentRegistryDTO(),
         shouldRefreshListEvent: .constant(PassthroughSubject<Void, Never>()),
-        presentPaymentDetail: .constant(false),
-        presentingUpdatePaymentSheet: .constant(false),
-        paymentViewStateEvent: .constant(PassthroughSubject<PaymentViewState, Never>()), 
         navPath: .constant([""])
     )
 }

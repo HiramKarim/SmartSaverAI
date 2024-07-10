@@ -60,7 +60,6 @@ struct SmartSavingsMainView: View {
                                     totalBalance: $totalBalance,
                                     totalIncome: $totalIncome,
                                     totalExpence: $totalExpence,
-                                    paymentRegistryDTO: $paymentRegistryDTO,
                                     shouldRefreshListEvent: $shouldRefreshListEvent, 
                                     navPath: $navPath
                                 )
@@ -71,9 +70,8 @@ struct SmartSavingsMainView: View {
                             if pathValue == "AddPaymentView" {
                                 AddPaymentView(
                                     dataSaved: $dataSavedEvent,
-                                    paymentRegistryDTO:$paymentRegistryDTO,
+                                    paymentRegistryDTO: PaymentRegistryDTO(),
                                     paymentViewState: .insert,
-                                    paymentViewStateEvent: $paymentViewStateEvent,
                                     navPath: $navPath, 
                                     shouldRefreshDetailView: .constant(PassthroughSubject<Void, Never>())
                                 )
