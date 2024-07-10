@@ -31,12 +31,14 @@ struct SmartSavingsMainView: View {
     
     private var paymentViewState: PaymentViewState = .insert
     @State var paymentViewStateEvent = PassthroughSubject<PaymentViewState, Never>()
+    
+    @State private var navPath: [String] = []
         
     var body: some View {
         
         TabView {
             ZStack {
-                NavigationStack {
+                NavigationStack(path: $navPath) {
                     ZStack {
                         VStack {
                             Divider()
@@ -59,44 +61,29 @@ struct SmartSavingsMainView: View {
                                     totalIncome: $totalIncome,
                                     totalExpence: $totalExpence,
                                     paymentRegistryDTO: $paymentRegistryDTO,
-                                    shouldRefreshListEvent: $shouldRefreshListEvent
+                                    shouldRefreshListEvent: $shouldRefreshListEvent, 
+                                    navPath: $navPath
                                 )
-                                .sheet(isPresented: $presentingPaymentDetailSheet,
-                                       content: {
-                                    PaymentDetailsView(
-                                        paymentRegistryDTO: $paymentRegistryDTO,
-                                        shouldRefreshListEvent: $shouldRefreshListEvent,
-                                        presentPaymentDetail: $presentingPaymentDetailSheet,
-                                        presentingUpdatePaymentSheet: $presentingUpdatePaymentSheet,
-                                        paymentViewStateEvent: $paymentViewStateEvent
-                                    )
-                                    .padding()
-                                    .presentationDetents([.fraction(0.75), .height(400)])
-                                })
-                                .sheet(isPresented: $presentingUpdatePaymentSheet,
-                                       content: {
-                                    AddPaymentView(
-                                        dataSaved: $dataSavedEvent,
-                                        paymentRegistryDTO:$paymentRegistryDTO,
-                                        paymentViewState: .update,
-                                        paymentViewStateEvent: $paymentViewStateEvent
-                                    )
-                                })
                             }
                         }
                         .navigationTitle("Finance Master")
+                        .navigationDestination(for: String.self, destination: { pathValue in
+                            if pathValue == "AddPaymentView" {
+                                AddPaymentView(
+                                    dataSaved: $dataSavedEvent,
+                                    paymentRegistryDTO:$paymentRegistryDTO,
+                                    paymentViewState: .insert,
+                                    paymentViewStateEvent: $paymentViewStateEvent,
+                                    navPath: $navPath, 
+                                    shouldRefreshDetailView: .constant(PassthroughSubject<Void, Never>())
+                                )
+                            }
+                        })
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbarBackground(.visible, for: .navigationBar)
                         .toolbar {
                             ToolbarItem(placement: .topBarTrailing) {
-                                NavigationLink {
-                                    AddPaymentView(
-                                        dataSaved: $dataSavedEvent,
-                                        paymentRegistryDTO:$paymentRegistryDTO,
-                                        paymentViewState: .insert,
-                                        paymentViewStateEvent: $paymentViewStateEvent
-                                    )
-                                } label: {
+                                NavigationLink(value: "AddPaymentView") {
                                     Image(systemName: "plus.circle")
                                         .padding(.horizontal)
                                         .foregroundColor(Color.black)
@@ -106,7 +93,6 @@ struct SmartSavingsMainView: View {
                             }
                         } // toolbar
                     }
-                    
                 } // navigation stack
             }
             .toolbarBackground(.visible, for: .tabBar)

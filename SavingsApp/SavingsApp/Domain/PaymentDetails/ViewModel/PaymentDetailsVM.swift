@@ -21,10 +21,13 @@ class PaymentDetailsVM: ObservableObject {
     @Published var paymentDeleted: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
-    private let useCase:DeletePaymentContract
+    private let useCase: DeletePaymentContract
+    private let fetchByNameUseCase: FetchPaymentByNameContract?
     
-    init(deleteUseCase: DeletePaymentContract) {
+    init(deleteUseCase: DeletePaymentContract,
+         fetchByNameUseCase: FetchPaymentByNameContract? = nil) {
         self.useCase = deleteUseCase
+        self.fetchByNameUseCase = fetchByNameUseCase
     }
     
     func updateView(withPayment payment: PaymentRegistryDTO) {
@@ -49,6 +52,30 @@ class PaymentDetailsVM: ObservableObject {
                 self.paymentDeleted.toggle()
             }
             .store(in: &cancellables)
+    }
+    
+    func getPaymentData() {
+        fetchByNameUseCase?.fetchPayments(withName: self.name, 
+                                          limit: nil, completion: { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let paymentActivity):
+                guard let paymentDTO = paymentActivity?.first else {
+                    return
+                }
+                self.updateView(withPayment: .init(id: paymentDTO.id,
+                                                   name: paymentDTO.name,
+                                                   memo: paymentDTO.memo,
+                                                   date: paymentDTO.date,
+                                                   amount: paymentDTO.amount,
+                                                   address: paymentDTO.address,
+                                                   typeNum: paymentDTO.typeNum,
+                                                   paymentType: paymentDTO.paymentType
+                                                  )
+                )
+            case .failure(let error): break
+            }
+        })
     }
     
 }

@@ -28,6 +28,8 @@ struct PaymentsTransactionsListView: View {
     @State private var incomeButton:Bool = false
     @State private var expenceButton:Bool = false
     
+    @Binding var navPath: [String]
+    
     var body: some View {
         VStack(alignment: .leading) {
             if vm.dataPaymentArray.isEmpty {
@@ -42,17 +44,21 @@ struct PaymentsTransactionsListView: View {
                     .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 20))
                     .foregroundStyle(Color.gray)
                 
+                    
                 LazyVStack(spacing: 10) {
                     ForEach($vm.dataPaymentArray, id: \.self) { payment in
+                        
                         NavigationLink {
                             PaymentDetailsView(
                                 paymentRegistryDTO: .constant(payment.wrappedValue),
-                                shouldRefreshListEvent: .constant(PassthroughSubject<Void, Never>()),
-                                presentPaymentDetail: .constant(true),
-                                presentingUpdatePaymentSheet: .constant(true),
-                                paymentViewStateEvent: .constant(PassthroughSubject<PaymentViewState, Never>())
+                                shouldRefreshListEvent: $shouldRefreshListEvent,
+                                presentPaymentDetail: .constant(false),
+                                presentingUpdatePaymentSheet: .constant(false),
+                                paymentViewStateEvent: .constant(PassthroughSubject<PaymentViewState, Never>()),
+                                navPath: $navPath
                             )
                         } label: {
+                            
                             HStack(spacing: 10) {
                                 Image(systemName: payment.typeNum.wrappedValue == 2 ?
                                       "arrowtriangle.down.circle" :
@@ -67,9 +73,10 @@ struct PaymentsTransactionsListView: View {
                                     Text(payment.name.wrappedValue)
                                         .lineLimit(2)
                                         .minimumScaleFactor(1)
-                                        .font(.callout)
+                                        .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 15))
+                                        .foregroundStyle(Color.black)
                                     Text(payment.date.wrappedValue.convertToString(withFormat: .fullDate))
-                                        .font(.callout)
+                                        .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 15))
                                         .foregroundStyle(Color.gray)
                                         .minimumScaleFactor(1)
                                 }
@@ -84,47 +91,12 @@ struct PaymentsTransactionsListView: View {
                             } //cell
                             .frame(maxHeight: 80)
                             .padding()
-                        }
-
-                        /*
-                        HStack(spacing: 10) {
-                            Image(systemName: payment.typeNum.wrappedValue == 2 ?
-                                  "arrowtriangle.down.circle" :
-                                    "arrowtriangle.up.circle")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                                .foregroundStyle(payment.typeNum.wrappedValue == 2 ?
-                                                 Color.red :
-                                                 Color.green)
                             
-                            VStack(alignment: .leading, spacing: 10) {
-                                Text(payment.name.wrappedValue)
-                                    .lineLimit(2)
-                                    .minimumScaleFactor(1)
-                                    .font(.callout)
-                                Text(payment.date.wrappedValue.convertToString(withFormat: .fullDate))
-                                    .font(.callout)
-                                    .foregroundStyle(Color.gray)
-                                    .minimumScaleFactor(1)
-                            }
-                            
-                            Spacer()
-                            
-                            Text("$\(payment.amount.wrappedValue, specifier: "%.2f")")
-                                .font(.headline)
-                                .foregroundStyle(payment.typeNum.wrappedValue == 2 ?
-                                                 Color.red :
-                                                 Color.green)
-                        } //cell
-                        .frame(maxHeight: 80)
-                        .onTapGesture {
-                            paymentRegistryDTO = payment.wrappedValue
-                            presentPaymentDetail = true
-                        }
-                        .padding()
-                        */
+                        } //navigation
                     }
                 }
+                    
+                
             }
             
         }
@@ -160,6 +132,7 @@ struct PaymentsTransactionsListView: View {
         totalIncome: .constant(0.0),
         totalExpence: .constant(0.0),
         paymentRegistryDTO: .constant(PaymentRegistryDTO()), 
-        shouldRefreshListEvent: .constant(PassthroughSubject<Void, Never>())
+        shouldRefreshListEvent: .constant(PassthroughSubject<Void, Never>()), 
+        navPath: .constant([""])
     )
 }
