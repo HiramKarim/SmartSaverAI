@@ -23,6 +23,8 @@ struct AddPaymentView: View {
     
     @Binding var shouldRefreshDetailView: PassthroughSubject<Void, Never>
     
+    @State var repeatTransaction: Bool = false
+    
     var body: some View {
         ZStack {
             VStack(spacing: 20) {
@@ -82,6 +84,20 @@ struct AddPaymentView: View {
                     }
                     
                     Spacer()
+                    
+                    VStack(alignment: .center) {
+                        Text("Repeat")
+                            .bold()
+                        Button {
+                            repeatTransaction.toggle()
+                        } label: {
+                            Image(systemName: "repeat")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .tint(repeatTransaction == true ? .blue : .gray)
+                        }
+                    }
+                    
                 }
 
                 //MARK: - Date and amount Section
