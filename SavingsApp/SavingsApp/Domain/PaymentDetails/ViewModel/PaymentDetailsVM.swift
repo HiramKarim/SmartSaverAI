@@ -55,7 +55,7 @@ class PaymentDetailsVM: ObservableObject {
     }
     
     func getPaymentData() {
-        fetchByNameUseCase?.fetchPayments(withName: self.name, 
+        fetchByNameUseCase?.fetchPayments(withName: self.name,
                                           limit: nil, completion: { 
             [weak self] result in
             guard let self = self else { return }
@@ -64,16 +64,16 @@ class PaymentDetailsVM: ObservableObject {
                 guard let paymentDTO = paymentActivity?.first else {
                     return
                 }
-                self.updateView(withPayment: .init(id: paymentDTO.id,
-                                                   name: paymentDTO.name,
-                                                   memo: paymentDTO.memo,
-                                                   date: paymentDTO.date,
-                                                   amount: paymentDTO.amount,
-                                                   address: paymentDTO.address,
-                                                   typeNum: paymentDTO.typeNum,
-                                                   paymentType: paymentDTO.paymentType
-                                                  )
+                let paymentRegistry = PaymentRegistryDTO(id: paymentDTO.id,
+                                                         name: paymentDTO.name,
+                                                         memo: paymentDTO.memo,
+                                                         date: paymentDTO.date,
+                                                         amount: paymentDTO.amount,
+                                                         address: paymentDTO.address,
+                                                         typeNum: paymentDTO.typeNum,
+                                                         paymentType: paymentDTO.paymentType
                 )
+                self.updateView(withPayment: paymentRegistry)
             case .failure(_): break
             }
         })

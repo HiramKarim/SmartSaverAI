@@ -153,8 +153,12 @@ struct PaymentDetailsView: View {
                 shouldRefreshListEvent.send()
             }
             .onReceive(shouldRefreshDetailView, perform: { _ in
-                self.shouldRefreshListEvent.send()
-                self.paymentDetailsVM.getPaymentData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1,
+                                              execute: {
+                    self.paymentDetailsVM.getPaymentData()
+                    self.shouldRefreshListEvent.send()
+                    self.dismiss()
+                })
             })
             
         }

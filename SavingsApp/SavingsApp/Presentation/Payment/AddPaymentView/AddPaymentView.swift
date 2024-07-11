@@ -50,6 +50,7 @@ struct AddPaymentView: View {
                         .bold()
                     TextField("Enter payment name", text: $vm.paymentName)
                         .textFieldStyle(.roundedBorder)
+                        .disabled(paymentViewState == .insert ? false : true)
                 }
                 
                 //MARK: - Type Section
@@ -144,7 +145,7 @@ struct AddPaymentView: View {
                             .font(.headline)
                             .foregroundStyle(Color.white)
                     } else {
-                        Text("Save")
+                        Text(paymentViewState == .insert ? "Save" : "Update")
                             .font(.headline)
                             .foregroundStyle(Color.white)
                     }
@@ -190,10 +191,10 @@ struct AddPaymentView: View {
             .onChange(of: updateVM.paymentUpdated, {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1,
                                               execute: {
+                    shouldRefreshDetailView.send()
                     vm.isLoading = false
                     vm.showSuccessRegistry = false
                     vm.showErrorOnRegistry = false
-                    shouldRefreshDetailView.send()
                     self.dismiss()
                 })
             })
