@@ -56,7 +56,7 @@ class CoreDataStack {
         return persistentContainer.viewContext
     }
 
-    func saveContext (payment: PaymentActivityDTO, 
+    func saveContext(payment: PaymentActivityDTO,
                       completion: @escaping (Bool, NSError?) -> Void
     ) {
         let context = persistentContainer.viewContext
@@ -68,6 +68,40 @@ class CoreDataStack {
         paymentInfo.date = payment.date
         paymentInfo.memo = payment.memo
         paymentInfo.typeNum = payment.typeNum
+        if context.hasChanges {
+            do {
+                try context.save()
+                completion(true, nil)
+            } catch {
+                let nserror = error as NSError
+                completion(false, nserror)
+            }
+        }
+    }
+    
+    func saveRecurringPaymentContext(payment: PaymentActivityDTO,
+                                     recurrentPayment: RecurringPaymentDTO,
+                                     frequency: String, 
+                                     endDate: Date,
+                                     completion: @escaping (Bool, NSError?) -> Void
+    ) {
+        let context = persistentContainer.viewContext
+        let paymentInfo = PaymentActivity(context: context)
+        let recurringPayment = RecurringPayment(context: context)
+        
+        paymentInfo.paymentId = payment.id
+        paymentInfo.name = payment.name
+        paymentInfo.address = payment.address
+        paymentInfo.amount = payment.amount
+        paymentInfo.date = payment.date
+        paymentInfo.memo = payment.memo
+        paymentInfo.typeNum = payment.typeNum
+        
+        recurringPayment.recurringID = UUID()
+        recurringPayment.frequency = frequency
+        recurringPayment.endDate = endDate
+        recurringPayment.paymentActivity = paymentInfo
+
         if context.hasChanges {
             do {
                 try context.save()

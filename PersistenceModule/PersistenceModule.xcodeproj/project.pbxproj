@@ -14,6 +14,7 @@
 		1F8F65222BDCB8860071DA06 /* PersistenceModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8D1C302BB66162001286DF /* PersistenceModule.framework */; };
 		1F8F65232BDCB8860071DA06 /* PersistenceModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8D1C302BB66162001286DF /* PersistenceModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1F94D0172BCF6F6000665FE3 /* PaymentActivityDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94D0162BCF6F6000665FE3 /* PaymentActivityDTO.swift */; };
+		1F955E0E2C40FE39002173E4 /* RecurringPaymentDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F955E0D2C40FE39002173E4 /* RecurringPaymentDTO.swift */; };
 		1FA8BCC62BD787290036F462 /* PaymentActivityModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F8D1C4A2BB66379001286DF /* PaymentActivityModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		1F8D1C4B2BB66379001286DF /* PaymentActivityModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PaymentActivityModel.xcdatamodel; sourceTree = "<group>"; };
 		1F8D1C4E2BB663CB001286DF /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		1F94D0162BCF6F6000665FE3 /* PaymentActivityDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentActivityDTO.swift; sourceTree = "<group>"; };
+		1F955E0D2C40FE39002173E4 /* RecurringPaymentDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringPaymentDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				1F94D0162BCF6F6000665FE3 /* PaymentActivityDTO.swift */,
+				1F955E0D2C40FE39002173E4 /* RecurringPaymentDTO.swift */,
 			);
 			path = PaymentDTO;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 			files = (
 				1FA8BCC62BD787290036F462 /* PaymentActivityModel.xcdatamodeld in Sources */,
 				1F8D1C4F2BB663CB001286DF /* CoreDataManager.swift in Sources */,
+				1F955E0E2C40FE39002173E4 /* RecurringPaymentDTO.swift in Sources */,
 				1F94D0172BCF6F6000665FE3 /* PaymentActivityDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

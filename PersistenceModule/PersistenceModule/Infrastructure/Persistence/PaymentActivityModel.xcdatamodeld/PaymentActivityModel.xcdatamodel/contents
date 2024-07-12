@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23D56" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23D56" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="PaymentActivity" representedClassName="PaymentActivity" syncable="YES" codeGenerationType="class">
         <attribute name="address" optional="YES" attributeType="String"/>
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -9,5 +9,12 @@
         <attribute name="paymentId" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="paymentType" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="typeNum" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="recurringPayments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RecurringPayment" inverseName="paymentActivity" inverseEntity="RecurringPayment"/>
+    </entity>
+    <entity name="RecurringPayment" representedClassName="RecurringPayment" syncable="YES" codeGenerationType="class">
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="frequency" optional="YES" attributeType="String"/>
+        <attribute name="recurringID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="paymentActivity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PaymentActivity" inverseName="recurringPayments" inverseEntity="PaymentActivity"/>
     </entity>
 </model>
