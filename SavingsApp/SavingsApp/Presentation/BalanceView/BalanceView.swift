@@ -22,6 +22,8 @@ struct BalanceView: View {
                 
                 Text("$\(totalBalance, specifier: "%.2f")")
                     .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 40))
+                    .lineLimit(1)
+                    .minimumScaleFactor(1)
                 
                 HStack {
                     VStack(alignment:.leading, spacing: 20) {
@@ -30,7 +32,9 @@ struct BalanceView: View {
                             .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 20))
                         
                         Text("$\(totalIncome, specifier: "%.2f")")
-                            .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 30))
+                            .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 25))
+                            .lineLimit(1)
+                            .minimumScaleFactor(1)
                     } //incomes
                     Spacer()
                     VStack(alignment:.leading, spacing: 20) {
@@ -39,7 +43,9 @@ struct BalanceView: View {
                             .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 20))
                         
                         Text("$\(totalExpence, specifier: "%.2f")")
-                            .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 30))
+                            .font(.getCustomFont(ofFont: .HelveticaBlkIt, ofSize: 25))
+                            .lineLimit(1)
+                            .minimumScaleFactor(1)
                     } //expenses
                 } //incomes/expenses stack
             }
@@ -53,7 +59,7 @@ struct BalanceView: View {
 }
 
 #Preview {
-    BalanceView(totalBalance: .constant(0.0),
-                totalIncome: .constant(0.0),
-                totalExpence: .constant(0.0))
+    BalanceView(totalBalance: .constant(10000),
+                totalIncome: .constant(120423),
+                totalExpence: .constant(159023))
 }
