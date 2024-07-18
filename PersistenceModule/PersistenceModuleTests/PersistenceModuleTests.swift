@@ -212,6 +212,18 @@ class CoreDataLayer {
         }
     }
     
+    func fetchPaymentActivity(byId id: UUID) -> PaymentActivity? {
+        let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "paymentId == %@", id as CVarArg)
+        do {
+            let result = try viewContext.fetch(fetchRequest)
+            return result.first
+        } catch {
+            print("Error fetching PaymentActivity: \(error.localizedDescription)")
+            return nil
+        }
+    }
+    
     func fetchPayments(for month: Int, year: Int) -> [PaymentActivity] {
         let calendar = Calendar.current
         var startDateComponents = DateComponents()
@@ -238,6 +250,24 @@ class CoreDataLayer {
             return []
         }
     }
+    
+    func fetchRecurringPayments(forPayment paymentDTO: PaymentActivityDTO? = nil) -> [RecurringPayment] {
+        let fetchRequest: NSFetchRequest<RecurringPayment> = RecurringPayment.fetchRequest()
+        if let payment = paymentDTO {
+            if let paymentActivity = fetchPayments(withName: payment.name).first {
+                fetchRequest.predicate = NSPredicate(format: "paymentActivity == %@", paymentActivity)
+            } else {
+                return []
+            }
+        }
+        do {
+            let result = try viewContext.fetch(fetchRequest)
+            return result
+        } catch {
+            print("Error al recuperar pagos: \(error.localizedDescription)")
+            return []
+        }
+    }
 
 }
 
@@ -251,6 +281,24 @@ class PaymentManagerUseCase {
     func saveData(payment: PaymentActivityDTO, completion: @escaping (Bool, NSError?) -> Void) {
         self.coreDataLayer.saveContext(payment: payment) { success, error in
             completion(success, error)
+        }
+    }
+    
+    func saveRecurringPayment(payment: PaymentActivityDTO,
+                              frecuency: String,
+                              endDate: Date,
+                              completion: @escaping (Bool, NSError?) -> Void) {
+        coreDataLayer.saveAndGetPaymentContext(payment: payment) { [weak self] payment, error in
+            guard let self = self else { return }
+            if let payment = payment {
+                self.coreDataLayer.saveRecurringPaymentContext(payment: payment,
+                                                               frequency: frecuency,
+                                                               endDate: endDate) { success, error in
+                    completion(success, error)
+                }
+            } else {
+                completion(false, NSError(domain: "cannot save payment", code: 0))
+            }
         }
     }
     
@@ -279,21 +327,12 @@ class PaymentManagerUseCase {
         self.coreDataLayer.deleteObject(payment, completion: completion)
     }
     
-    func saveRecurringPayment(payment: PaymentActivityDTO, 
-                              frecuency: String,
-                              endDate: Date,
-                              completion: @escaping (Bool, NSError?) -> Void) {
-        coreDataLayer.saveAndGetPaymentContext(payment: payment) { [weak self] payment, error in
-            guard let self = self else { return }
-            if let payment = payment {
-                self.coreDataLayer.saveRecurringPaymentContext(payment: payment,
-                                                               frequency: frecuency,
-                                                               endDate: endDate) { success, error in
-                    completion(success, error)
-                }
-            } else {
-                completion(false, NSError(domain: "cannot save payment", code: 0))
-            }
+    func fetchRecurringPayments(forPayment payment: PaymentActivityDTO? = nil) -> [RecurringPaymentDTO] {
+        let recurringPayments = coreDataLayer.fetchRecurringPayments(forPayment: payment)
+        if recurringPayments.isEmpty {
+            return []
+        } else {
+            return convertRecurringPaymentsToDTO(recurringPayments: recurringPayments)
         }
     }
     
@@ -307,6 +346,23 @@ class PaymentManagerUseCase {
                                address: paymentActivity.address ?? "",
                                typeNum: paymentActivity.typeNum, 
                                paymentType: paymentActivity.paymentType)
+        }
+    }
+    
+    private func convertRecurringPaymentsToDTO(recurringPayments: [RecurringPayment]) -> [RecurringPaymentDTO] {
+        return recurringPayments.compactMap { recurringPayment in
+            RecurringPaymentDTO(recurringID: recurringPayment.recurringID ?? UUID(),
+                                frequency: recurringPayment.frequency ?? "",
+                                endDate: recurringPayment.endDate ?? Date(),
+                                paymentActivity: .init(id: recurringPayment.paymentActivity?.paymentId ?? UUID(),
+                                                       name: recurringPayment.paymentActivity?.name ?? "",
+                                                       memo: recurringPayment.paymentActivity?.memo ?? "",
+                                                       date: recurringPayment.paymentActivity?.date ?? Date(),
+                                                       amount: recurringPayment.paymentActivity?.amount ?? 0.0,
+                                                       address: recurringPayment.paymentActivity?.address ?? "",
+                                                       typeNum: recurringPayment.paymentActivity?.typeNum ?? 0,
+                                                       paymentType: recurringPayment.paymentActivity?.paymentType ?? 0)
+            )
         }
     }
 }
@@ -530,6 +586,66 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
         XCTAssertTrue(result)
         XCTAssertNil(errorInsert)
     }
+    
+    func testFetchRecurringPayments() {
+        // Given
+        let paymentRentBillDTO = Utils.createPaymentDTO()
+        var result:Bool = false
+        var errorInsert:NSError? = nil
+        
+        let exp_1 = expectation(description: "wait for completion")
+        
+        // When
+        sut.saveRecurringPayment(payment: paymentRentBillDTO,
+                                 frecuency: "Montly",
+                                 endDate: Date()) { success, error in
+            
+            result = success
+            errorInsert = error
+            
+            exp_1.fulfill()
+        }
+        
+        wait(for: [exp_1], timeout: 1.0)
+        
+        let recurringPayments = sut.fetchRecurringPayments()
+        
+        // Then
+        XCTAssertTrue(result)
+        XCTAssertNil(errorInsert)
+        XCTAssertGreaterThan(recurringPayments.count, 0)
+    }
+    
+    /*
+    func testFetchRecurringPaymentsWithPaymentActivity() {
+        // Given
+        let paymentRentBillDTO = Utils.createPaymentDTO()
+        var result:Bool = false
+        var errorInsert:NSError? = nil
+        
+        let exp_1 = expectation(description: "wait for completion")
+        
+        // When
+        sut.saveRecurringPayment(payment: paymentRentBillDTO,
+                                 frecuency: "Montly",
+                                 endDate: Date()) { success, error in
+            
+            result = success
+            errorInsert = error
+            
+            exp_1.fulfill()
+        }
+        
+        wait(for: [exp_1], timeout: 1.0)
+        
+        let recurringPayments = sut.fetchRecurringPayments(forPayment: paymentRentBillDTO)
+        
+        // Then
+        XCTAssertTrue(result)
+        XCTAssertNil(errorInsert)
+        XCTAssertGreaterThan(recurringPayments.count, 0)
+    }
+    */
 }
 
 class Utils {
