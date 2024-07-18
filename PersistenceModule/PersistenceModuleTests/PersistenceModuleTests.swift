@@ -9,7 +9,7 @@ import XCTest
 import CoreData
 @testable import PersistenceModule
 
-class MockCoreDataStack: CoreDataStack {
+class MockCoreDataLayer: CoreDataLayer {
     override init() {
         super.init()
 
@@ -31,8 +31,8 @@ class MockCoreDataStack: CoreDataStack {
     }
 }
 
-class CoreDataStack {
-    static let shared = CoreDataStack()
+class CoreDataLayer {
+    static let shared = CoreDataLayer()
 
     init() {}
 
@@ -57,8 +57,7 @@ class CoreDataStack {
     }
 
     func saveContext(payment: PaymentActivityDTO,
-                      completion: @escaping (Bool, NSError?) -> Void
-    ) {
+                      completion: @escaping (Bool, NSError?) -> Void) {
         let context = persistentContainer.viewContext
         let paymentInfo = PaymentActivity(context: context)
         paymentInfo.paymentId = payment.id
@@ -79,15 +78,10 @@ class CoreDataStack {
         }
     }
     
-    func saveRecurringPaymentContext(payment: PaymentActivityDTO,
-                                     recurrentPayment: RecurringPaymentDTO,
-                                     frequency: String, 
-                                     endDate: Date,
-                                     completion: @escaping (Bool, NSError?) -> Void
-    ) {
+    func saveAndGetPaymentContext(payment: PaymentActivityDTO,
+                                  completion: @escaping (PaymentActivity?, NSError?) -> Void) {
         let context = persistentContainer.viewContext
         let paymentInfo = PaymentActivity(context: context)
-        let recurringPayment = RecurringPayment(context: context)
         
         paymentInfo.paymentId = payment.id
         paymentInfo.name = payment.name
@@ -97,11 +91,52 @@ class CoreDataStack {
         paymentInfo.memo = payment.memo
         paymentInfo.typeNum = payment.typeNum
         
+        if context.hasChanges {
+            do {
+                try context.save()
+                completion(paymentInfo, nil)
+            } catch {
+                let nserror = error as NSError
+                completion(nil, nserror)
+            }
+        }
+    }
+    
+    func saveRecurringPaymentContext(payment: PaymentActivity,
+                                     frequency: String, 
+                                     endDate: Date,
+                                     completion: @escaping (Bool, NSError?) -> Void) {
+        let context = persistentContainer.viewContext
+        let recurringPayment = RecurringPayment(context: context)
+        var currentDate = payment.date ?? Date()
+        
         recurringPayment.recurringID = UUID()
         recurringPayment.frequency = frequency
         recurringPayment.endDate = endDate
-        recurringPayment.paymentActivity = paymentInfo
-
+        
+        let updatedPayment = PaymentActivity(context: context)
+        updatedPayment.paymentId = payment.paymentId
+        updatedPayment.paymentType = payment.paymentType
+        updatedPayment.typeNum = payment.typeNum
+        updatedPayment.name = payment.name
+        updatedPayment.memo = payment.memo
+        updatedPayment.date = currentDate
+        updatedPayment.amount = payment.amount
+        updatedPayment.address = payment.address
+        
+        recurringPayment.paymentActivity = updatedPayment
+        
+        switch frequency {
+        case "daily":
+            currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
+        case "weekly":
+            currentDate = Calendar.current.date(byAdding: .weekOfYear, value: 1, to: currentDate)!
+        case "monthly":
+            currentDate = Calendar.current.date(byAdding: .month, value: 1, to: currentDate)!
+        default:
+            break
+        }
+        
         if context.hasChanges {
             do {
                 try context.save()
@@ -207,41 +242,59 @@ class CoreDataStack {
 }
 
 class PaymentManagerUseCase {
-    let coreDataStack: CoreDataStack
+    let coreDataLayer: CoreDataLayer
 
-    init(coreDataStack: CoreDataStack = CoreDataStack.shared) {
-        self.coreDataStack = coreDataStack
+    init(coreDataStack: CoreDataLayer = CoreDataLayer.shared) {
+        self.coreDataLayer = coreDataStack
     }
 
     func saveData(payment: PaymentActivityDTO, completion: @escaping (Bool, NSError?) -> Void) {
-        self.coreDataStack.saveContext(payment: payment) { success, error in
+        self.coreDataLayer.saveContext(payment: payment) { success, error in
             completion(success, error)
         }
     }
     
     func updatePayment(payment: PaymentActivityDTO, completion: @escaping (Bool, NSError?) -> Void) {
-        self.coreDataStack.updatePayment(payment: payment) { success, error in
+        self.coreDataLayer.updatePayment(payment: payment) { success, error in
             completion(success, error)
         }
     }
     
     func fetchPayments(withName name: String? = nil) -> [PaymentActivityDTO] {
-        let payments = self.coreDataStack.fetchPayments(withName: name)
+        let payments = self.coreDataLayer.fetchPayments(withName: name)
         return convertToDTO(payments: payments)
     }
     
     func fetchPayments(for month: Int, year: Int) -> [PaymentActivityDTO] {
-        let payments = self.coreDataStack.fetchPayments(for: month, year: year)
+        let payments = self.coreDataLayer.fetchPayments(for: month, year: year)
         return convertToDTO(payments: payments)
     }
     
     func deletePayment(withName name: String? = nil, completion: @escaping (Bool, NSError?) -> Void) {
-        let payments = self.coreDataStack.fetchPayments(withName: name)
+        let payments = self.coreDataLayer.fetchPayments(withName: name)
         guard let payment = payments.first else {
             completion(false, nil)
             return
         }
-        self.coreDataStack.deleteObject(payment, completion: completion)
+        self.coreDataLayer.deleteObject(payment, completion: completion)
+    }
+    
+    func saveRecurringPayment(payment: PaymentActivityDTO, 
+                              frecuency: String,
+                              endDate: Date,
+                              completion: @escaping (Bool, NSError?) -> Void) {
+        coreDataLayer.saveAndGetPaymentContext(payment: payment) { [weak self] payment, error in
+            guard let self = self else { return }
+            if let payment = payment {
+                self.coreDataLayer.saveRecurringPaymentContext(payment: payment,
+                                                               frequency: frecuency,
+                                                               endDate: endDate) { success, error in
+                    completion(success, error)
+                }
+            } else {
+                completion(false, NSError(domain: "cannot save payment", code: 0))
+            }
+        }
     }
     
     private func convertToDTO(payments:[PaymentActivity]) -> [PaymentActivityDTO] {
@@ -260,12 +313,12 @@ class PaymentManagerUseCase {
 
 
 class EmployeeCoreDataInteractorTests: XCTestCase {
-    var mockCoreDataStack: MockCoreDataStack!
+    var mockCoreDataStack: MockCoreDataLayer!
     var sut: PaymentManagerUseCase!
     
     override func setUpWithError() throws {
         super.setUp()
-        self.mockCoreDataStack = MockCoreDataStack()
+        self.mockCoreDataStack = MockCoreDataLayer()
         self.sut = PaymentManagerUseCase(coreDataStack: mockCoreDataStack)
     }
     
@@ -449,6 +502,31 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
         
         // Then
         XCTAssertEqual(paymentData.count, 1)
+        XCTAssertTrue(result)
+        XCTAssertNil(errorInsert)
+    }
+    
+    func testSaveRecurringPayment() {
+        // Given
+        let paymentRentBillDTO = Utils.createPaymentDTO()
+        var result:Bool = false
+        var errorInsert:NSError? = nil
+        
+        let exp_1 = expectation(description: "wait for completion")
+        
+        // When
+        sut.saveRecurringPayment(payment: paymentRentBillDTO,
+                                 frecuency: "Montly",
+                                 endDate: Date()) { success, error in
+            
+            result = success
+            errorInsert = error
+            
+            exp_1.fulfill()
+        }
+        
+        wait(for: [exp_1], timeout: 1.0)
+        // Then
         XCTAssertTrue(result)
         XCTAssertNil(errorInsert)
     }
