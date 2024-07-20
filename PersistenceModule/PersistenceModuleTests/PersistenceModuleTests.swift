@@ -78,53 +78,21 @@ class CoreDataLayer {
         }
     }
     
-    func saveAndGetPaymentContext(payment: PaymentActivityDTO,
-                                  completion: @escaping (PaymentActivity?, NSError?) -> Void) {
-        let context = persistentContainer.viewContext
-        let paymentInfo = PaymentActivity(context: context)
-        
-        paymentInfo.paymentId = payment.id
-        paymentInfo.name = payment.name
-        paymentInfo.address = payment.address
-        paymentInfo.amount = payment.amount
-        paymentInfo.date = payment.date
-        paymentInfo.memo = payment.memo
-        paymentInfo.typeNum = payment.typeNum
-        
-        if context.hasChanges {
-            do {
-                try context.save()
-                completion(paymentInfo, nil)
-            } catch {
-                let nserror = error as NSError
-                completion(nil, nserror)
-            }
-        }
-    }
-    
-    func saveRecurringPaymentContext(payment: PaymentActivity,
-                                     frequency: String, 
+    func saveRecurringPaymentContext(payment: PaymentActivityDTO,
+                                     frequency: String,
                                      endDate: Date,
                                      completion: @escaping (Bool, NSError?) -> Void) {
         let context = persistentContainer.viewContext
         let recurringPayment = RecurringPayment(context: context)
-        var currentDate = payment.date ?? Date()
+        var currentDate = payment.date
         
         recurringPayment.recurringID = UUID()
         recurringPayment.frequency = frequency
         recurringPayment.endDate = endDate
         
-        let updatedPayment = PaymentActivity(context: context)
-        updatedPayment.paymentId = payment.paymentId
-        updatedPayment.paymentType = payment.paymentType
-        updatedPayment.typeNum = payment.typeNum
-        updatedPayment.name = payment.name
-        updatedPayment.memo = payment.memo
-        updatedPayment.date = currentDate
-        updatedPayment.amount = payment.amount
-        updatedPayment.address = payment.address
+        let paymentActivity = fetchPaymentActivity(byId: payment.id)
         
-        recurringPayment.paymentActivity = updatedPayment
+        recurringPayment.paymentActivity = paymentActivity
         
         switch frequency {
         case "daily":
@@ -288,17 +256,10 @@ class PaymentManagerUseCase {
                               frecuency: String,
                               endDate: Date,
                               completion: @escaping (Bool, NSError?) -> Void) {
-        coreDataLayer.saveAndGetPaymentContext(payment: payment) { [weak self] payment, error in
-            guard let self = self else { return }
-            if let payment = payment {
-                self.coreDataLayer.saveRecurringPaymentContext(payment: payment,
-                                                               frequency: frecuency,
-                                                               endDate: endDate) { success, error in
-                    completion(success, error)
-                }
-            } else {
-                completion(false, NSError(domain: "cannot save payment", code: 0))
-            }
+        self.coreDataLayer.saveRecurringPaymentContext(payment: payment,
+                                                       frequency: frecuency,
+                                                       endDate: endDate) { success, error in
+            completion(success, error)
         }
     }
     
@@ -616,7 +577,6 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
         XCTAssertGreaterThan(recurringPayments.count, 0)
     }
     
-    /*
     func testFetchRecurringPaymentsWithPaymentActivity() {
         // Given
         let paymentRentBillDTO = Utils.createPaymentDTO()
@@ -624,8 +584,14 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
         var errorInsert:NSError? = nil
         
         let exp_1 = expectation(description: "wait for completion")
+        let exp_2 = expectation(description: "wait for completion")
         
         // When
+        
+        sut.saveData(payment: paymentRentBillDTO) { _, _ in
+            exp_1.fulfill()
+        }
+        
         sut.saveRecurringPayment(payment: paymentRentBillDTO,
                                  frecuency: "Montly",
                                  endDate: Date()) { success, error in
@@ -633,10 +599,10 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
             result = success
             errorInsert = error
             
-            exp_1.fulfill()
+            exp_2.fulfill()
         }
         
-        wait(for: [exp_1], timeout: 1.0)
+        wait(for: [exp_1, exp_2], timeout: 1.0)
         
         let recurringPayments = sut.fetchRecurringPayments(forPayment: paymentRentBillDTO)
         
@@ -645,7 +611,7 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
         XCTAssertNil(errorInsert)
         XCTAssertGreaterThan(recurringPayments.count, 0)
     }
-    */
+
 }
 
 class Utils {
