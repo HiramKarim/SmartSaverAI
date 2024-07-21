@@ -3,10 +3,15 @@
 # See: https://circleci.com/docs/configuration-reference
 # CircleCI configuration file for iOS project
 version: 2.1
+
+executors:
+  macos-executor:
+    macos:
+      xcode: "15.4"
+
 jobs:
   test:
-    macos:
-      xcode: "15.4"  # Usa la versión de Xcode que prefieras
+    executor: macos-executor
     steps:
       - checkout
       - run:
@@ -18,8 +23,10 @@ jobs:
           command: xcrun simctl list runtimes
 
       - run:
-          name: Boot simulator
-          command: xcrun simctl boot "iPhone 15" || true
+          name: Create and boot iPhone 15 simulator
+          command: |
+            xcrun simctl create "iPhone 15" com.apple.CoreSimulator.SimDeviceType.iPhone-15 com.apple.CoreSimulator.SimRuntime.iOS-17-5 || true
+            xcrun simctl boot "iPhone 15" || true
 
       - run:
           name: Run tests
@@ -34,7 +41,6 @@ jobs:
     executor: macos-executor
     steps:
       - checkout
-
       - run:
           name: List available device types
           command: xcrun simctl list devicetypes
@@ -75,4 +81,5 @@ workflows:
             - test
       - deploy:
           requires:
-            - test
+            - build
+
