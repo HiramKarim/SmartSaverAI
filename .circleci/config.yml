@@ -10,10 +10,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Set up simulator
-          command: |
-            xcrun simctl create "iPhone 15" com.apple.CoreSimulator.SimDeviceType.iPhone-15 com.apple.CoreSimulator.SimRuntime.iOS-17-4
-            xcrun simctl boot "iPhone 15"
+          name: List available device types
+          command: xcrun simctl list devicetypes
+
+      - run:
+          name: List available runtimes
+          command: xcrun simctl list runtimes
+          
       - run:
           name: Run tests
           command: |
