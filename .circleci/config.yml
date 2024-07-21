@@ -21,6 +21,8 @@ jobs:
             echo "Simulator ID: $SIM_ID"
             xcrun simctl boot "$SIM_ID" || true
             echo $SIM_ID > sim_id.txt
+            # Esperar hasta que el simulador esté completamente arrancado
+            while ! xcrun simctl getenv "$SIM_ID" booted; do sleep 1; done
 
       - run:
           name: Run tests
@@ -33,9 +35,10 @@ jobs:
               ONLY_ACTIVE_ARCH=NO
 
       - run:
-          name: Delete simulator
+          name: Shutdown and delete simulator
           command: |
             SIM_ID=$(cat sim_id.txt)
+            xcrun simctl shutdown "$SIM_ID"
             xcrun simctl delete "$SIM_ID"
 
   build:
@@ -49,6 +52,8 @@ jobs:
             echo "Simulator ID: $SIM_ID"
             xcrun simctl boot "$SIM_ID" || true
             echo $SIM_ID > sim_id.txt
+            # Esperar hasta que el simulador esté completamente arrancado
+            while ! xcrun simctl getenv "$SIM_ID" booted; do sleep 1; done
 
       - run:
           name: Build the app
@@ -61,9 +66,10 @@ jobs:
               ONLY_ACTIVE_ARCH=NO
 
       - run:
-          name: Delete simulator
+          name: Shutdown and delete simulator
           command: |
             SIM_ID=$(cat sim_id.txt)
+            xcrun simctl shutdown "$SIM_ID"
             xcrun simctl delete "$SIM_ID"
 
   deploy:
@@ -84,5 +90,6 @@ workflows:
       - deploy:
           requires:
             - build
+
 
 
