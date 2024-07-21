@@ -14,13 +14,13 @@ jobs:
     executor: macos-executor
     steps:
       - checkout
-      - run:
-          name: List available device types
-          command: xcrun simctl list devicetypes
+      # - run:
+      #     name: List available device types
+      #     command: xcrun simctl list devicetypes
 
-      - run:
-          name: List available runtimes
-          command: xcrun simctl list runtimes
+      # - run:
+      #     name: List available runtimes
+      #     command: xcrun simctl list runtimes
 
       - run:
           name: Create and boot iPhone 15 simulator
