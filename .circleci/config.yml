@@ -14,55 +14,57 @@ jobs:
     executor: macos-executor
     steps:
       - checkout
-      # - run:
-      #     name: List available device types
-      #     command: xcrun simctl list devicetypes
-
-      # - run:
-      #     name: List available runtimes
-      #     command: xcrun simctl list runtimes
-
       - run:
           name: Create and boot iPhone 15 simulator
           command: |
-            xcrun simctl create "iPhone 15" com.apple.CoreSimulator.SimDeviceType.iPhone-15 com.apple.CoreSimulator.SimRuntime.iOS-17-5 || true
-            xcrun simctl boot "iPhone 15" || true
+            SIM_ID=$(xcrun simctl create "iPhone 15" com.apple.CoreSimulator.SimDeviceType.iPhone-15 com.apple.CoreSimulator.SimRuntime.iOS-17-5)
+            echo "Simulator ID: $SIM_ID"
+            xcrun simctl boot "$SIM_ID" || true
+            echo $SIM_ID > sim_id.txt
 
       - run:
           name: Run tests
           command: |
+            SIM_ID=$(cat sim_id.txt)
             xcodebuild test \
               -workspace SmartSavingsWorkspace.xcworkspace \
               -scheme PersistenceModuleTests \
-              -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
+              -destination "id=$SIM_ID" \
               ONLY_ACTIVE_ARCH=NO
+
+      - run:
+          name: Delete simulator
+          command: |
+            SIM_ID=$(cat sim_id.txt)
+            xcrun simctl delete "$SIM_ID"
 
   build:
     executor: macos-executor
     steps:
       - checkout
       - run:
-          name: List available device types
-          command: xcrun simctl list devicetypes
-
-      - run:
-          name: List available runtimes
-          command: xcrun simctl list runtimes
-
-      - run:
           name: Create and boot iPhone 15 simulator
           command: |
-            xcrun simctl create "iPhone 15" com.apple.CoreSimulator.SimDeviceType.iPhone-15 com.apple.CoreSimulator.SimRuntime.iOS-17-5 || true
-            xcrun simctl boot "iPhone 15" || true
+            SIM_ID=$(xcrun simctl create "iPhone 15" com.apple.CoreSimulator.SimDeviceType.iPhone-15 com.apple.CoreSimulator.SimRuntime.iOS-17-5)
+            echo "Simulator ID: $SIM_ID"
+            xcrun simctl boot "$SIM_ID" || true
+            echo $SIM_ID > sim_id.txt
 
       - run:
           name: Build the app
           command: |
+            SIM_ID=$(cat sim_id.txt)
             xcodebuild build \
               -workspace SmartSavingsWorkspace.xcworkspace \
               -scheme PersistenceModuleTests \
-              -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
+              -destination "id=$SIM_ID" \
               ONLY_ACTIVE_ARCH=NO
+
+      - run:
+          name: Delete simulator
+          command: |
+            SIM_ID=$(cat sim_id.txt)
+            xcrun simctl delete "$SIM_ID"
 
   deploy:
     docker:
@@ -73,7 +75,7 @@ jobs:
           command: '#e.g. ./deploy.sh'
 
 workflows:
-  example:
+  workflow:
     jobs:
       - test
       - build:
@@ -82,4 +84,5 @@ workflows:
       - deploy:
           requires:
             - build
+
 
