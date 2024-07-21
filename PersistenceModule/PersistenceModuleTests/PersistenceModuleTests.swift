@@ -288,6 +288,19 @@ class PaymentManagerUseCase {
         self.coreDataLayer.deleteObject(payment, completion: completion)
     }
     
+    func deleteRecurringPayment(forPayment payment: PaymentActivityDTO? = nil, completion: @escaping (Bool, NSError?) -> Void) {
+        let recurringPayments = coreDataLayer.fetchRecurringPayments(forPayment: payment)
+        if recurringPayments.isEmpty {
+            completion(false, nil)
+        } else {
+            guard let recurringPayment = recurringPayments.first else {
+                completion(false, nil)
+                return
+            }
+            coreDataLayer.deleteObject(recurringPayment, completion: completion)
+        }
+    }
+    
     func fetchRecurringPayments(forPayment payment: PaymentActivityDTO? = nil) -> [RecurringPaymentDTO] {
         let recurringPayments = coreDataLayer.fetchRecurringPayments(forPayment: payment)
         if recurringPayments.isEmpty {
@@ -611,7 +624,64 @@ class EmployeeCoreDataInteractorTests: XCTestCase {
         XCTAssertNil(errorInsert)
         XCTAssertGreaterThan(recurringPayments.count, 0)
     }
-
+    
+    func testDeletePaymentActivityWithRecurringPayment() {
+        // Given
+        let paymentRentBillDTO = Utils.createPaymentDTO()
+        
+        var resultDeletePayment:Bool = false
+        var errorDeletePayment:NSError? = nil
+        
+        var resultDeleteRecurringPayment:Bool = false
+        var errorDeleteRecurringPayment:NSError? = nil
+        
+        let exp_1 = expectation(description: "wait for completion")
+        let exp_2 = expectation(description: "wait for completion")
+        
+        let exp_3 = expectation(description: "wait for completion")
+        let exp_4 = expectation(description: "wait for completion")
+        
+        // When
+        
+        sut.saveData(payment: paymentRentBillDTO) { _, _ in
+            exp_1.fulfill()
+        }
+        
+        sut.saveRecurringPayment(payment: paymentRentBillDTO,
+                                 frecuency: "Montly",
+                                 endDate: Date()) { _, _ in
+            exp_2.fulfill()
+        }
+        
+        wait(for: [exp_1, exp_2], timeout: 1.0)
+        
+        sut.deleteRecurringPayment(forPayment: paymentRentBillDTO) { success, error in
+            resultDeleteRecurringPayment = success
+            errorDeleteRecurringPayment = error
+            
+            exp_3.fulfill()
+        }
+        
+        sut.deletePayment(withName: paymentRentBillDTO.name) { success, error in
+            resultDeletePayment = success
+            errorDeletePayment = error
+            
+            exp_4.fulfill()
+        }
+        
+        wait(for: [exp_3, exp_4], timeout: 1.0)
+        
+        let paymentActivity = sut.fetchPayments(withName: paymentRentBillDTO.name)
+        let recurringPayments = sut.fetchRecurringPayments(forPayment: paymentRentBillDTO)
+        
+        // Then
+        XCTAssertTrue(resultDeleteRecurringPayment)
+        XCTAssertNil(errorDeleteRecurringPayment)
+        XCTAssertTrue(resultDeletePayment)
+        XCTAssertNil(errorDeletePayment)
+        XCTAssertEqual(paymentActivity.count, 0)
+        XCTAssertEqual(recurringPayments.count, 0)
+    }
 }
 
 class Utils {
