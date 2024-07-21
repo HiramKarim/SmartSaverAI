@@ -13,9 +13,9 @@ jobs:
           name: Run tests
           command: |
             xcodebuild test \
-              -workspace SmartSaverApp.xcworkspace \
-              -scheme SmartSaverApp \
-              -destination 'platform=iOS Simulator,name=iPhone 12,OS=14.4' \
+              -workspace SmartSavingsWorkspace.xcworkspace \
+              -scheme PersistenceModuleTests \
+              -destination 'platform=iOS Simulator,name=iPhone 12,OS=17.4' \
               ONLY_ACTIVE_ARCH=NO
 
   build:
@@ -27,8 +27,8 @@ jobs:
           name: Build the app
           command: |
             xcodebuild build \
-              -workspace SmartSaverApp.xcworkspace \
-              -scheme SmartSaverApp \
+              -workspace SmartSavingsWorkspace.xcworkspace \
+              -scheme PersistenceModuleTests \
               -destination 'platform=iOS Simulator,name=iPhone 12,OS=17.4' \
               ONLY_ACTIVE_ARCH=NO
 
