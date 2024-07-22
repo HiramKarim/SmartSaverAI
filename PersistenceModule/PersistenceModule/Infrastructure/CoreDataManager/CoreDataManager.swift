@@ -20,9 +20,18 @@ public enum PersistenceResult {
     case failure(Error?)
 }
 
+public enum RecurringResult {
+    case success([RecurringPayment]?)
+    case failure(Error?)
+}
+
 public protocol CoreDataProtocol {
     func savePayment(payment: PaymentActivityDTO,
                      completion: @escaping (PersistenceResult) -> Void)
+    func saveRecurringPayment(payment: PaymentActivityDTO,
+                              frecuency: String,
+                              endDate: Date,
+                              completion: @escaping (PersistenceResult) -> Void)
     func updatePayment(payment: PaymentActivityDTO,
                      completion: @escaping (PersistenceResult) -> Void)
     func fetchPayments(withName name: String?,
@@ -32,8 +41,11 @@ public protocol CoreDataProtocol {
                        year: Int,
                        limit: Int?,
                        completion: @escaping (PersistenceResult) -> Void)
+    func fetchRecurringPayments(forPayment payment: PaymentActivityDTO?) -> [RecurringPaymentDTO]
     func deletePayment(_ object: NSManagedObject,
                        completion: @escaping (PersistenceResult) -> Void)
+    func deleteRecurringPayment(forPayment payment: PaymentActivityDTO?,
+                                completion: @escaping (PersistenceResult) -> Void)
 }
 
 public class CoreDataManager {
@@ -61,8 +73,40 @@ public class CoreDataManager {
     }
 }
 
-extension CoreDataManager: CoreDataProtocol {
+extension CoreDataManager {
+    private func convertToDTO(payments:[PaymentActivity]) -> [PaymentActivityDTO] {
+        return payments.compactMap { paymentActivity in
+            PaymentActivityDTO(id: paymentActivity.paymentId ?? UUID(),
+                               name: paymentActivity.name ?? "",
+                               memo: paymentActivity.memo ?? "",
+                               date: paymentActivity.date ?? Date(),
+                               amount: paymentActivity.amount,
+                               address: paymentActivity.address ?? "",
+                               typeNum: paymentActivity.typeNum,
+                               paymentType: paymentActivity.paymentType)
+        }
+    }
     
+    private func convertRecurringPaymentsToDTO(recurringPayments: [RecurringPayment]) -> [RecurringPaymentDTO] {
+        return recurringPayments.compactMap { recurringPayment in
+            RecurringPaymentDTO(recurringID: recurringPayment.recurringID ?? UUID(),
+                                frequency: recurringPayment.frequency ?? "",
+                                endDate: recurringPayment.endDate ?? Date(),
+                                paymentActivity: .init(id: recurringPayment.paymentActivity?.paymentId ?? UUID(),
+                                                       name: recurringPayment.paymentActivity?.name ?? "",
+                                                       memo: recurringPayment.paymentActivity?.memo ?? "",
+                                                       date: recurringPayment.paymentActivity?.date ?? Date(),
+                                                       amount: recurringPayment.paymentActivity?.amount ?? 0.0,
+                                                       address: recurringPayment.paymentActivity?.address ?? "",
+                                                       typeNum: recurringPayment.paymentActivity?.typeNum ?? 0,
+                                                       paymentType: recurringPayment.paymentActivity?.paymentType ?? 0)
+            )
+        }
+    }
+}
+
+extension CoreDataManager: CoreDataProtocol {
+
     ///Insert method
     public func savePayment(payment: PaymentActivityDTO, completion: @escaping (PersistenceResult) -> Void) {
         let paymentInfo = PaymentActivity(context: viewContext)
@@ -145,6 +189,18 @@ extension CoreDataManager: CoreDataProtocol {
         }
     }
     
+    func fetchPaymentActivity(byId id: UUID) -> PaymentActivity? {
+        let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "paymentId == %@", id as CVarArg)
+        do {
+            let result = try viewContext.fetch(fetchRequest)
+            return result.first
+        } catch {
+            print("Error fetching PaymentActivity: \(error.localizedDescription)")
+            return nil
+        }
+    }
+    
     public func fetchPayments(forMonth month: Int,
                               year: Int,
                               limit: Int? = nil,
@@ -178,6 +234,79 @@ extension CoreDataManager: CoreDataProtocol {
         } catch {
             let nserror = error as NSError
             completion(.failure(nserror))
+        }
+    }
+    
+    public func saveRecurringPayment(payment: PaymentActivityDTO, frecuency: String, endDate: Date, completion: @escaping (PersistenceResult) -> Void) {
+        let context = viewContext
+        let recurringPayment = RecurringPayment(context: context)
+        var currentDate = payment.date
+        
+        recurringPayment.recurringID = UUID()
+        recurringPayment.frequency = frecuency
+        recurringPayment.endDate = endDate
+        
+        let paymentActivity = fetchPaymentActivity(byId: payment.id)
+        
+        recurringPayment.paymentActivity = paymentActivity
+        
+        switch frecuency {
+        case "daily":
+            currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
+        case "weekly":
+            currentDate = Calendar.current.date(byAdding: .weekOfYear, value: 1, to: currentDate)!
+        case "monthly":
+            currentDate = Calendar.current.date(byAdding: .month, value: 1, to: currentDate)!
+        default:
+            break
+        }
+        
+        if context.hasChanges {
+            do {
+                try context.save()
+                completion(.success(nil))
+            } catch {
+                completion(.failure(nil))
+            }
+        }
+    }
+    
+    public func fetchRecurringPayments(forPayment payment: PaymentActivityDTO?) -> [RecurringPaymentDTO] {
+        let fetchRequest: NSFetchRequest<RecurringPayment> = RecurringPayment.fetchRequest()
+        if let payment = payment {
+            fetchPayments(withName: payment.name) { result in
+                switch result {
+                case .success(let paymentActivityArray): 
+                    if let paymentActivity = paymentActivityArray?.first {
+                        fetchRequest.predicate = NSPredicate(format: "paymentActivity == %@", paymentActivity)
+                    } else {
+                        return
+                    }
+                case .failure():
+                    break
+                }
+            }
+        }
+        do {
+            let result = try viewContext.fetch(fetchRequest)
+            return convertRecurringPaymentsToDTO(recurringPayments: result)
+        } catch {
+            print("Error al recuperar pagos: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    public func deleteRecurringPayment(forPayment payment: PaymentActivityDTO?, 
+                                       completion: @escaping (PersistenceResult) -> Void) {
+        let recurringPayments = fetchRecurringPayments(forPayment: payment)
+        if recurringPayments.isEmpty {
+            completion(false, nil)
+        } else {
+            guard let recurringPayment = recurringPayments.first else {
+                completion(false, nil)
+                return
+            }
+            deletePayment(recurringPayment, completion: completion)
         }
     }
 }
