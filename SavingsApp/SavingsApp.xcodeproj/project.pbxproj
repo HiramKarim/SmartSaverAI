@@ -44,6 +44,7 @@
 		1FA489942C2A4B6B005A329E /* HelveticaBlkIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA489862C2A4B6B005A329E /* HelveticaBlkIt.ttf */; };
 		1FA489952C2A4B6B005A329E /* HelveticaNeueMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA489872C2A4B6B005A329E /* HelveticaNeueMedium.ttf */; };
 		1FA489992C2A60F0005A329E /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA489982C2A60F0005A329E /* CustomFonts.swift */; };
+		1FAD58312C4F322C00B18E78 /* DailyExpensesChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAD58302C4F322C00B18E78 /* DailyExpensesChartView.swift */; };
 		1FB8DCF82C31CBFD0025E79C /* Color+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB8DCF72C31CBFD0025E79C /* Color+Formatter.swift */; };
 		1FB8DCFA2C3202E70025E79C /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB8DCF92C3202E70025E79C /* AppState.swift */; };
 		1FCFE12C2C325ADA0055C2EF /* DemoBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCFE12B2C325ADA0055C2EF /* DemoBalance.swift */; };
@@ -172,6 +173,7 @@
 		1FA489872C2A4B6B005A329E /* HelveticaNeueMedium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueMedium.ttf; sourceTree = "<group>"; };
 		1FA489962C2A5E03005A329E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1FA489982C2A60F0005A329E /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
+		1FAD58302C4F322C00B18E78 /* DailyExpensesChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyExpensesChartView.swift; sourceTree = "<group>"; };
 		1FB8DCF72C31CBFD0025E79C /* Color+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Formatter.swift"; sourceTree = "<group>"; };
 		1FB8DCF92C3202E70025E79C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		1FCFE12B2C325ADA0055C2EF /* DemoBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoBalance.swift; sourceTree = "<group>"; };
@@ -546,6 +548,7 @@
 			isa = PBXGroup;
 			children = (
 				1FCFE12E2C3278880055C2EF /* ChartView.swift */,
+				1FAD58302C4F322C00B18E78 /* DailyExpensesChartView.swift */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -941,6 +944,7 @@
 				1F88C3732BE6E07C00B0DC56 /* FetchPaymentByDateVM.swift in Sources */,
 				1FD689242C2BCE15008ED3C5 /* OnboardingCarouselView.swift in Sources */,
 				1F9125DC2BE871A500A225AE /* PaymentDetailsVM.swift in Sources */,
+				1FAD58312C4F322C00B18E78 /* DailyExpensesChartView.swift in Sources */,
 				1F8D1BFD2BB65DB4001286DF /* SavingsAppApp.swift in Sources */,
 				1F9983A92BE47F6E00B38C24 /* RegisterPaymentVM.swift in Sources */,
 				1F8B6D872BC24A4B0008450A /* PaymentDetailsView.swift in Sources */,
