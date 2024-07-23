@@ -21,8 +21,6 @@ jobs:
             echo "Simulator ID: $SIM_ID"
             xcrun simctl boot "$SIM_ID" || true
             echo $SIM_ID > sim_id.txt
-            # Esperar hasta que el simulador esté completamente arrancado
-            while [ "$(xcrun simctl getenv "$SIM_ID" booted)" != "1" ]; do sleep 1; done
 
       - run:
           name: Run tests
@@ -55,8 +53,6 @@ jobs:
             echo "Simulator ID: $SIM_ID"
             xcrun simctl boot "$SIM_ID" || true
             echo $SIM_ID > sim_id.txt
-            # Esperar hasta que el simulador esté completamente arrancado
-            while [ "$(xcrun simctl getenv "$SIM_ID" booted)" != "1" ]; do sleep 1; done
 
       - run:
           name: Build the app
@@ -96,3 +92,4 @@ workflows:
       - deploy:
           requires:
             - build
+
