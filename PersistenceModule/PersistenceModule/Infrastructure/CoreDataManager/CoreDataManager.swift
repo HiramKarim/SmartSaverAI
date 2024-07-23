@@ -31,7 +31,7 @@ public protocol CoreDataProtocol {
     func saveRecurringPayment(payment: PaymentActivityDTO,
                               frecuency: String,
                               endDate: Date,
-                              completion: @escaping (PersistenceResult) -> Void)
+                              completion: @escaping (RecurringResult) -> Void)
     func updatePayment(payment: PaymentActivityDTO,
                      completion: @escaping (PersistenceResult) -> Void)
     func fetchPayments(withName name: String?,
@@ -45,7 +45,7 @@ public protocol CoreDataProtocol {
     func deletePayment(_ object: NSManagedObject,
                        completion: @escaping (PersistenceResult) -> Void)
     func deleteRecurringPayment(forPayment payment: PaymentActivityDTO?,
-                                completion: @escaping (PersistenceResult) -> Void)
+                                completion: @escaping (RecurringResult) -> Void)
 }
 
 public class CoreDataManager {
@@ -189,18 +189,6 @@ extension CoreDataManager: CoreDataProtocol {
         }
     }
     
-    func fetchPaymentActivity(byId id: UUID) -> PaymentActivity? {
-        let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "paymentId == %@", id as CVarArg)
-        do {
-            let result = try viewContext.fetch(fetchRequest)
-            return result.first
-        } catch {
-            print("Error fetching PaymentActivity: \(error.localizedDescription)")
-            return nil
-        }
-    }
-    
     public func fetchPayments(forMonth month: Int,
                               year: Int,
                               limit: Int? = nil,
@@ -237,7 +225,10 @@ extension CoreDataManager: CoreDataProtocol {
         }
     }
     
-    public func saveRecurringPayment(payment: PaymentActivityDTO, frecuency: String, endDate: Date, completion: @escaping (PersistenceResult) -> Void) {
+    public func saveRecurringPayment(payment: PaymentActivityDTO, 
+                                     frecuency: String,
+                                     endDate: Date,
+                                     completion: @escaping (RecurringResult) -> Void) {
         let context = viewContext
         let recurringPayment = RecurringPayment(context: context)
         var currentDate = payment.date
@@ -274,18 +265,15 @@ extension CoreDataManager: CoreDataProtocol {
     public func fetchRecurringPayments(forPayment payment: PaymentActivityDTO?) -> [RecurringPaymentDTO] {
         let fetchRequest: NSFetchRequest<RecurringPayment> = RecurringPayment.fetchRequest()
         if let payment = payment {
-            fetchPayments(withName: payment.name) { result in
-                switch result {
-                case .success(let paymentActivityArray): 
-                    if let paymentActivity = paymentActivityArray?.first {
-                        fetchRequest.predicate = NSPredicate(format: "paymentActivity == %@", paymentActivity)
-                    } else {
-                        return
-                    }
-                case .failure():
-                    break
-                }
+            
+            let paymentActivityArray = fetchPaymentsCore(withName: payment.name)
+            
+            if let paymentActivity = paymentActivityArray.first {
+                fetchRequest.predicate = NSPredicate(format: "paymentActivity == %@", paymentActivity)
+            } else {
+                return []
             }
+            
         }
         do {
             let result = try viewContext.fetch(fetchRequest)
@@ -297,16 +285,72 @@ extension CoreDataManager: CoreDataProtocol {
     }
     
     public func deleteRecurringPayment(forPayment payment: PaymentActivityDTO?, 
-                                       completion: @escaping (PersistenceResult) -> Void) {
-        let recurringPayments = fetchRecurringPayments(forPayment: payment)
+                                       completion: @escaping (RecurringResult) -> Void) {
+        
+        let recurringPayments = fetchRecurringPaymentsCore(forPayment: payment)
         if recurringPayments.isEmpty {
-            completion(false, nil)
+            completion(.failure(nil))
         } else {
             guard let recurringPayment = recurringPayments.first else {
-                completion(false, nil)
+                completion(.failure(nil))
                 return
             }
-            deletePayment(recurringPayment, completion: completion)
+            deletePayment(recurringPayment) { result in
+                switch result {
+                case .success(_): completion(.success(nil))
+                case .failure(_): completion(.failure(nil))
+                }
+            }
+        }
+        
+    }
+}
+
+extension CoreDataManager {
+    func fetchPaymentsCore(
+        withName name: String? = nil
+    ) -> [PaymentActivity] {
+        let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
+        if let name = name {
+            fetchRequest.predicate = NSPredicate(format: "name == %@", name)
+        }
+        
+        do {
+            let result = try viewContext.fetch(fetchRequest)
+            return result
+        } catch {
+            print("Error al recuperar pagos: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    func fetchRecurringPaymentsCore(forPayment paymentDTO: PaymentActivityDTO? = nil) -> [RecurringPayment] {
+        let fetchRequest: NSFetchRequest<RecurringPayment> = RecurringPayment.fetchRequest()
+        if let payment = paymentDTO {
+            if let paymentActivity = fetchPaymentsCore(withName: payment.name).first {
+                fetchRequest.predicate = NSPredicate(format: "paymentActivity == %@", paymentActivity)
+            } else {
+                return []
+            }
+        }
+        do {
+            let result = try viewContext.fetch(fetchRequest)
+            return result
+        } catch {
+            print("Error al recuperar pagos: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    func fetchPaymentActivity(byId id: UUID) -> PaymentActivity? {
+        let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "paymentId == %@", id as CVarArg)
+        do {
+            let result = try viewContext.fetch(fetchRequest)
+            return result.first
+        } catch {
+            print("Error fetching PaymentActivity: \(error.localizedDescription)")
+            return nil
         }
     }
 }
