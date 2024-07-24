@@ -30,7 +30,7 @@ extension FetchPaymentByDate: FetchPaymentByDateContract {
                             completion(.failure(NSError(domain: "Cannot parse data", code: 0)))
                             return
                         }
-                        completion(.success(self.convertToDTO(payments: payments)))
+                        completion(.success(payments))
                     case .failure(let error): completion(.failure(error))
                     @unknown default:
                         fatalError("")

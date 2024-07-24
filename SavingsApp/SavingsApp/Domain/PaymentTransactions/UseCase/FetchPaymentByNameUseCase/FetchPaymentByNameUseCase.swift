@@ -30,7 +30,7 @@ extension FetchPaymentByNameUseCase: FetchPaymentByNameContract {
                             completion(.failure(ErrorPersistence.FetchError))
                             return
                         }
-                        completion(.success(self.convertToDTO(payments: payments)))
+                        completion(.success(payments))
                     case .failure(_): completion(.failure(ErrorPersistence.FetchError))
                     @unknown default:
                         fatalError("")

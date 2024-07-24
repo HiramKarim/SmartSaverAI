@@ -24,6 +24,7 @@
 		1F93A5952BC9C70B006A5300 /* Date+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F93A5942BC9C70B006A5300 /* Date+Formatter.swift */; };
 		1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F96C6C22BBBAF590089578D /* AddPaymentView.swift */; };
 		1F97A3DB2C509F750044C842 /* RegisterRecurringPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F97A3DA2C509F750044C842 /* RegisterRecurringPayment.swift */; };
+		1F97A3E02C50C5F50044C842 /* RecurringRegistryDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F97A3DF2C50C5F50044C842 /* RecurringRegistryDTO.swift */; };
 		1F9983A92BE47F6E00B38C24 /* RegisterPaymentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983A82BE47F6E00B38C24 /* RegisterPaymentVM.swift */; };
 		1F9983AF2BE482FB00B38C24 /* RegisterPaymentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983AE2BE482FB00B38C24 /* RegisterPaymentUseCase.swift */; };
 		1F9983B12BE4831300B38C24 /* FetchPaymentByNameUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9983B02BE4831300B38C24 /* FetchPaymentByNameUseCase.swift */; };
@@ -153,6 +154,7 @@
 		1F93A5942BC9C70B006A5300 /* Date+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Formatter.swift"; sourceTree = "<group>"; };
 		1F96C6C22BBBAF590089578D /* AddPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentView.swift; sourceTree = "<group>"; };
 		1F97A3DA2C509F750044C842 /* RegisterRecurringPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRecurringPayment.swift; sourceTree = "<group>"; };
+		1F97A3DF2C50C5F50044C842 /* RecurringRegistryDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringRegistryDTO.swift; sourceTree = "<group>"; };
 		1F9983A82BE47F6E00B38C24 /* RegisterPaymentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPaymentVM.swift; sourceTree = "<group>"; };
 		1F9983AE2BE482FB00B38C24 /* RegisterPaymentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPaymentUseCase.swift; sourceTree = "<group>"; };
 		1F9983B02BE4831300B38C24 /* FetchPaymentByNameUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPaymentByNameUseCase.swift; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 		1F93A58D2BC9C3F3006A5300 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				1F97A3DE2C50C5CA0044C842 /* DTO */,
 				1F9125D82BE870DC00A225AE /* PaymentDetails */,
 				1F9125D52BE84C0F00A225AE /* BalanceProfit */,
 				1FF19A122BE2EFB600324E56 /* PaymentTransactions */,
@@ -452,7 +455,6 @@
 			isa = PBXGroup;
 			children = (
 				1F93A5942BC9C70B006A5300 /* Date+Formatter.swift */,
-				1F9125D32BE8306300A225AE /* PaymentRegistryDTO.swift */,
 				1F9E03E72C059E2E0092CAC6 /* String+Formatter.swift */,
 				1FA489982C2A60F0005A329E /* CustomFonts.swift */,
 				1FB8DCF72C31CBFD0025E79C /* Color+Formatter.swift */,
@@ -467,6 +469,15 @@
 				1F96C6C22BBBAF590089578D /* AddPaymentView.swift */,
 			);
 			path = AddPaymentView;
+			sourceTree = "<group>";
+		};
+		1F97A3DE2C50C5CA0044C842 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				1F9125D32BE8306300A225AE /* PaymentRegistryDTO.swift */,
+				1F97A3DF2C50C5F50044C842 /* RecurringRegistryDTO.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		1F9983AA2BE4825600B38C24 /* RegisterPaymentUseCase */ = {
@@ -937,6 +948,7 @@
 				1FB8DCFA2C3202E70025E79C /* AppState.swift in Sources */,
 				1FDFC53C2BB7DFAC006CE24C /* PaymentsTransactionsListView.swift in Sources */,
 				1FA3C0022C21596700A5851B /* UpdatePaymentVM.swift in Sources */,
+				1F97A3E02C50C5F50044C842 /* RecurringRegistryDTO.swift in Sources */,
 				1FCFE12F2C3278880055C2EF /* ChartView.swift in Sources */,
 				1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */,
 				1FDE89372BC7AD3400FC0CC9 /* CalendarSectionView.swift in Sources */,
