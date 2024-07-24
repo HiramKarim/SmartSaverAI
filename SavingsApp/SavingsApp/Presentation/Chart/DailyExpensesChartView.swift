@@ -34,12 +34,31 @@ struct DailyExpensesChartView: View {
             
             Chart {
                 ForEach(expenses) { expense in
-                    BarMark(
+                    LineMark(
                         x: .value("Día", expense.day),
                         y: .value("Cantidad", expense.amount)
                     )
-                    .foregroundStyle(by: .value("Día", expense.day))
                 }
+                
+                ForEach(expenses) { expense in
+                    RuleMark(
+                        y: .value("Cantidad", expense.amount)
+                    )
+                    .foregroundStyle(by: .value("Día", expense.day))
+                    .lineStyle(StrokeStyle(lineWidth: 2, dash: [5, 5]))
+                }
+            }
+            .chartForegroundStyleScale([
+                "Lunes": .blue,
+                "Martes": .green,
+                "Miércoles": .orange,
+                "Jueves": .red,
+                "Viernes": .purple,
+                "Sábado": .yellow,
+                "Domingo": .gray
+            ])
+            .chartYAxis {
+                AxisMarks(preset: .aligned, position: .leading)
             }
             .chartLegend(.hidden)
             .padding()

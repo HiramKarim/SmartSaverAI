@@ -8,46 +8,6 @@
 import CoreData
 import Combine
 
-private enum ErrorPersistence: Error {
-    case InsertionError
-    case FetchError
-    case DeletionError
-    case InitCoreDataError
-}
-
-public enum PersistenceResult {
-    case success([PaymentActivity]?)
-    case failure(Error?)
-}
-
-public enum RecurringResult {
-    case success([RecurringPayment]?)
-    case failure(Error?)
-}
-
-public protocol CoreDataProtocol {
-    func savePayment(payment: PaymentActivityDTO,
-                     completion: @escaping (PersistenceResult) -> Void)
-    func saveRecurringPayment(payment: PaymentActivityDTO,
-                              frecuency: String,
-                              endDate: Date,
-                              completion: @escaping (RecurringResult) -> Void)
-    func updatePayment(payment: PaymentActivityDTO,
-                     completion: @escaping (PersistenceResult) -> Void)
-    func fetchPayments(withName name: String?,
-                       limit: Int?,
-                       completion: @escaping (PersistenceResult) -> Void)
-    func fetchPayments(forMonth month: Int,
-                       year: Int,
-                       limit: Int?,
-                       completion: @escaping (PersistenceResult) -> Void)
-    func fetchRecurringPayments(forPayment payment: PaymentActivityDTO?) -> [RecurringPaymentDTO]
-    func deletePayment(_ object: NSManagedObject,
-                       completion: @escaping (PersistenceResult) -> Void)
-    func deleteRecurringPayment(forPayment payment: PaymentActivityDTO?,
-                                completion: @escaping (RecurringResult) -> Void)
-}
-
 public class CoreDataManager {
     private let persistentContainer: NSPersistentContainer
     
@@ -108,7 +68,8 @@ extension CoreDataManager {
 extension CoreDataManager: CoreDataProtocol {
 
     ///Insert method
-    public func savePayment(payment: PaymentActivityDTO, completion: @escaping (PersistenceResult) -> Void) {
+    public func savePayment(payment: PaymentActivityDTO, 
+                            completion: @escaping (PersistenceResult) -> Void) {
         let paymentInfo = PaymentActivity(context: viewContext)
         paymentInfo.paymentId = payment.id
         paymentInfo.name = payment.name
@@ -182,7 +143,7 @@ extension CoreDataManager: CoreDataProtocol {
         }
         do {
             let result = try viewContext.fetch(fetchRequest)
-            completion(.success(result))
+            completion(.success(convertToDTO(payments: result)))
         } catch {
             let nserror = error as NSError
             completion(.failure(nserror))
@@ -218,7 +179,7 @@ extension CoreDataManager: CoreDataProtocol {
         
         do {
             let result = try viewContext.fetch(fetchRequest)
-            completion(.success(result))
+            completion(.success(convertToDTO(payments: result)))
         } catch {
             let nserror = error as NSError
             completion(.failure(nserror))
@@ -307,7 +268,7 @@ extension CoreDataManager: CoreDataProtocol {
 }
 
 extension CoreDataManager {
-    func fetchPaymentsCore(
+    private func fetchPaymentsCore(
         withName name: String? = nil
     ) -> [PaymentActivity] {
         let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
@@ -324,7 +285,7 @@ extension CoreDataManager {
         }
     }
     
-    func fetchRecurringPaymentsCore(forPayment paymentDTO: PaymentActivityDTO? = nil) -> [RecurringPayment] {
+    private func fetchRecurringPaymentsCore(forPayment paymentDTO: PaymentActivityDTO? = nil) -> [RecurringPayment] {
         let fetchRequest: NSFetchRequest<RecurringPayment> = RecurringPayment.fetchRequest()
         if let payment = paymentDTO {
             if let paymentActivity = fetchPaymentsCore(withName: payment.name).first {
@@ -342,7 +303,7 @@ extension CoreDataManager {
         }
     }
     
-    func fetchPaymentActivity(byId id: UUID) -> PaymentActivity? {
+    private func fetchPaymentActivity(byId id: UUID) -> PaymentActivity? {
         let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "paymentId == %@", id as CVarArg)
         do {

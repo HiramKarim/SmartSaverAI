@@ -35,7 +35,6 @@ struct ChartView: View {
         .padding()
         .chartLegend(position: .bottom, alignment: .center)
         .dynamicTypeSize(.accessibility2)
-        .frame(maxHeight: .infinity)
     }
 }
 

@@ -34,6 +34,9 @@
     "Balance Actual" : {
 
     },
+    "Cantidad" : {
+
+    },
     "Category" : {
 
     },
@@ -50,6 +53,9 @@
 
     },
     "Delete Payment" : {
+
+    },
+    "Día" : {
 
     },
     "Distribución de Gastos" : {
@@ -74,6 +80,9 @@
 
     },
     "Gastos" : {
+
+    },
+    "Gastos Semanales" : {
 
     },
     "home" : {
