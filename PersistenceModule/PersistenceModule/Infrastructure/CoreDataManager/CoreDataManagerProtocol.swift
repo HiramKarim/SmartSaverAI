@@ -42,7 +42,7 @@ public protocol CoreDataProtocol {
                        limit: Int?,
                        completion: @escaping (PersistenceResult) -> Void)
     func fetchRecurringPayments(forPayment payment: PaymentActivityDTO?) -> [RecurringPaymentDTO]
-    func deletePayment(_ object: NSManagedObject,
+    func deletePayment(forPayment payment: PaymentActivityDTO,
                        completion: @escaping (PersistenceResult) -> Void)
     func deleteRecurringPayment(forPayment payment: PaymentActivityDTO?,
                                 completion: @escaping (RecurringResult) -> Void)

@@ -21,8 +21,7 @@ class FetchPaymentByDate: PaymentTransactionBase {
 extension FetchPaymentByDate: FetchPaymentByDateContract {
     func fetchPayments(forMonth month: Int, year: Int, limit: Int?, completion: @escaping (PaymentTransactionBase.PersistenceResult) -> Void) {
         concurrentQueue.async {
-            self.coreDataManager.fetchPayments(forMonth: month, year: year, limit: limit) { [weak self] result in
-                guard let self = self else { return }
+            self.coreDataManager.fetchPayments(forMonth: month, year: year, limit: limit) { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let data):

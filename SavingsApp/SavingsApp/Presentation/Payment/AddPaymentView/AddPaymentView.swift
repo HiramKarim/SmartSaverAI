@@ -89,12 +89,12 @@ struct AddPaymentView: View {
                         Text("Repeat")
                             .bold()
                         Button {
-                            repeatTransaction.toggle()
+                            vm.isSelectedAsRecurring.toggle()
                         } label: {
                             Image(systemName: "repeat")
                                 .resizable()
                                 .frame(width: 20, height: 20)
-                                .tint(repeatTransaction == true ? .blue : .gray)
+                                .tint(vm.isSelectedAsRecurring == true ? .blue : .gray)
                         }
                     }
                     

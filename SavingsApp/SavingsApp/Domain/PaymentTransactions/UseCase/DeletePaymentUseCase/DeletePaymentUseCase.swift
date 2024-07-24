@@ -32,7 +32,7 @@ extension DeletePaymentUseCase: DeletePaymentContract {
                             promise(.failure(ErrorPersistence.FetchError))
                             return
                         }
-                        self.coreDataManager.deletePayment(payment) { result in
+                        self.coreDataManager.deletePayment(forPayment: payment) { result in
                             DispatchQueue.main.async {
                                 switch result {
                                 case .success(_):

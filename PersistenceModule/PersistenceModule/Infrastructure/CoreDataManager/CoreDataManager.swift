@@ -119,8 +119,14 @@ extension CoreDataManager: CoreDataProtocol {
         }
     }
     
-    public func deletePayment(_ object: NSManagedObject, completion: @escaping (PersistenceResult) -> Void) {
-        viewContext.delete(object)
+    public func deletePayment(forPayment payment: PaymentActivityDTO,
+                              completion: @escaping (PersistenceResult) -> Void) {
+        guard let paymentActivity = fetchPaymentActivity(byId: payment.id)
+        else {
+            completion(.failure(nil))
+            return
+        }
+        viewContext.delete(paymentActivity)
         do {
             try viewContext.save()
             completion(.success(nil))
@@ -256,11 +262,14 @@ extension CoreDataManager: CoreDataProtocol {
                 completion(.failure(nil))
                 return
             }
-            deletePayment(recurringPayment) { result in
-                switch result {
-                case .success(_): completion(.success(nil))
-                case .failure(_): completion(.failure(nil))
-                }
+            viewContext.delete(recurringPayment)
+            do {
+                try viewContext.save()
+                completion(.success(nil))
+            } catch {
+                viewContext.rollback()
+                let nserror = error as NSError
+                completion(.failure(nserror))
             }
         }
         

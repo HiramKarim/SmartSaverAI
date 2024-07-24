@@ -26,6 +26,7 @@ class RegisterPaymentVM: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var showSuccessRegistry:Bool = false
     @Published var showErrorOnRegistry:Bool = false
+    @Published var isSelectedAsRecurring: Bool = false
     
     @Published internal var paymentName: String = ""
     @Published internal var paymentType: String = "Income"
@@ -39,9 +40,12 @@ class RegisterPaymentVM: ObservableObject {
     @Published var savedRegistryerrorSubject = PassthroughSubject<Void, Never>()
     
     private let registerPaymentUseCase: RegisterPaymentUCProtocol
+    private let registerRecurringPaymentUseCase: RegisterRecurringPaymentUCProtocol = RegisterRecurringPaymentUseCase()
+    
     private var paymentDTO: PaymentRegistryDTO!
     
     private var registerSubject = PassthroughSubject<Void, Never>()
+    private var registerRecurringPaymentSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     init(registerPaymentUseCase: RegisterPaymentUCProtocol) {
@@ -65,13 +69,43 @@ class RegisterPaymentVM: ObservableObject {
             }, receiveValue: { [weak self] result in
                 // Handle success
                 guard let self = self else { return }
+                if self.isSelectedAsRecurring {
+                    self.registerRecurringPaymentSubject.send()
+                } else {
+                    self.isLoading = false
+                    self.resetData()
+                    self.showSuccessRegistry.toggle()
+                    self.savedRegistrySuccessSubject.send()
+                }
+            })
+            .store(in: &cancellables)
+        
+        registerRecurringPaymentSubject
+            .flatMap { self.registerRecurringPaymentUseCase.savePayment(payment: self.paymentDTO,
+                                                                        frecuency: "Montly",
+                                                                        endDate: self.paymentDTO.date) }
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                // Handle error if needed
+                guard let self = self else { return }
                 isLoading = false
+                switch completion {
+                case .finished:
+                    self.resetData()
+                case .failure(_):
+                    self.resetData()
+                    self.showErrorOnRegistry.toggle()
+                    self.savedRegistryerrorSubject.send()
+                }
+            }, receiveValue: { [weak self] result in
+                // Handle success
+                guard let self = self else { return }
+                self.isLoading = false
                 self.resetData()
                 self.showSuccessRegistry.toggle()
                 self.savedRegistrySuccessSubject.send()
             })
             .store(in: &cancellables)
-            
     }
     
     private func resetData() {

@@ -248,6 +248,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F8465CE2C51B78E00CD7AE3 /* RegisterRecurringPaymentUseCase */ = {
+			isa = PBXGroup;
+			children = (
+				1F97A3DA2C509F750044C842 /* RegisterRecurringPayment.swift */,
+			);
+			path = RegisterRecurringPaymentUseCase;
+			sourceTree = "<group>";
+		};
 		1F88C36C2BE6C04600B0DC56 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -695,12 +703,12 @@
 		1FF19A142BE2F00500324E56 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				1F8465CE2C51B78E00CD7AE3 /* RegisterRecurringPaymentUseCase */,
 				1FA3BFFF2C2158AF00A5851B /* UpdatePaymentUseCase */,
 				1F9983AD2BE4828E00B38C24 /* DeletePaymentUseCase */,
 				1F9983AC2BE4828100B38C24 /* FetchPaymentByDateUseCase */,
 				1F9983AB2BE4827200B38C24 /* FetchPaymentByNameUseCase */,
 				1F9983AA2BE4825600B38C24 /* RegisterPaymentUseCase */,
-				1F97A3DA2C509F750044C842 /* RegisterRecurringPayment.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
