@@ -90,6 +90,7 @@ struct AddPaymentView: View {
                             .bold()
                         Button {
                             vm.isSelectedAsRecurring.toggle()
+                            updateVM.isSelectedAsRecurring.toggle()
                         } label: {
                             Image(systemName: "repeat")
                                 .resizable()

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F8465D12C51E08300CD7AE3 /* FetchRecurringPaymentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8465D02C51E08300CD7AE3 /* FetchRecurringPaymentUseCase.swift */; };
 		1F88C36F2BE6C11F00B0DC56 /* LoadingButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88C36E2BE6C11F00B0DC56 /* LoadingButtonView.swift */; };
 		1F88C3732BE6E07C00B0DC56 /* FetchPaymentByDateVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88C3722BE6E07C00B0DC56 /* FetchPaymentByDateVM.swift */; };
 		1F8B6D872BC24A4B0008450A /* PaymentDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B6D862BC24A4B0008450A /* PaymentDetailsView.swift */; };
@@ -133,6 +134,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1F8465D02C51E08300CD7AE3 /* FetchRecurringPaymentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRecurringPaymentUseCase.swift; sourceTree = "<group>"; };
 		1F88C36E2BE6C11F00B0DC56 /* LoadingButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButtonView.swift; sourceTree = "<group>"; };
 		1F88C3722BE6E07C00B0DC56 /* FetchPaymentByDateVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPaymentByDateVM.swift; sourceTree = "<group>"; };
 		1F8B6D862BC24A4B0008450A /* PaymentDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetailsView.swift; sourceTree = "<group>"; };
@@ -254,6 +256,14 @@
 				1F97A3DA2C509F750044C842 /* RegisterRecurringPayment.swift */,
 			);
 			path = RegisterRecurringPaymentUseCase;
+			sourceTree = "<group>";
+		};
+		1F8465CF2C51E05F00CD7AE3 /* FetchRecurringPaymentUseCase */ = {
+			isa = PBXGroup;
+			children = (
+				1F8465D02C51E08300CD7AE3 /* FetchRecurringPaymentUseCase.swift */,
+			);
+			path = FetchRecurringPaymentUseCase;
 			sourceTree = "<group>";
 		};
 		1F88C36C2BE6C04600B0DC56 /* Shared */ = {
@@ -703,6 +713,7 @@
 		1FF19A142BE2F00500324E56 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				1F8465CF2C51E05F00CD7AE3 /* FetchRecurringPaymentUseCase */,
 				1F8465CE2C51B78E00CD7AE3 /* RegisterRecurringPaymentUseCase */,
 				1FA3BFFF2C2158AF00A5851B /* UpdatePaymentUseCase */,
 				1F9983AD2BE4828E00B38C24 /* DeletePaymentUseCase */,
@@ -955,6 +966,7 @@
 				1FDFC5392BB7DDE9006CE24C /* BalanceView.swift in Sources */,
 				1FB8DCFA2C3202E70025E79C /* AppState.swift in Sources */,
 				1FDFC53C2BB7DFAC006CE24C /* PaymentsTransactionsListView.swift in Sources */,
+				1F8465D12C51E08300CD7AE3 /* FetchRecurringPaymentUseCase.swift in Sources */,
 				1FA3C0022C21596700A5851B /* UpdatePaymentVM.swift in Sources */,
 				1F97A3E02C50C5F50044C842 /* RecurringRegistryDTO.swift in Sources */,
 				1FCFE12F2C3278880055C2EF /* ChartView.swift in Sources */,

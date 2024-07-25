@@ -37,10 +37,11 @@ class RegisterPaymentVM: ObservableObject {
     @Published internal var selectedPaymentCategory: PaymentCategory = .other
     
     @Published var savedRegistrySuccessSubject = PassthroughSubject<Void, Never>()
-    @Published var savedRegistryerrorSubject = PassthroughSubject<Void, Never>()
+    @Published private var savedRegistryerrorSubject = PassthroughSubject<Void, Never>()
     
     private let registerPaymentUseCase: RegisterPaymentUCProtocol
     private let registerRecurringPaymentUseCase: RegisterRecurringPaymentUCProtocol = RegisterRecurringPaymentUseCase()
+    private let fetchRecurringPaymentUseCase: FetchRecurringPaymentUseCase = FetchRecurringPaymentUseCase()
     
     private var paymentDTO: PaymentRegistryDTO!
     
@@ -173,6 +174,17 @@ class RegisterPaymentVM: ObservableObject {
         paymentLocation = paymentRegistry.address ?? ""
         paymentMemo = paymentRegistry.memo ?? ""
         selectedPaymentCategory = getPaymentCategoryByNumber(categoryNumber: paymentRegistry.typeNum)
+        
+        guard let recurringData = fetchRecurringPaymentUseCase.fetchRecurringPayments(forPayment: paymentRegistry).first
+        else {
+            return
+        }
+        
+        if recurringData.paymentActivity != nil {
+            isSelectedAsRecurring = true
+        } else {
+            isSelectedAsRecurring = false
+        }
     }
     
     internal func getUpdatedPaymentRegistryDTO() -> PaymentRegistryDTO {

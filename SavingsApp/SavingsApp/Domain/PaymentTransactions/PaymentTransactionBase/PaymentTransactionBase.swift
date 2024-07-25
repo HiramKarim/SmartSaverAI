@@ -22,6 +22,11 @@ class PaymentTransactionBase {
         case failure(Error?)
     }
     
+    internal enum RecurringPersistenceResult {
+        case success([RecurringPaymentDTO]?)
+        case failure(Error?)
+    }
+    
     internal let coreDataManager: CoreDataProtocol
     internal let concurrentQueue = DispatchQueue(label: "com.SmartSavings.coredata", attributes: .concurrent)
 
