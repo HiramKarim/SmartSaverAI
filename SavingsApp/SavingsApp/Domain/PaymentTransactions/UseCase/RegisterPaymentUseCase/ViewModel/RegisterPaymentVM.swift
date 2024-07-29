@@ -105,6 +105,7 @@ class RegisterPaymentVM: ObservableObject {
                 self.resetData()
                 self.showSuccessRegistry.toggle()
                 self.savedRegistrySuccessSubject.send()
+                self.isSelectedAsRecurring = false
             })
             .store(in: &cancellables)
     }

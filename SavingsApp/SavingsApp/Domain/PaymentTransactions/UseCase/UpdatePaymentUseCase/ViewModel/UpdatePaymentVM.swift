@@ -27,6 +27,7 @@ class UpdatePaymentVM: ObservableObject {
     }
     
     func updatePaymentRegistry(payment: PaymentRegistryDTO) {
+        self.paymentDTO = payment
         self.useCase.updatePayment(withPayment: payment)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] error in
@@ -49,9 +50,8 @@ class UpdatePaymentVM: ObservableObject {
                                                                         frecuency: "Montly",
                                                                         endDate: self.paymentDTO.date) }
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { [weak self] completion in
+            .sink(receiveCompletion: { completion in
                 // Handle error if needed
-                guard let self = self else { return }
                 
                 switch completion {
                 case .finished: break
@@ -63,6 +63,7 @@ class UpdatePaymentVM: ObservableObject {
                 // Handle success
                 guard let self = self else { return }
                 self.paymentUpdated.toggle()
+                self.isSelectedAsRecurring = false
             })
             .store(in: &cancellables)
     }

@@ -34,17 +34,20 @@ extension FetchRecurringPaymentUseCase: FetchRecurringPaymentUseCaseProtocol {
                 .init(recurringID: recurringPayment.recurringID,
                       frequency: recurringPayment.frequency,
                       endDate: recurringPayment.endDate,
-                      paymentActivity: .init(
-                        id: recurringPayment.paymentActivity.id,
-                        name: recurringPayment.paymentActivity.name,
-                        memo: recurringPayment.paymentActivity.memo,
-                        date: recurringPayment.paymentActivity.date,
-                        amount: recurringPayment.paymentActivity.amount,
-                        address: recurringPayment.paymentActivity.address,
-                        typeNum: recurringPayment.paymentActivity.typeNum,
-                        paymentType: recurringPayment.paymentActivity.paymentType
-                      )
+                      paymentActivity: self.validatePaymentData(payment: recurringPayment.paymentActivity)
                 )
         }
+    }
+    
+    private func validatePaymentData(payment: PaymentActivityDTO?) -> PaymentRegistryDTO? {
+        guard let paymentActivity = payment else { return nil }
+        return .init(id: paymentActivity.id,
+                     name: paymentActivity.name,
+                     memo: paymentActivity.memo,
+                     date: paymentActivity.date,
+                     amount: paymentActivity.amount,
+                     address: paymentActivity.address ?? "",
+                     typeNum: paymentActivity.typeNum,
+                     paymentType: paymentActivity.paymentType)
     }
 }

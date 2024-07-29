@@ -52,16 +52,21 @@ extension CoreDataManager {
             RecurringPaymentDTO(recurringID: recurringPayment.recurringID ?? UUID(),
                                 frequency: recurringPayment.frequency ?? "",
                                 endDate: recurringPayment.endDate ?? Date(),
-                                paymentActivity: .init(id: recurringPayment.paymentActivity?.paymentId ?? UUID(),
-                                                       name: recurringPayment.paymentActivity?.name ?? "",
-                                                       memo: recurringPayment.paymentActivity?.memo ?? "",
-                                                       date: recurringPayment.paymentActivity?.date ?? Date(),
-                                                       amount: recurringPayment.paymentActivity?.amount ?? 0.0,
-                                                       address: recurringPayment.paymentActivity?.address ?? "",
-                                                       typeNum: recurringPayment.paymentActivity?.typeNum ?? 0,
-                                                       paymentType: recurringPayment.paymentActivity?.paymentType ?? 0)
+                                paymentActivity: validatePaymentData(payment: recurringPayment.paymentActivity)
             )
         }
+    }
+    
+    private func validatePaymentData(payment: PaymentActivity?) -> PaymentActivityDTO? {
+        guard let paymentActivity = payment else { return nil }
+        return .init(id: paymentActivity.paymentId ?? UUID(),
+                     name: paymentActivity.name ?? "",
+                     memo: paymentActivity.memo ?? "",
+                     date: paymentActivity.date ?? Date(),
+                     amount: paymentActivity.amount,
+                     address: paymentActivity.address ?? "",
+                     typeNum: paymentActivity.typeNum,
+                     paymentType: paymentActivity.paymentType)
     }
 }
 
@@ -232,10 +237,8 @@ extension CoreDataManager: CoreDataProtocol {
     public func fetchRecurringPayments(forPayment payment: PaymentActivityDTO?) -> [RecurringPaymentDTO] {
         let fetchRequest: NSFetchRequest<RecurringPayment> = RecurringPayment.fetchRequest()
         if let payment = payment {
-            
-            let paymentActivityArray = fetchPaymentsCore(withName: payment.name)
-            
-            if let paymentActivity = paymentActivityArray.first {
+
+            if let paymentActivity = fetchPaymentActivity(byId: payment.id) {
                 fetchRequest.predicate = NSPredicate(format: "paymentActivity == %@", paymentActivity)
             } else {
                 return []
@@ -321,6 +324,23 @@ extension CoreDataManager {
         } catch {
             print("Error fetching PaymentActivity: \(error.localizedDescription)")
             return nil
+        }
+    }
+    
+    func fetchPayments(
+        withName name: String? = nil
+    ) -> [PaymentActivity] {
+        let fetchRequest: NSFetchRequest<PaymentActivity> = PaymentActivity.fetchRequest()
+        if let name = name {
+            fetchRequest.predicate = NSPredicate(format: "name == %@", name)
+        }
+        
+        do {
+            let result = try viewContext.fetch(fetchRequest)
+            return result
+        } catch {
+            print("Error al recuperar pagos: \(error.localizedDescription)")
+            return []
         }
     }
 }

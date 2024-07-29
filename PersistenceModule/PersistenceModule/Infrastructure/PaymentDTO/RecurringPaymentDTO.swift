@@ -11,5 +11,5 @@ public struct RecurringPaymentDTO: Hashable {
     public var recurringID: UUID
     public var frequency: String
     public var endDate: Date
-    public var paymentActivity: PaymentActivityDTO
+    public var paymentActivity: PaymentActivityDTO?
 }
