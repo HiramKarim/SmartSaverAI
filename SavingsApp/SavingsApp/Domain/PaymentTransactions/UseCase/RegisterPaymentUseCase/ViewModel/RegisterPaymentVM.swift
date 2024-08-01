@@ -196,8 +196,8 @@ class RegisterPaymentVM: ObservableObject {
             date: paymentDate,
             amount: Double(paymentAmount) ?? 0.0,
             address: paymentLocation,
-            typeNum: getPaymentType(paymentType: paymentType),
-            paymentType: getPaymentCategory(selectedPaymentCategory: selectedPaymentCategory)
+            typeNum: getPaymentCategory(selectedPaymentCategory: selectedPaymentCategory),
+            paymentType: getPaymentType(paymentType: paymentType)
         )
     }
     

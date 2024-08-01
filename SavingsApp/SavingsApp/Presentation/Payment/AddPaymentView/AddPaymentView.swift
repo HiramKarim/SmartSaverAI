@@ -193,6 +193,7 @@ struct AddPaymentView: View {
             .onChange(of: vm.showSuccessRegistry, {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1,
                                               execute: {
+                    shouldRefreshDetailView.send()
                     vm.isLoading = false
                     vm.showSuccessRegistry = false
                     vm.showErrorOnRegistry = false
