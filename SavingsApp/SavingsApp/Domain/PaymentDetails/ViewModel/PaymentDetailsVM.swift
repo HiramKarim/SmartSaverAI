@@ -36,7 +36,7 @@ class PaymentDetailsVM: ObservableObject {
         self.location = payment.address ?? ""
         self.memo = payment.memo ?? ""
         self.amount = payment.amount
-        self.paymentType = payment.typeNum
+        self.paymentType = payment.paymentType
     }
     
     func deletePayment() {

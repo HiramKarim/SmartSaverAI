@@ -28,7 +28,7 @@ class UpdatePaymentVM: ObservableObject {
     
     func updatePaymentRegistry(payment: PaymentRegistryDTO) {
         self.paymentDTO = payment
-        self.useCase.updatePayment(withPayment: payment)
+         self.useCase.updatePayment(withPayment: payment)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] error in
                 // Handle error if needed

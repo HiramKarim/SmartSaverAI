@@ -56,12 +56,12 @@ struct PaymentsTransactionsListView: View {
                         } label: {
                             
                             HStack(spacing: 10) {
-                                Image(systemName: payment.typeNum.wrappedValue == 2 ?
+                                Image(systemName: payment.paymentType.wrappedValue == 2 ?
                                       "arrowtriangle.down.circle" :
                                         "arrowtriangle.up.circle")
                                     .resizable()
                                     .frame(width: 30, height: 30)
-                                    .foregroundStyle(payment.typeNum.wrappedValue == 2 ?
+                                    .foregroundStyle(payment.paymentType.wrappedValue == 2 ?
                                                      Color.red :
                                                      Color.green)
                                 
@@ -81,7 +81,7 @@ struct PaymentsTransactionsListView: View {
                                 
                                 Text("$\(payment.amount.wrappedValue, specifier: "%.2f")")
                                     .font(.headline)
-                                    .foregroundStyle(payment.typeNum.wrappedValue == 2 ?
+                                    .foregroundStyle(payment.paymentType.wrappedValue == 2 ?
                                                      Color.red :
                                                      Color.green)
                             } //cell

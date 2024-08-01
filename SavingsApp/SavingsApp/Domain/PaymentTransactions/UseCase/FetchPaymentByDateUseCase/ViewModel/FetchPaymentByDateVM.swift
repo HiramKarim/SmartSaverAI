@@ -38,6 +38,9 @@ class FetchPaymentByDateVM: ObservableObject {
                     self.dataPaymentArray = []
                     return
                 }
+                if !self.dataPaymentArray.isEmpty {
+                    self.dataPaymentArray.removeAll()
+                }
                 self.dataPaymentArray = data.compactMap({ paymentDTO in
                     PaymentRegistryDTO.init(id: paymentDTO.id,
                                             name: paymentDTO.name,
@@ -62,11 +65,11 @@ class FetchPaymentByDateVM: ObservableObject {
         var totalExpence:Double = 0.0
         
         let expences = payments.filter({ payment in
-            payment.typeNum == 2
+            payment.paymentType == 2
         })
         
         let incomes = payments.filter({ payment in
-            payment.typeNum == 1
+            payment.paymentType == 1
         })
         
         for expence in expences {

@@ -188,11 +188,13 @@ struct AddPaymentView: View {
                 }
             }
             .onReceive(vm.savedRegistrySuccessSubject, perform: { _ in
-                self.dataSaved.send()
+                dataSaved.send()
+                shouldRefreshDetailView.send()
             })
             .onChange(of: vm.showSuccessRegistry, {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1,
                                               execute: {
+                    dataSaved.send()
                     shouldRefreshDetailView.send()
                     vm.isLoading = false
                     vm.showSuccessRegistry = false
@@ -209,6 +211,7 @@ struct AddPaymentView: View {
             .onChange(of: updateVM.paymentUpdated, {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1,
                                               execute: {
+                    dataSaved.send()
                     shouldRefreshDetailView.send()
                     vm.isLoading = false
                     vm.showSuccessRegistry = false
