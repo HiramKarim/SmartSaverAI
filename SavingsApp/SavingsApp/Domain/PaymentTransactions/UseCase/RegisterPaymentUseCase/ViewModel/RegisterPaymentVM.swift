@@ -103,7 +103,7 @@ class RegisterPaymentVM: ObservableObject {
                 guard let self = self else { return }
                 self.isLoading = false
                 self.resetData()
-                self.showSuccessRegistry.toggle()
+                self.showSuccessRegistry = true
                 self.savedRegistrySuccessSubject.send()
                 self.isSelectedAsRecurring = false
             })
@@ -130,8 +130,8 @@ class RegisterPaymentVM: ObservableObject {
             date: paymentDate,
             amount: Double(paymentAmount) ?? 0.0,
             address: paymentLocation,
-            typeNum: getPaymentType(paymentType: paymentType),
-            paymentType: getPaymentCategory(selectedPaymentCategory: selectedPaymentCategory)
+            typeNum: getPaymentCategory(selectedPaymentCategory: selectedPaymentCategory),
+            paymentType: getPaymentType(paymentType: paymentType)
         )
         registerSubject.send()
     }
