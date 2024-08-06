@@ -48,10 +48,12 @@
 		1FA489952C2A4B6B005A329E /* HelveticaNeueMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FA489872C2A4B6B005A329E /* HelveticaNeueMedium.ttf */; };
 		1FA489992C2A60F0005A329E /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA489982C2A60F0005A329E /* CustomFonts.swift */; };
 		1FAD58312C4F322C00B18E78 /* DailyExpensesChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAD58302C4F322C00B18E78 /* DailyExpensesChartView.swift */; };
+		1FB396592C614768009D2CC4 /* ExpensesByCaegoryChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB396582C614768009D2CC4 /* ExpensesByCaegoryChartView.swift */; };
+		1FB3965B2C614B42009D2CC4 /* FetchCategoryPaymentsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB3965A2C614B42009D2CC4 /* FetchCategoryPaymentsVM.swift */; };
+		1FB3965E2C61AF6E009D2CC4 /* Category+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB3965D2C61AF6E009D2CC4 /* Category+Formatter.swift */; };
 		1FB8DCF82C31CBFD0025E79C /* Color+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB8DCF72C31CBFD0025E79C /* Color+Formatter.swift */; };
 		1FB8DCFA2C3202E70025E79C /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB8DCF92C3202E70025E79C /* AppState.swift */; };
 		1FCFE12C2C325ADA0055C2EF /* DemoBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCFE12B2C325ADA0055C2EF /* DemoBalance.swift */; };
-		1FCFE12F2C3278880055C2EF /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCFE12E2C3278880055C2EF /* ChartView.swift */; };
 		1FD6891E2C2BBADD008ED3C5 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD6891D2C2BBADD008ED3C5 /* OnboardingView.swift */; };
 		1FD689242C2BCE15008ED3C5 /* OnboardingCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD689232C2BCE15008ED3C5 /* OnboardingCarouselView.swift */; };
 		1FDE89062BC752A000FC0CC9 /* SavingsWatchAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE89052BC752A000FC0CC9 /* SavingsWatchAppApp.swift */; };
@@ -180,10 +182,12 @@
 		1FA489962C2A5E03005A329E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1FA489982C2A60F0005A329E /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
 		1FAD58302C4F322C00B18E78 /* DailyExpensesChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyExpensesChartView.swift; sourceTree = "<group>"; };
+		1FB396582C614768009D2CC4 /* ExpensesByCaegoryChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesByCaegoryChartView.swift; sourceTree = "<group>"; };
+		1FB3965A2C614B42009D2CC4 /* FetchCategoryPaymentsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCategoryPaymentsVM.swift; sourceTree = "<group>"; };
+		1FB3965D2C61AF6E009D2CC4 /* Category+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Category+Formatter.swift"; sourceTree = "<group>"; };
 		1FB8DCF72C31CBFD0025E79C /* Color+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Formatter.swift"; sourceTree = "<group>"; };
 		1FB8DCF92C3202E70025E79C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		1FCFE12B2C325ADA0055C2EF /* DemoBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoBalance.swift; sourceTree = "<group>"; };
-		1FCFE12E2C3278880055C2EF /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		1FD6891D2C2BBADD008ED3C5 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		1FD689232C2BCE15008ED3C5 /* OnboardingCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCarouselView.swift; sourceTree = "<group>"; };
 		1FDE89032BC752A000FC0CC9 /* SavingsWatchApp Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SavingsWatchApp Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -286,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				1F88C3722BE6E07C00B0DC56 /* FetchPaymentByDateVM.swift */,
+				1FB3965A2C614B42009D2CC4 /* FetchCategoryPaymentsVM.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -477,6 +482,7 @@
 				1FA489982C2A60F0005A329E /* CustomFonts.swift */,
 				1FB8DCF72C31CBFD0025E79C /* Color+Formatter.swift */,
 				1FB8DCF92C3202E70025E79C /* AppState.swift */,
+				1FB3965D2C61AF6E009D2CC4 /* Category+Formatter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -578,8 +584,8 @@
 		1FCFE12D2C3278600055C2EF /* Chart */ = {
 			isa = PBXGroup;
 			children = (
-				1FCFE12E2C3278880055C2EF /* ChartView.swift */,
 				1FAD58302C4F322C00B18E78 /* DailyExpensesChartView.swift */,
+				1FB396582C614768009D2CC4 /* ExpensesByCaegoryChartView.swift */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -969,11 +975,11 @@
 				1F8465D12C51E08300CD7AE3 /* FetchRecurringPaymentUseCase.swift in Sources */,
 				1FA3C0022C21596700A5851B /* UpdatePaymentVM.swift in Sources */,
 				1F97A3E02C50C5F50044C842 /* RecurringRegistryDTO.swift in Sources */,
-				1FCFE12F2C3278880055C2EF /* ChartView.swift in Sources */,
 				1F96C6C32BBBAF590089578D /* AddPaymentView.swift in Sources */,
 				1FDE89372BC7AD3400FC0CC9 /* CalendarSectionView.swift in Sources */,
 				1F9983B72BE4842000B38C24 /* PaymentTransactionBase.swift in Sources */,
 				1F93A5922BC9C553006A5300 /* CalendarSectionVM.swift in Sources */,
+				1FB3965E2C61AF6E009D2CC4 /* Category+Formatter.swift in Sources */,
 				1F9E03E82C059E2E0092CAC6 /* String+Formatter.swift in Sources */,
 				1F88C36F2BE6C11F00B0DC56 /* LoadingButtonView.swift in Sources */,
 				1F88C3732BE6E07C00B0DC56 /* FetchPaymentByDateVM.swift in Sources */,
@@ -991,8 +997,10 @@
 				1FDFC5352BB76947006CE24C /* SmartSavingsMainView.swift in Sources */,
 				1FD6891E2C2BBADD008ED3C5 /* OnboardingView.swift in Sources */,
 				1F9983B52BE4833A00B38C24 /* DeletePaymentUseCase.swift in Sources */,
+				1FB396592C614768009D2CC4 /* ExpensesByCaegoryChartView.swift in Sources */,
 				1F97A3DB2C509F750044C842 /* RegisterRecurringPayment.swift in Sources */,
 				1F9983AF2BE482FB00B38C24 /* RegisterPaymentUseCase.swift in Sources */,
+				1FB3965B2C614B42009D2CC4 /* FetchCategoryPaymentsVM.swift in Sources */,
 				1FCFE12C2C325ADA0055C2EF /* DemoBalance.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

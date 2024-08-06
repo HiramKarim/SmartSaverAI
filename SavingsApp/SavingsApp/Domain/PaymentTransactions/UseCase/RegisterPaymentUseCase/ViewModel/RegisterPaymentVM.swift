@@ -8,17 +8,6 @@
 import Foundation
 import Combine
 
-enum PaymentCategory: String, Identifiable, CaseIterable {
-    var id: Self { self }
-    case bank = "Bank"
-    case groseries = "Groseries"
-    case rent = "Rent"
-    case loan = "Loan"
-    case taxBill = "Tax Bill"
-    case gasBill = "Gas Bill"
-    case other = "Other"
-}
-
 class RegisterPaymentVM: ObservableObject {
     
     private var currentUUIDForUpdatingDTO: UUID = .init()
@@ -130,7 +119,7 @@ class RegisterPaymentVM: ObservableObject {
             date: paymentDate,
             amount: Double(paymentAmount) ?? 0.0,
             address: paymentLocation,
-            typeNum: getPaymentCategory(selectedPaymentCategory: selectedPaymentCategory),
+            typeNum: CategoryFormatter.getPaymentCategory(selectedPaymentCategory: selectedPaymentCategory),
             paymentType: getPaymentType(paymentType: paymentType)
         )
         registerSubject.send()
@@ -138,32 +127,6 @@ class RegisterPaymentVM: ObservableObject {
     
     private func getPaymentType(paymentType: String) -> Int32 {
         return paymentType == "Income" ? 1 : 2
-    }
-    
-    private func getPaymentCategory(selectedPaymentCategory: PaymentCategory) -> Int32 {
-        switch selectedPaymentCategory {
-        case .bank: return 1
-        case .rent: return 2
-        case .loan: return 3
-        case .groseries: return 4
-        case .taxBill: return 5
-        case .gasBill: return 6
-        case .other: return 7
-        }
-    }
-    
-    private func getPaymentCategoryByNumber(categoryNumber: Int32) -> PaymentCategory {
-        switch categoryNumber {
-        case 1: return .bank
-        case 2: return .rent
-        case 3: return .loan
-        case 4: return .groseries
-        case 5: return .taxBill
-        case 6: return .gasBill
-        case 7: return .other
-        default:
-            return .other
-        }
     }
     
     internal func updateViewForUpdate(paymentRegistry: PaymentRegistryDTO) {
@@ -174,7 +137,7 @@ class RegisterPaymentVM: ObservableObject {
         paymentAmount = "\(Double(paymentRegistry.amount))"
         paymentLocation = paymentRegistry.address ?? ""
         paymentMemo = paymentRegistry.memo ?? ""
-        selectedPaymentCategory = getPaymentCategoryByNumber(categoryNumber: paymentRegistry.typeNum)
+        selectedPaymentCategory = CategoryFormatter.getPaymentCategoryByNumber(categoryNumber: paymentRegistry.typeNum)
         
         guard let recurringData = fetchRecurringPaymentUseCase.fetchRecurringPayments(forPayment: paymentRegistry).first
         else {
@@ -196,7 +159,7 @@ class RegisterPaymentVM: ObservableObject {
             date: paymentDate,
             amount: Double(paymentAmount) ?? 0.0,
             address: paymentLocation,
-            typeNum: getPaymentCategory(selectedPaymentCategory: selectedPaymentCategory),
+            typeNum: CategoryFormatter.getPaymentCategory(selectedPaymentCategory: selectedPaymentCategory),
             paymentType: getPaymentType(paymentType: paymentType)
         )
     }

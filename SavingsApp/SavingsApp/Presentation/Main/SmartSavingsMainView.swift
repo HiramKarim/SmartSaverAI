@@ -97,7 +97,10 @@ struct SmartSavingsMainView: View {
             .tabItem { Label("home", systemImage: "house") }
             
             ZStack {
-                DailyExpensesChartView()
+                ExpensesByCaegoryChartView(
+                    month: $month,
+                    year: $year
+                )
             }
             .toolbarBackground(.visible, for: .tabBar)
             .tabItem { Label("Chart", systemImage: "chart.pie.fill") }

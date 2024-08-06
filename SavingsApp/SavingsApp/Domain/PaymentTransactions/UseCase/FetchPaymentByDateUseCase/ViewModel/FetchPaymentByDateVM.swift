@@ -8,6 +8,11 @@
 import Foundation
 import Combine
 
+protocol fetchPaymentsProtocol {
+    func fetchPayments(forMonth month: Int,
+                       year: Int,
+                       limit: Int?)
+}
 
 class FetchPaymentByDateVM: ObservableObject {
     @Published var dataPaymentArray = [PaymentRegistryDTO]()
@@ -22,8 +27,10 @@ class FetchPaymentByDateVM: ObservableObject {
     init(fetchPaymentsByDateUseCase: FetchPaymentByDateContract) {
         self.fetchPaymentsByDateUseCase = fetchPaymentsByDateUseCase
     }
-    
-    func fetchPayments(forMonth month: Int, 
+}
+
+extension FetchPaymentByDateVM: fetchPaymentsProtocol {
+    func fetchPayments(forMonth month: Int,
                        year: Int,
                        limit: Int?) {
         
